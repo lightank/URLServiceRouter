@@ -76,12 +76,20 @@
 }
 
 - (void)handleURL:(NSURL *)url {
+    if (![self canHandleURL:url]) {
+        return;
+    }
+    
     if (self.handleURLBlock) {
         self.handleURLBlock(url);
     }
 }
 
 - (void)moduleChainHandleURL:(NSURL *)url {
+    if (![self canModuleChainHandleURL:url]) {
+        return;
+    }
+    
     if ([self canHandleURL:url]) {
         [self handleURL:url];
     } else {
