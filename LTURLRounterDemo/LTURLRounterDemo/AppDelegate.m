@@ -28,9 +28,9 @@
 - (void)testURLRounter {
     [LTURLRounter.sharedInstance registerModule:[self URLHandler]];
     NSURL *url = [NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail"];
-    LTURLModule *bestHandler = [LTURLRounter.sharedInstance bestModuleForURL:url];
-    //[bestHandler handleURL:url];
-    [bestHandler moduleChainHandleURL:url];
+    LTURLModule *bestModule = [LTURLRounter.sharedInstance bestModuleForURL:url];
+    //[bestModule handleURL:url];
+    [bestModule moduleChainHandleURL:url];
     NSLog(@"");
 }
 

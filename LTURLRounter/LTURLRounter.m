@@ -10,7 +10,7 @@
 
 @interface LTURLRounter ()
 
-@property (nonatomic, strong) NSMutableDictionary<NSString *, LTURLModule *> *modules;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, LTURLModule *> *subModules;
 
 @end
 
@@ -32,24 +32,24 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _modules = [NSMutableDictionary dictionary];
+        _subModules = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 - (void)registerModule:(LTURLModule *)module {
     if (module.name.length > 0) {
-        if (_modules[module.name]) {
+        if (_subModules[module.name]) {
             NSAssert(NO, @"注册的模块重复了,请检测");
         } else {
-            _modules[module.name] = module;
+            _subModules[module.name] = module;
         }
     }
 }
 
 - (void)unregisterModuleWithName:(NSString *)moduleName {
     if (moduleName.length > 0) {
-        _modules[moduleName] = nil;
+        _subModules[moduleName] = nil;
     } else {
         NSLog(@"这个需要取消注册的模块尚未注册或已经被移除,请检测");
     }
@@ -67,7 +67,7 @@
     LTURLModule *bestModule = nil;
     for (NSString *pathComponent in pathComponents) {
         if (bestModule == nil) {
-            LTURLModule *subModule = _modules[pathComponent];
+            LTURLModule *subModule = _subModules[pathComponent];
             if (subModule) {
                 bestModule = subModule;
             }

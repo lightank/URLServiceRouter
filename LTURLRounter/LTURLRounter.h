@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (class, nonatomic, strong, readonly) LTURLRounter *sharedInstance;
 
-@property (nonatomic, strong, readonly) NSDictionary<NSString *, LTURLModule *> *modules;
+@property (nonatomic, strong, readonly) NSDictionary<NSString *, LTURLModule *> *subModules;
 
 - (void)registerModule:(LTURLModule *)module;
 - (void)unregisterModuleWithName:(NSString *)moduleName;

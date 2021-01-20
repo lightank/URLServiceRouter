@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol LTURLRounterProtocol <NSObject>
 
-@property (nonatomic, strong, readonly) NSDictionary<NSString *, id<LTURLModuleProtocol>> *modules;
+@property (nonatomic, strong, readonly) NSDictionary<NSString *, id<LTURLModuleProtocol>> *subModules;
 
 - (void)registerModule:(id<LTURLModuleProtocol>)module;
 - (void)unregisterModuleWithName:(NSString *)moduleName;
