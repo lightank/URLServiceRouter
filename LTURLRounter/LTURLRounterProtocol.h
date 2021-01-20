@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSString *name;
 @property (nonatomic, strong, readonly) NSDictionary<NSString *, id<LTURLModuleProtocol>> *subModules;
+@property (nonatomic, strong, nullable) id<LTURLModuleProtocol> parentModule;
 
 - (void)registerModule:(id<LTURLModuleProtocol>)module;
 - (void)unregisterModuleWithName:(NSString *)moduleName;

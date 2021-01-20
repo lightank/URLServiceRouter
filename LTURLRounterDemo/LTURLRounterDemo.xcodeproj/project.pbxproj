@@ -89,9 +89,9 @@
 			children = (
 				3D6C66B925B738EB0006010B /* LTURLRounterProtocol.h */,
 				3D6C66B725B738EB0006010B /* LTURLRounter.h */,
-				3D6C66B825B738EB0006010B /* LTURLModule.m */,
-				3D6C66BA25B738EB0006010B /* LTURLModule.h */,
 				3D6C66BB25B738EB0006010B /* LTURLRounter.m */,
+				3D6C66BA25B738EB0006010B /* LTURLModule.h */,
+				3D6C66B825B738EB0006010B /* LTURLModule.m */,
 			);
 			name = LTURLRounter;
 			path = ../LTURLRounter;

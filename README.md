@@ -1,6 +1,6 @@
 # LTURLRounter
 
-这是一套用于解析URL，并执行相应操作的解析协议，以及一个具体的实现。主要的实现方式是取其精华：提取 URL pathComponent 中有意义的模块进行注册，自动无模块意义的 pathComponent。
+这是一套用于解析URL，并执行相应操作的解析协议，以及一个具体的实现。主要的实现方式是取其精华：提取 URL pathComponent 中有意义的模块进行注册，自动忽略无模块意义的 pathComponent。
 
 ## 解决的问题
 1. URL 中有效 pathComponent 是不连续的，可能位置还不固定，我们需要找出其中有意义的模块

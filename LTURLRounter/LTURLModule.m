@@ -41,6 +41,7 @@
             NSAssert(NO, @"注册的模块重复了,请检测");
         } else {
             _subModules[module.name] = module;
+            module.parentModule = self;
         }
     }
 }
@@ -61,6 +62,16 @@
 }
 
 - (BOOL)canModuleChainHandleURL:(NSURL *)url {
+    BOOL canHandle = [self canHandleURL:url];
+    if (!canHandle) {
+        LTURLModule *parentHander = self.parentModule;
+        do {
+            canHandle = [parentHander canHandleURL:url];
+            if (canHandle) {
+                break;
+            }
+        } while (parentHander);
+    }
     return NO;
 }
 
@@ -71,7 +82,13 @@
 }
 
 - (void)moduleChainHandleURL:(NSURL *)url {
-    
+    if ([self canHandleURL:url]) {
+        [self handleURL:url];
+    } else {
+        if (self.parentModule) {
+            [self.parentModule moduleChainHandleURL:url];
+        }
+    }
 }
 
 @end
