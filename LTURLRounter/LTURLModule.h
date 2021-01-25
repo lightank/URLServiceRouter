@@ -15,9 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSString *name;
 @property (nonatomic, strong, readonly) NSDictionary<NSString *, LTURLModule *> *subModules;
-@property (nonatomic, strong, nullable) LTURLModule *parentModule;
+@property (nonatomic, weak, nullable, readonly) LTURLModule *parentModule;
 
-- (instancetype)initWithName:(NSString *)name;
+- (instancetype)initWithName:(NSString *)name parentModule:(nullable LTURLModule *)parentModule;
 - (void)registerModule:(LTURLModule *)module;
 - (void)unregisterModuleWithName:(NSString *)moduleName;
 

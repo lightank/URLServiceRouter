@@ -35,11 +35,11 @@
 }
 
 - (LTURLModule *)URLHandler {
-    LTURLModule *hotel = [[LTURLModule alloc] initWithName:@"hotel"];
+    LTURLModule *hotel = [[LTURLModule alloc] initWithName:@"hotel" parentModule:nil];
     
     // 注册子模块
     {
-        LTURLModule *detail = [[LTURLModule alloc] initWithName:@"detail"];
+        LTURLModule *detail = [[LTURLModule alloc] initWithName:@"detail" parentModule:hotel];
         detail.canHandleURLBlock = ^BOOL(NSURL * _Nonnull url) {
             return YES;
         };

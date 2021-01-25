@@ -17,12 +17,12 @@
 
 @implementation LTURLModule
 
-- (instancetype)initWithName:(NSString *)name {
-    if (name.length == 0) {
-        NSAssert(NO, @"注册的模块名字不能为空,请检测");
-    }
+- (instancetype)initWithName:(NSString *)name parentModule:(nullable LTURLModule *)parentModule {
+    NSAssert(name.length > 0, @"注册的模块名字不能为空,请检测");
+    
     if (self = [self init]) {
         _name = [name copy];
+        _parentModule = parentModule;
     }
     return self;
 }
@@ -41,7 +41,6 @@
             NSAssert(NO, @"注册的模块重复了,请检测");
         } else {
             _subModules[module.name] = module;
-            module.parentModule = self;
         }
     }
 }

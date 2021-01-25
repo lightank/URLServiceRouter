@@ -123,7 +123,7 @@
 		3D6C668A25B725D10006010B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1170;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = huanyu.li;
 				TargetAttributes = {
 					3D6C669125B725D10006010B = {
