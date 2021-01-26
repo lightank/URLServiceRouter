@@ -71,7 +71,7 @@
             }
         } while (parentHander);
     }
-    return NO;
+    return canHandle;
 }
 
 - (void)handleURL:(NSURL *)url {

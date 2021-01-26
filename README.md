@@ -72,7 +72,7 @@
 
 3. 如果公司各业务需要一个统一的处理，那整个app只要维护一个解析中心。如果对于解析过程各业务线不一样，那么这个解析中心应该代表某一个具体的业务线，整个app维护的是一个解析中心数组。ps：可以用一个类同时实现两个协议，这个时候模块就会同时承担解析与处理。
 
-## 一个具体实现
+## 一个有回溯的具体实现
 
 根据上面的协议
 
@@ -138,4 +138,92 @@
             }
         }
         return bestModule;
+    ```
+    以上流程整个流程注册与处理流程如下
+
+    ```objectivec
+    // 注册模块
+    LTURLModule *hotel = [[LTURLModule alloc] initWithName:@"hotel" parentModule:nil];
+        
+        // 注册子模块
+        {
+            LTURLModule *detail = [[LTURLModule alloc] initWithName:@"detail" parentModule:hotel];
+            detail.canHandleURLBlock = ^BOOL(NSURL * _Nonnull url) {
+                return YES;
+            };
+            detail.handleURLBlock = ^(NSURL * _Nonnull url) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    // do something
+                    NSLog(@"跳转到酒店详情页");
+                });
+            };
+            [hotel registerModule:detail];
+        }
+    [LTURLRounter.sharedInstance registerModule:hotel];
+
+    // 处理
+    NSURL *url = [NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail"];
+    LTURLModule *bestModule = [LTURLRounter.sharedInstance bestModuleForURL:url];
+    //[bestModule handleURL:url];
+    [bestModule moduleChainHandleURL:url];
+    ```
+     ## 一个扁平化的具体实现
+
+    我不想注册不断的去注册子模块，能不能给个字符串数组，命中模块就处理，不命中就不处理啊？
+
+    也是可以的，其它逻辑与上面的一样，只需要修改一下注册方式就行，
+
+    ```objectivec
+    - (void)registerModuleWithPathComponents:(NSArray<NSString *> *)pathComponents
+                              handleURLBlock:(void (^)(NSURL *url))handleURLBlock {
+        if (pathComponents.count == 0) {
+            return;
+        }
+        
+        LTURLModule *currentModule = nil;
+        for (NSString *pathComponent in pathComponents) {
+            NSAssert(pathComponent.length > 0, @"注册的模块名称不能为空");
+            if (!currentModule) {
+                LTURLModule *subModule = _subModules[pathComponent];
+                if (!subModule) {
+                    subModule = [[LTURLModule alloc] initWithName:pathComponent parentModule:nil];
+                    [self registerModule:subModule];
+                }
+                currentModule = subModule;
+            } else {
+                LTURLModule *subModule = currentModule.subModules[pathComponent];
+                if (!subModule) {
+                    subModule = [[LTURLModule alloc] initWithName:pathComponent parentModule:currentModule];
+                    [currentModule registerModule:subModule];
+                }
+                currentModule = subModule;
+            }
+            
+            if (pathComponent == pathComponents.lastObject) {
+                currentModule.canHandleURLBlock = ^BOOL(NSURL * _Nonnull url) {
+                    return YES;
+                };
+                
+                currentModule.handleURLBlock = ^(NSURL * _Nonnull url) {
+                    if (handleURLBlock) {
+                        handleURLBlock(url);
+                    }
+                };
+            }
+        }
+    }
+    ```
+
+    以上流程整个流程注册与处理流程如下：
+
+    ```objectivec
+    [LTURLFlatRounter.sharedInstance registerModuleWithPathComponents:@[@"hotel", @"detail"] handleURLBlock:^(NSURL * _Nonnull url) {
+        NSLog(@"跳转到酒店详情页");
+    }];
+    [LTURLFlatRounter.sharedInstance registerModuleWithPathComponents:@[@"hotel"] handleURLBlock:^(NSURL * _Nonnull url) {
+        NSLog(@"跳转到酒店垂直页");
+    }];
+
+    [LTURLFlatRounter.sharedInstance handlerURL:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail"]];
+    [LTURLFlatRounter.sharedInstance handlerURL:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail1"]];
     ```

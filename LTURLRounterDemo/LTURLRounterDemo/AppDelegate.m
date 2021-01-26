@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "LTURLRounter.h"
+#import "LTURLFlatRounter.h"
 
 @interface AppDelegate ()
 
@@ -18,11 +19,22 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
-    
     [self testURLRounter];
+    [self testURLFlatRounter];
     
     return YES;
+}
+
+- (void)testURLFlatRounter {
+    [LTURLFlatRounter.sharedInstance registerModuleWithPathComponents:@[@"hotel", @"detail"] handleURLBlock:^(NSURL * _Nonnull url) {
+        NSLog(@"跳转到酒店详情页");
+    }];
+    [LTURLFlatRounter.sharedInstance registerModuleWithPathComponents:@[@"hotel"] handleURLBlock:^(NSURL * _Nonnull url) {
+        NSLog(@"跳转到酒店垂直页");
+    }];
+    
+    [LTURLFlatRounter.sharedInstance handlerURL:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail"]];
+    [LTURLFlatRounter.sharedInstance handlerURL:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail1"]];
 }
 
 - (void)testURLRounter {
@@ -31,7 +43,6 @@
     LTURLModule *bestModule = [LTURLRounter.sharedInstance bestModuleForURL:url];
     //[bestModule handleURL:url];
     [bestModule moduleChainHandleURL:url];
-    NSLog(@"");
 }
 
 - (LTURLModule *)URLHandler {
