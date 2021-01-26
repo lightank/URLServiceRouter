@@ -16,7 +16,8 @@
 
 @implementation LTURLFlatRounter
 
-+ (instancetype)sharedInstance {
++ (instancetype)sharedInstance
+{
     static dispatch_once_t onceToken;
     static LTURLFlatRounter *instance = nil;
     dispatch_once(&onceToken,^{
@@ -25,11 +26,13 @@
     return instance;
 }
 
-+ (id)allocWithZone:(struct _NSZone *)zone{
++ (id)allocWithZone:(struct _NSZone *)zone
+{
     return [self sharedInstance];
 }
 
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
     if (self) {
         _subModules = [NSMutableDictionary dictionary];
@@ -38,7 +41,8 @@
 }
 
 - (void)registerModuleWithPathComponents:(NSArray<NSString *> *)pathComponents
-                          handleURLBlock:(void (^)(NSURL *url))handleURLBlock {
+                          handleURLBlock:(void (^)(NSURL *url))handleURLBlock
+{
     if (pathComponents.count == 0) {
         return;
     }
@@ -49,14 +53,14 @@
         if (!currentModule) {
             LTURLModule *subModule = _subModules[pathComponent];
             if (!subModule) {
-                subModule = [[LTURLModule alloc] initWithName:pathComponent parentModule:nil];
+                subModule = [[LTURLModule alloc] initWithModuleName:pathComponent parentModule:nil];
                 [self registerModule:subModule];
             }
             currentModule = subModule;
         } else {
             LTURLModule *subModule = currentModule.subModules[pathComponent];
             if (!subModule) {
-                subModule = [[LTURLModule alloc] initWithName:pathComponent parentModule:currentModule];
+                subModule = [[LTURLModule alloc] initWithModuleName:pathComponent parentModule:currentModule];
                 [currentModule registerModule:subModule];
             }
             currentModule = subModule;
@@ -77,27 +81,30 @@
 }
 
 
-- (void)registerModule:(LTURLModule *)module {
-    if (module.name.length > 0) {
-        if (_subModules[module.name]) {
+- (void)registerModule:(LTURLModule *)module
+{
+    if (module.moduleName.length > 0) {
+        if (_subModules[module.moduleName]) {
             NSAssert(NO, @"注册的模块重复了,请检测");
         } else {
-            _subModules[module.name] = module;
+            _subModules[module.moduleName] = module;
         }
     }
 }
 
-- (void)unregisterModuleWithName:(NSString *)moduleName {
+- (void)unregisterModule:(NSString *)moduleName
+{
     if (moduleName.length > 0) {
         _subModules[moduleName] = nil;
     } else {
-        NSLog(@"这个需要取消注册的模块尚未注册或已经被移除,请检测");
+        NSAssert(NO, @"这个需要取消注册的模块尚未注册或已经被移除,请检测");
     }
 }
 
 /// 找到最适合处理这个url的模块，如果没有就返回nil
 /// @param url url
-- (nullable LTURLModule *)bestModuleForURL:(NSURL *)url {
+- (nullable LTURLModule *)bestModuleForURL:(NSURL *)url
+{
     if (url.absoluteString.length == 0 || url.pathComponents.count == 0) {
         return nil;
     }
@@ -106,24 +113,24 @@
     NSArray<NSString *> *pathComponents = url.pathComponents;
     LTURLModule *bestModule = nil;
     for (NSString *pathComponent in pathComponents) {
+        LTURLModule *subModule  = nil;
         if (bestModule == nil) {
-            LTURLModule *subModule = _subModules[pathComponent];
-            if (subModule) {
-                bestModule = subModule;
-            }
+            subModule = _subModules[pathComponent];
         } else {
-            LTURLModule *subModule = bestModule.subModules[pathComponent];
-            if (subModule) {
-                bestModule = subModule;
-            }
+            subModule = bestModule.subModules[pathComponent];
+        }
+        
+        if (subModule) {
+            bestModule = subModule;
         }
     }
     return bestModule;
 }
 
-- (void)handlerURL:(NSURL *)url {
+- (void)handleURL:(NSURL *)url
+{
     LTURLModule *bestModule = [self bestModuleForURL:url];
-    if (bestModule && [bestModule canModuleChainHandleURL:url]) {
+    if (bestModule && [bestModule moduleChainCanHandleURL:url]) {
         [bestModule moduleChainHandleURL:url];
     }
 }

@@ -10,18 +10,18 @@
 
 @interface LTURLModule ()
 
-@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *moduleName;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, LTURLModule *> *subModules;
 
 @end
 
 @implementation LTURLModule
 
-- (instancetype)initWithName:(NSString *)name parentModule:(nullable LTURLModule *)parentModule {
+- (instancetype)initWithModuleName:(NSString *)name parentModule:(nullable LTURLModule *)parentModule {
     NSAssert(name.length > 0, @"注册的模块名字不能为空,请检测");
     
     if (self = [self init]) {
-        _name = [name copy];
+        _moduleName = [name copy];
         _parentModule = parentModule;
     }
     return self;
@@ -36,31 +36,35 @@
 }
 
 - (void)registerModule:(LTURLModule *)module {
-    if (module.name.length > 0) {
-        if (_subModules[module.name]) {
+    if (module.moduleName.length > 0) {
+        if (_subModules[module.moduleName]) {
             NSAssert(NO, @"注册的模块重复了,请检测");
         } else {
-            _subModules[module.name] = module;
+            _subModules[module.moduleName] = module;
         }
     }
 }
 
-- (void)unregisterModuleWithName:(NSString *)moduleName {
+- (void)unregisterModule:(NSString *)moduleName
+{
     if (moduleName.length > 0) {
         _subModules[moduleName] = nil;
     } else {
-        NSLog(@"这个需要取消注册的模块尚未注册或已经被移除,请检测");
+        NSAssert(NO, @"这个需要取消注册的模块尚未注册或已经被移除,请检测");
     }
 }
 
-- (BOOL)canHandleURL:(NSURL *)url {
+- (BOOL)canHandleURL:(NSURL *)url
+{
     if (self.canHandleURLBlock) {
         return self.canHandleURLBlock(url);
     }
+    
     return NO;
 }
 
-- (BOOL)canModuleChainHandleURL:(NSURL *)url {
+- (BOOL)moduleChainCanHandleURL:(NSURL *)url
+{
     BOOL canHandle = [self canHandleURL:url];
     if (!canHandle) {
         LTURLModule *parentHander = self.parentModule;
@@ -71,10 +75,12 @@
             }
         } while (parentHander);
     }
+    
     return canHandle;
 }
 
-- (void)handleURL:(NSURL *)url {
+- (void)handleURL:(NSURL *)url
+{
     if (![self canHandleURL:url]) {
         return;
     }
@@ -84,8 +90,9 @@
     }
 }
 
-- (void)moduleChainHandleURL:(NSURL *)url {
-    if (![self canModuleChainHandleURL:url]) {
+- (void)moduleChainHandleURL:(NSURL *)url
+{
+    if (![self moduleChainCanHandleURL:url]) {
         return;
     }
     
