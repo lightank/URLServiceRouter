@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) NSDictionary<NSString *, LTURLModule *> *subModules;
 
-- (void)registerModule:(LTURLModule *)module;
-- (void)unregisterModuleWithName:(NSString *)moduleName;
+- (void)registeModule:(LTURLModule *)module;
+- (void)unregisteModuleWithName:(NSString *)moduleName;
 
 /// 找到最适合处理这个url的模块，如果没有就返回nil
 /// @param url url
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 处理url
 /// @param url url
-- (void)handlerURL:(NSURL *)url;
+- (void)handleURL:(NSURL *)url;
 
 @end
 

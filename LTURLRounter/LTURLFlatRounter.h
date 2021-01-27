@@ -16,11 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (class, nonatomic, strong, readonly) LTURLFlatRounter *sharedInstance;
 
-- (void)registerModuleWithPathComponents:(NSArray<NSString *> *)pathComponents
-                          handleURLBlock:(void (^)(NSURL *url))handleURLBlock;
-
-- (void)registerModule:(LTURLModule *)module NS_UNAVAILABLE;
-- (void)unregisterModuleWithName:(NSString *)moduleName;
+- (void)registeModuleWithPathComponents:(NSArray<NSString *> *)pathComponents
+                         handleURLBlock:(void (^)(NSURL *url))handleURLBlock;
+- (void)unregisteModuleWithName:(NSString *)moduleName;
 
 /// 找到最适合处理这个url的模块，如果没有就返回nil
 /// @param url url
@@ -28,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 处理url
 /// @param url url
-- (void)handlerURL:(NSURL *)url;
+- (void)handleURL:(NSURL *)url;
 
 @end
 

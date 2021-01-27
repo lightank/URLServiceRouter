@@ -37,8 +37,8 @@
     return self;
 }
 
-- (void)registerModuleWithPathComponents:(NSArray<NSString *> *)pathComponents
-                          handleURLBlock:(void (^)(NSURL *url))handleURLBlock {
+- (void)registeModuleWithPathComponents:(NSArray<NSString *> *)pathComponents
+                         handleURLBlock:(void (^)(NSURL *url))handleURLBlock {
     if (pathComponents.count == 0) {
         return;
     }
@@ -50,19 +50,20 @@
             LTURLModule *subModule = _subModules[pathComponent];
             if (!subModule) {
                 subModule = [[LTURLModule alloc] initWithName:pathComponent parentModule:nil];
-                [self registerModule:subModule];
+                [self registeModule:subModule];
             }
             currentModule = subModule;
         } else {
             LTURLModule *subModule = currentModule.subModules[pathComponent];
             if (!subModule) {
                 subModule = [[LTURLModule alloc] initWithName:pathComponent parentModule:currentModule];
-                [currentModule registerModule:subModule];
+                [currentModule registeModule:subModule];
             }
             currentModule = subModule;
         }
         
         if (pathComponent == pathComponents.lastObject) {
+            NSAssert(!currentModule.handleURLBlock, @"模块:%@ 已经被注册过了,请检测", pathComponent);
             currentModule.canHandleURLBlock = ^BOOL(NSURL * _Nonnull url) {
                 return YES;
             };
@@ -76,22 +77,25 @@
     }
 }
 
-
-- (void)registerModule:(LTURLModule *)module {
+- (void)registeModule:(LTURLModule *)module {
+    NSAssert(module.name.length > 0, @"注册的模块名字不能为空,请检测");
+    
     if (module.name.length > 0) {
         if (_subModules[module.name]) {
-            NSAssert(NO, @"注册的模块重复了,请检测");
+            NSAssert(NO, @"路由中心的模块:%@ 已经被注册过了,请检测", module.name);
         } else {
             _subModules[module.name] = module;
         }
     }
 }
 
-- (void)unregisterModuleWithName:(NSString *)moduleName {
+- (void)unregisteModuleWithName:(NSString *)moduleName {
+    NSAssert(moduleName.length > 0, @"取消注册的模块名字不能为空,请检测");
+    
     if (moduleName.length > 0) {
         _subModules[moduleName] = nil;
     } else {
-        NSLog(@"这个需要取消注册的模块尚未注册或已经被移除,请检测");
+        NSAssert(NO, @"这个需要取消注册的模块:%@,尚未注册或已经被移除,请检测", moduleName);
     }
 }
 
@@ -106,22 +110,21 @@
     NSArray<NSString *> *pathComponents = url.pathComponents;
     LTURLModule *bestModule = nil;
     for (NSString *pathComponent in pathComponents) {
+        LTURLModule *subModule = nil;
         if (bestModule == nil) {
-            LTURLModule *subModule = _subModules[pathComponent];
-            if (subModule) {
-                bestModule = subModule;
-            }
+            subModule = _subModules[pathComponent];
         } else {
-            LTURLModule *subModule = bestModule.subModules[pathComponent];
-            if (subModule) {
-                bestModule = subModule;
-            }
+            subModule = bestModule.subModules[pathComponent];
+        }
+        
+        if (subModule) {
+            bestModule = subModule;
         }
     }
     return bestModule;
 }
 
-- (void)handlerURL:(NSURL *)url {
+- (void)handleURL:(NSURL *)url {
     LTURLModule *bestModule = [self bestModuleForURL:url];
     if (bestModule && [bestModule canModuleChainHandleURL:url]) {
         [bestModule moduleChainHandleURL:url];

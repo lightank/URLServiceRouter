@@ -46,7 +46,7 @@
     ```
 
 2. URL 解析中心，包含的内容如下：
-    1. 添加子模块
+    1. 子模块数组（不提供注册方法是为了让实现方更灵活去注册，比如：链式注册、扁平式注册等）
     2. 找到最佳处理url的模块
     3. 处理这个模块
     4. 实现如下：
@@ -55,9 +55,6 @@
     @protocol LTURLRounterProtocol <NSObject>
 
     @property (nonatomic, strong, readonly) NSDictionary<NSString *, id<LTURLModuleProtocol>> *subModules;
-
-    - (void)registerModule:(id<LTURLModuleProtocol>)module;
-    - (void)unregisterModuleWithName:(NSString *)moduleName;
 
     /// 找到最适合处理这个url的模块，如果没有就返回nil
     /// @param url url

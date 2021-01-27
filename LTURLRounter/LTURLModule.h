@@ -18,18 +18,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak, nullable, readonly) LTURLModule *parentModule;
 
 - (instancetype)initWithName:(NSString *)name parentModule:(nullable LTURLModule *)parentModule;
-- (void)registerModule:(LTURLModule *)module;
-- (void)unregisterModuleWithName:(NSString *)moduleName;
+- (void)registeModule:(LTURLModule *)module;
+- (void)unregisteModuleWithName:(NSString *)moduleName;
 
 /// 如果不想子类化，可以设置这个block来实现返回
 @property(nonatomic, copy, nullable) BOOL (^canHandleURLBlock)(NSURL *url);
 /// 如果不想子类化，可以设置这个block来实现返回
 @property(nonatomic, copy, nullable) void (^handleURLBlock)(NSURL *url);
 
-/// 当前模块是否解析这个URL
+/// 当前模块是否可以解析这个URL
 /// @param url 解析的URL
 - (BOOL)canHandleURL:(NSURL *)url;
-/// 当前模块链是否解析这个URL，如果当前模块解析不了，会一层一层找自己的父模块，直到能解析或者父模块为空
+/// 当前模块链是否可以解析这个URL，如果当前模块解析不了，会一层一层找自己的父模块，直到能解析或者父模块为空
 /// @param url 解析的URL
 - (BOOL)canModuleChainHandleURL:(NSURL *)url;
 /// 处理这个URL，如果当前模块解析不了，直接返回

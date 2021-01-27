@@ -19,16 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) NSDictionary<NSString *, id<LTURLModuleProtocol>> *subModules;
 
-- (void)registerModule:(id<LTURLModuleProtocol>)module;
-- (void)unregisterModuleWithName:(NSString *)moduleName;
-
 /// 找到最适合处理这个url的模块，如果没有就返回nil
 /// @param url url
 - (nullable id<LTURLModuleProtocol>)bestModuleForURL:(NSURL *)url;
 
 /// 处理url
 /// @param url url
-- (void)handlerURL:(NSURL *)url;
+- (void)handleURL:(NSURL *)url;
 
 @end
 
@@ -38,13 +35,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSDictionary<NSString *, id<LTURLModuleProtocol>> *subModules;
 @property (nonatomic, weak, nullable, readonly) id<LTURLModuleProtocol> parentModule;
 
-- (void)registerModule:(id<LTURLModuleProtocol>)module;
-- (void)unregisterModuleWithName:(NSString *)moduleName;
+- (void)registeModule:(id<LTURLModuleProtocol>)module;
+- (void)unregisteModuleWithName:(NSString *)moduleName;
 
-/// 当前模块是否解析这个URL
+/// 当前模块是否可以解析这个URL
 /// @param url 解析的URL
 - (BOOL)canHandleURL:(NSURL *)url;
-/// 当前模块链是否解析这个URL
+/// 当前模块链是否可以解析这个URL
 /// 建议的处理方式：如果当前模块解析不了，一层一层找自己的父模块，直到能解析或者父模块为空
 /// @param url 解析的URL
 - (BOOL)canModuleChainHandleURL:(NSURL *)url;

@@ -26,19 +26,19 @@
 }
 
 - (void)testURLFlatRounter {
-    [LTURLFlatRounter.sharedInstance registerModuleWithPathComponents:@[@"hotel", @"detail"] handleURLBlock:^(NSURL * _Nonnull url) {
+    [LTURLFlatRounter.sharedInstance registeModuleWithPathComponents:@[@"hotel", @"detail"] handleURLBlock:^(NSURL * _Nonnull url) {
         NSLog(@"跳转到酒店详情页");
     }];
-    [LTURLFlatRounter.sharedInstance registerModuleWithPathComponents:@[@"hotel"] handleURLBlock:^(NSURL * _Nonnull url) {
+    [LTURLFlatRounter.sharedInstance registeModuleWithPathComponents:@[@"hotel"] handleURLBlock:^(NSURL * _Nonnull url) {
         NSLog(@"跳转到酒店垂直页");
     }];
     
-    [LTURLFlatRounter.sharedInstance handlerURL:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail"]];
-    [LTURLFlatRounter.sharedInstance handlerURL:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail1"]];
+    [LTURLFlatRounter.sharedInstance handleURL:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail"]];
+    [LTURLFlatRounter.sharedInstance handleURL:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail1"]];
 }
 
 - (void)testURLRounter {
-    [LTURLRounter.sharedInstance registerModule:[self URLHandler]];
+    [LTURLRounter.sharedInstance registeModule:[self URLHandler]];
     NSURL *url = [NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail"];
     LTURLModule *bestModule = [LTURLRounter.sharedInstance bestModuleForURL:url];
     //[bestModule handleURL:url];
@@ -60,7 +60,7 @@
                 NSLog(@"跳转到酒店详情页");
             });
         };
-        [hotel registerModule:detail];
+        [hotel registeModule:detail];
     }
 
     return hotel;

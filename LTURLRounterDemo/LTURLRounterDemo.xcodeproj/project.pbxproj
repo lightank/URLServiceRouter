@@ -93,29 +93,13 @@
 				3D6C66B925B738EB0006010B /* LTURLRounterProtocol.h */,
 				3D6C66BA25B738EB0006010B /* LTURLModule.h */,
 				3D6C66B825B738EB0006010B /* LTURLModule.m */,
-				3D85B46225BFB38200EF7C81 /* Rounter1 */,
-				3D85B46325BFB38E00EF7C81 /* Rounter2 */,
-			);
-			name = LTURLRounter;
-			path = ../LTURLRounter;
-			sourceTree = "<group>";
-		};
-		3D85B46225BFB38200EF7C81 /* Rounter1 */ = {
-			isa = PBXGroup;
-			children = (
 				3D6C66B725B738EB0006010B /* LTURLRounter.h */,
 				3D6C66BB25B738EB0006010B /* LTURLRounter.m */,
-			);
-			path = Rounter1;
-			sourceTree = "<group>";
-		};
-		3D85B46325BFB38E00EF7C81 /* Rounter2 */ = {
-			isa = PBXGroup;
-			children = (
 				3D85B46425BFB40200EF7C81 /* LTURLFlatRounter.h */,
 				3D85B46525BFB40200EF7C81 /* LTURLFlatRounter.m */,
 			);
-			path = Rounter2;
+			name = LTURLRounter;
+			path = ../LTURLRounter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
