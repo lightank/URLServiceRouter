@@ -17,6 +17,7 @@
 		3D6C66BC25B738EB0006010B /* LTURLModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D6C66B825B738EB0006010B /* LTURLModule.m */; };
 		3D6C66BD25B738EB0006010B /* LTURLRounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D6C66BB25B738EB0006010B /* LTURLRounter.m */; };
 		3D85B46625BFB40200EF7C81 /* LTURLFlatRounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D85B46525BFB40200EF7C81 /* LTURLFlatRounter.m */; };
+		3D85B68E25C2F93800EF7C81 /* URLRounterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D85B68D25C2F93800EF7C81 /* URLRounterProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,11 +35,12 @@
 		3D6C66A725B725D50006010B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3D6C66B725B738EB0006010B /* LTURLRounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTURLRounter.h; sourceTree = "<group>"; };
 		3D6C66B825B738EB0006010B /* LTURLModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTURLModule.m; sourceTree = "<group>"; };
-		3D6C66B925B738EB0006010B /* LTURLRounterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTURLRounterProtocol.h; sourceTree = "<group>"; };
 		3D6C66BA25B738EB0006010B /* LTURLModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTURLModule.h; sourceTree = "<group>"; };
 		3D6C66BB25B738EB0006010B /* LTURLRounter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTURLRounter.m; sourceTree = "<group>"; };
 		3D85B46425BFB40200EF7C81 /* LTURLFlatRounter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LTURLFlatRounter.h; sourceTree = "<group>"; };
 		3D85B46525BFB40200EF7C81 /* LTURLFlatRounter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LTURLFlatRounter.m; sourceTree = "<group>"; };
+		3D85B68D25C2F93800EF7C81 /* URLRounterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRounterProtocol.swift; sourceTree = "<group>"; };
+		3D9066FF25C3124800B09142 /* Swift-Bridge-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Swift-Bridge-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				3D6C66A325B725D50006010B /* LaunchScreen.storyboard */,
 				3D6C66A625B725D50006010B /* Info.plist */,
 				3D6C66A725B725D50006010B /* main.m */,
+				3D9066FF25C3124800B09142 /* Swift-Bridge-Header.h */,
 			);
 			path = LTURLRounterDemo;
 			sourceTree = "<group>";
@@ -90,7 +93,7 @@
 		3D6C66B625B738EB0006010B /* LTURLRounter */ = {
 			isa = PBXGroup;
 			children = (
-				3D6C66B925B738EB0006010B /* LTURLRounterProtocol.h */,
+				3D85B68D25C2F93800EF7C81 /* URLRounterProtocol.swift */,
 				3D6C66BA25B738EB0006010B /* LTURLModule.h */,
 				3D6C66B825B738EB0006010B /* LTURLModule.m */,
 				3D6C66B725B738EB0006010B /* LTURLRounter.h */,
@@ -128,11 +131,12 @@
 		3D6C668A25B725D10006010B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = huanyu.li;
 				TargetAttributes = {
 					3D6C669125B725D10006010B = {
 						CreatedOnToolsVersion = 11.7;
+						LastSwiftMigration = 1230;
 					};
 				};
 			};
@@ -179,6 +183,7 @@
 				3D6C669725B725D10006010B /* AppDelegate.m in Sources */,
 				3D6C66A825B725D50006010B /* main.m in Sources */,
 				3D6C669A25B725D10006010B /* SceneDelegate.m in Sources */,
+				3D85B68E25C2F93800EF7C81 /* URLRounterProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +235,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -288,6 +294,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -310,6 +317,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -318,6 +326,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = LTURLRounterDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -326,6 +335,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huanyu.li.LTURLRounterDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LTURLRounterDemo/Swift-Bridge-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -334,6 +346,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = LTURLRounterDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -342,6 +355,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huanyu.li.LTURLRounterDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LTURLRounterDemo/Swift-Bridge-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

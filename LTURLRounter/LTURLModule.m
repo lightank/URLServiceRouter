@@ -11,7 +11,7 @@
 @interface LTURLModule ()
 
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, LTURLModule *> *subModules;
+@property (nonatomic, copy) NSMutableDictionary<NSString *, LTURLModule *> *subModules;
 
 @end
 
@@ -35,41 +35,41 @@
     return self;
 }
 
-- (void)registeModule:(LTURLModule *)module {
-    NSAssert(module.name.length > 0, @"注册的模块名字不能为空,请检测");
+- (void)registeWithSubModule:(LTURLModule *)subModule {
+    NSAssert(subModule.name.length > 0, @"注册的模块名字不能为空,请检测");
     
-    if (module.name.length > 0) {
-        if (_subModules[module.name]) {
-            NSAssert(NO, @"模块:%@ 中的子模块:%@ 已经被注册过了,请检测", self.name, module.name);
+    if (subModule.name.length > 0) {
+        if (_subModules[subModule.name]) {
+            NSAssert(NO, @"模块:%@ 中的子模块:%@ 已经被注册过了,请检测", self.name, subModule.name);
         } else {
-            _subModules[module.name] = module;
+            _subModules[subModule.name] = subModule;
         }
     }
 }
 
-- (void)unregisteModuleWithName:(NSString *)moduleName {
-    NSAssert(moduleName.length > 0, @"取消注册的模块名字不能为空,请检测");
+- (void)unregisteWithSubModuleName:(NSString * _Nonnull)subModuleName {
+    NSAssert(subModuleName.length > 0, @"取消注册的模块名字不能为空,请检测");
 
-    if (moduleName.length > 0) {
-        _subModules[moduleName] = nil;
+    if (subModuleName.length > 0) {
+        _subModules[subModuleName] = nil;
     } else {
-        NSAssert(NO, @"这个需要取消注册的模块:%@,尚未注册或已经被移除,请检测", moduleName);
+        NSAssert(NO, @"这个需要取消注册的模块:%@,尚未注册或已经被移除,请检测", subModuleName);
     }
 }
 
-- (BOOL)canHandleURL:(NSURL *)url {
+- (BOOL)canHandleWithUrl:(NSURL * _Nonnull)url { 
     if (self.canHandleURLBlock) {
         return self.canHandleURLBlock(url);
     }
     return NO;
 }
 
-- (BOOL)canModuleChainHandleURL:(NSURL *)url {
-    BOOL canHandle = [self canHandleURL:url];
+- (BOOL)canModuleChainHandleWithUrl:(NSURL * _Nonnull)url { 
+    BOOL canHandle = [self canHandleWithUrl:url];
     if (!canHandle) {
         LTURLModule *parentHander = self.parentModule;
         do {
-            canHandle = [parentHander canHandleURL:url];
+            canHandle = [parentHander canHandleWithUrl:url];
             if (canHandle) {
                 break;
             }
@@ -78,8 +78,8 @@
     return canHandle;
 }
 
-- (void)handleURL:(NSURL *)url {
-    if (![self canHandleURL:url]) {
+- (void)handleWithUrl:(NSURL * _Nonnull)url { 
+    if (![self canHandleWithUrl:url]) {
         return;
     }
     
@@ -88,18 +88,19 @@
     }
 }
 
-- (void)moduleChainHandleURL:(NSURL *)url {
-    if (![self canModuleChainHandleURL:url]) {
+- (void)moduleChainHandleWithUrl:(NSURL * _Nonnull)url { 
+    if (![self canModuleChainHandleWithUrl:url]) {
         return;
     }
     
-    if ([self canHandleURL:url]) {
-        [self handleURL:url];
+    if ([self canHandleWithUrl:url]) {
+        [self handleWithUrl:url];
     } else {
         if (self.parentModule) {
-            [self.parentModule moduleChainHandleURL:url];
+            [self.parentModule moduleChainHandleWithUrl:url];
         }
     }
 }
+
 
 @end

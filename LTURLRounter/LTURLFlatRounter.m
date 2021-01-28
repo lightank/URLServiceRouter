@@ -10,7 +10,7 @@
 
 @interface LTURLFlatRounter ()
 
-@property (nonatomic, strong) NSMutableDictionary<NSString *, LTURLModule *> *subModules;
+@property (nonatomic, copy) NSMutableDictionary<NSString *, LTURLModule *> *subModules;
 
 @end
 
@@ -57,7 +57,7 @@
             LTURLModule *subModule = currentModule.subModules[pathComponent];
             if (!subModule) {
                 subModule = [[LTURLModule alloc] initWithName:pathComponent parentModule:currentModule];
-                [currentModule registeModule:subModule];
+                [currentModule registeWithSubModule:subModule];
             }
             currentModule = subModule;
         }
@@ -101,7 +101,7 @@
 
 /// 找到最适合处理这个url的模块，如果没有就返回nil
 /// @param url url
-- (nullable LTURLModule *)bestModuleForURL:(NSURL *)url {
+- (nullable LTURLModule *)bestModuleForUrl:(NSURL *)url {
     if (url.absoluteString.length == 0 || url.pathComponents.count == 0) {
         return nil;
     }
@@ -124,10 +124,10 @@
     return bestModule;
 }
 
-- (void)handleURL:(NSURL *)url {
-    LTURLModule *bestModule = [self bestModuleForURL:url];
-    if (bestModule && [bestModule canModuleChainHandleURL:url]) {
-        [bestModule moduleChainHandleURL:url];
+- (void)handleWithUrl:(NSURL *)url {
+    LTURLModule *bestModule = [self bestModuleForUrl:url];
+    if (bestModule && [bestModule canModuleChainHandleWithUrl:url]) {
+        [bestModule moduleChainHandleWithUrl:url];
     }
 }
 

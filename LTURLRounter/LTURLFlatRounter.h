@@ -7,14 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LTURLRounterProtocol.h"
 #import "LTURLModule.h"
+#import "LTURLRounterDemo-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LTURLFlatRounter : NSObject
+@interface LTURLFlatRounter : NSObject <LTURLRounterProtocol>
 
 @property (class, nonatomic, strong, readonly) LTURLFlatRounter *sharedInstance;
+@property (nonatomic, copy, readonly) NSDictionary<NSString *, LTURLModule *> *subModules;
 
 - (void)registeModuleWithPathComponents:(NSArray<NSString *> *)pathComponents
                          handleURLBlock:(void (^)(NSURL *url))handleURLBlock;
@@ -22,11 +23,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 找到最适合处理这个url的模块，如果没有就返回nil
 /// @param url url
-- (nullable LTURLModule *)bestModuleForURL:(NSURL *)url;
+- (nullable LTURLModule *)bestModuleForUrl:(NSURL *)url;
 
 /// 处理url
 /// @param url url
-- (void)handleURL:(NSURL *)url;
+- (void)handleWithUrl:(NSURL *)url;
 
 @end
 

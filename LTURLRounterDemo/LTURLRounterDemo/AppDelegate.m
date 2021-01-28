@@ -33,16 +33,16 @@
         NSLog(@"跳转到酒店垂直页");
     }];
     
-    [LTURLFlatRounter.sharedInstance handleURL:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail"]];
-    [LTURLFlatRounter.sharedInstance handleURL:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail1"]];
+    [LTURLFlatRounter.sharedInstance handleWithUrl:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail"]];
+    [LTURLFlatRounter.sharedInstance handleWithUrl:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail1"]];
 }
 
 - (void)testURLRounter {
     [LTURLRounter.sharedInstance registeModule:[self URLHandler]];
     NSURL *url = [NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail"];
-    LTURLModule *bestModule = [LTURLRounter.sharedInstance bestModuleForURL:url];
+    LTURLModule *bestModule = [LTURLRounter.sharedInstance bestModuleForUrl:url];
     //[bestModule handleURL:url];
-    [bestModule moduleChainHandleURL:url];
+    [bestModule moduleChainHandleWithUrl:url];
 }
 
 - (LTURLModule *)URLHandler {
@@ -60,7 +60,7 @@
                 NSLog(@"跳转到酒店详情页");
             });
         };
-        [hotel registeModule:detail];
+        [hotel registeWithSubModule:detail];
     }
 
     return hotel;
