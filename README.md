@@ -24,8 +24,8 @@
     @property (nonatomic, strong, readonly) NSDictionary<NSString *, id<LTURLModuleProtocol>> *subModules;
     @property (nonatomic, weak, nullable) id<LTURLModuleProtocol> parentModule;
 
-    - (void)registerModule:(id<LTURLModuleProtocol>)module;
-    - (void)unregisterModuleWithName:(NSString *)moduleName;
+    - (void)registeModule:(id<LTURLModuleProtocol>)module;
+    - (void)unregisteModuleWithName:(NSString *)moduleName;
 
     /// 当前模块是否解析这个URL
     /// @param url 解析的URL
@@ -52,19 +52,19 @@
     4. 实现如下：
 
     ```objectivec
-    @protocol LTURLRounterProtocol <NSObject>
-
-    @property (nonatomic, strong, readonly) NSDictionary<NSString *, id<LTURLModuleProtocol>> *subModules;
-
-    /// 找到最适合处理这个url的模块，如果没有就返回nil
-    /// @param url url
-    - (nullable id<LTURLModuleProtocol>)bestModuleForURL:(NSURL *)url;
-
-    /// 处理url
-    /// @param url url
-    - (void)handlerURL:(NSURL *)url;
-
-    @end
+	@protocol LTURLRounterProtocol <NSObject>
+	
+	@property (nonatomic, strong, readonly) NSDictionary<NSString *, id<LTURLModuleProtocol>> *subModules;
+	
+	/// 找到最适合处理这个url的模块，如果没有就返回nil
+	/// @param url url
+	- (nullable id<LTURLModuleProtocol>)bestModuleForURL:(NSURL *)url;
+	
+	/// 处理url
+	/// @param url url
+	- (void)handleURL:(NSURL *)url;
+	
+	@end
     ```
 
 3. 如果公司各业务需要一个统一的处理，那整个app只要维护一个解析中心。如果对于解析过程各业务线不一样，那么这个解析中心应该代表某一个具体的业务线，整个app维护的是一个解析中心数组。ps：可以用一个类同时实现两个协议，这个时候模块就会同时承担解析与处理。
@@ -96,22 +96,21 @@
         - 代码如下：
 
         ```objectivec
-        NSArray<NSString *> *pathComponents = url.pathComponents;
-            LTURLModule *bestModule = nil;
-            for (NSString *pathComponent in pathComponents) {
-                if (bestModule == nil) {
-                    LTURLModule *subModule = _subModules[pathComponent];
-                    if (subModule) {
-                        bestModule = subModule;
-                    }
-                } else {
-                    LTURLModule *subModule = bestModule.subModules[pathComponent];
-                    if (subModule) {
-                        bestModule = subModule;
-                    }
-                }
-            }
-            return bestModule;
+		NSArray<NSString *> *pathComponents = url.pathComponents;
+		LTURLModule *bestModule = nil;
+		for (NSString *pathComponent in pathComponents) {
+		    LTURLModule *subModule = nil;
+		    if (bestModule == nil) {
+		        subModule = _subModules[pathComponent];
+		    } else {
+		        subModule = bestModule.subModules[pathComponent];
+		    }
+		    
+		    if (subModule) {
+		        bestModule = subModule;
+		    }
+		}
+		return bestModule;
         ```
 
     以上，是本人根据自己的理解，对协议的一套具体实现，不同业务线也可以根据自身需要自己去定义。
@@ -119,22 +118,21 @@
     比如在找到业务线模块时先判断这个大业务线是否能够处理，如果不能，解析将不往下走：
 
     ```objectivec
-    NSArray<NSString *> *pathComponents = url.pathComponents;
-        LTURLModule *bestModule = nil;
-        for (NSString *pathComponent in pathComponents) {
-            if (bestModule == nil) {
-                LTURLModule *subModule = _subModules[pathComponent];
-                if (subModule && [subModule canHandleURL:url]) {
-                    bestModule = subModule;
-                }
-            } else {
-                LTURLModule *subModule = bestModule.subModules[pathComponent];
-                if (subModule && [subModule canHandleURL:url]) {
-                    bestModule = subModule;
-                }
-            }
-        }
-        return bestModule;
+	NSArray<NSString *> *pathComponents = url.pathComponents;
+	LTURLModule *bestModule = nil;
+	for (NSString *pathComponent in pathComponents) {
+	    LTURLModule *subModule = nil;
+	    if (bestModule == nil) {
+	        subModule = _subModules[pathComponent];
+	    } else {
+	        subModule = bestModule.subModules[pathComponent];
+	    }
+	    
+	    if (subModule && [subModule canHandleURL:url]) {
+	        bestModule = subModule;
+	    }
+	}
+	return bestModule;    
     ```
     以上流程整个流程注册与处理流程如下
 
@@ -154,9 +152,9 @@
                     NSLog(@"跳转到酒店详情页");
                 });
             };
-            [hotel registerModule:detail];
+            [hotel registeModule:detail];
         }
-    [LTURLRounter.sharedInstance registerModule:hotel];
+    [LTURLRounter.sharedInstance registeModule:hotel];
 
     // 处理
     NSURL *url = [NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail"];
@@ -171,7 +169,7 @@
     也是可以的，其它逻辑与上面的一样，只需要修改一下注册方式就行，
 
     ```objectivec
-    - (void)registerModuleWithPathComponents:(NSArray<NSString *> *)pathComponents
+    - (void)registeModuleWithPathComponents:(NSArray<NSString *> *)pathComponents
                               handleURLBlock:(void (^)(NSURL *url))handleURLBlock {
         if (pathComponents.count == 0) {
             return;
@@ -184,14 +182,14 @@
                 LTURLModule *subModule = _subModules[pathComponent];
                 if (!subModule) {
                     subModule = [[LTURLModule alloc] initWithName:pathComponent parentModule:nil];
-                    [self registerModule:subModule];
+                    [self registeModule:subModule];
                 }
                 currentModule = subModule;
             } else {
                 LTURLModule *subModule = currentModule.subModules[pathComponent];
                 if (!subModule) {
                     subModule = [[LTURLModule alloc] initWithName:pathComponent parentModule:currentModule];
-                    [currentModule registerModule:subModule];
+                    [currentModule registeModule:subModule];
                 }
                 currentModule = subModule;
             }
@@ -214,10 +212,10 @@
     以上流程整个流程注册与处理流程如下：
 
     ```objectivec
-    [LTURLFlatRounter.sharedInstance registerModuleWithPathComponents:@[@"hotel", @"detail"] handleURLBlock:^(NSURL * _Nonnull url) {
+    [LTURLFlatRounter.sharedInstance registeModuleWithPathComponents:@[@"hotel", @"detail"] handleURLBlock:^(NSURL * _Nonnull url) {
         NSLog(@"跳转到酒店详情页");
     }];
-    [LTURLFlatRounter.sharedInstance registerModuleWithPathComponents:@[@"hotel"] handleURLBlock:^(NSURL * _Nonnull url) {
+    [LTURLFlatRounter.sharedInstance registeModuleWithPathComponents:@[@"hotel"] handleURLBlock:^(NSURL * _Nonnull url) {
         NSLog(@"跳转到酒店垂直页");
     }];
 

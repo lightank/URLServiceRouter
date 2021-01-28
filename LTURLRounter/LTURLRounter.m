@@ -70,16 +70,15 @@
     NSArray<NSString *> *pathComponents = url.pathComponents;
     LTURLModule *bestModule = nil;
     for (NSString *pathComponent in pathComponents) {
+        LTURLModule *subModule = nil;
         if (bestModule == nil) {
-            LTURLModule *subModule = _subModules[pathComponent];
-            if (subModule) {
-                bestModule = subModule;
-            }
+            subModule = _subModules[pathComponent];
         } else {
-            LTURLModule *subModule = bestModule.subModules[pathComponent];
-            if (subModule) {
-                bestModule = subModule;
-            }
+            subModule = bestModule.subModules[pathComponent];
+        }
+        
+        if (subModule) {
+            bestModule = subModule;
         }
     }
     return bestModule;
