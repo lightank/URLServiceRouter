@@ -7,8 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "LTURLRounter.h"
-#import "LTURLFlatRounter.h"
+#import "OCDemo.h"
+#import "LTURLRounterDemo-Swift.h"
 
 @interface AppDelegate ()
 
@@ -19,54 +19,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [self testURLRounter];
-    [self testURLFlatRounter];
+//    [OCDemo testRounter];
+    [LTSwiftDemo testRounter];
     
     return YES;
 }
-
-- (void)testURLFlatRounter {
-    [LTURLFlatRounter.sharedInstance registeModuleWithPathComponents:@[@"hotel", @"detail"] handleURLBlock:^(NSURL * _Nonnull url) {
-        NSLog(@"跳转到酒店详情页");
-    }];
-    [LTURLFlatRounter.sharedInstance registeModuleWithPathComponents:@[@"hotel"] handleURLBlock:^(NSURL * _Nonnull url) {
-        NSLog(@"跳转到酒店垂直页");
-    }];
-    
-    [LTURLFlatRounter.sharedInstance handleWithUrl:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail"]];
-    [LTURLFlatRounter.sharedInstance handleWithUrl:[NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail1"]];
-}
-
-- (void)testURLRounter {
-    [LTURLRounter.sharedInstance registeModule:[self URLHandler]];
-    NSURL *url = [NSURL URLWithString:@"https://www.klook.com/hotel/1234/detail"];
-    LTURLModule *bestModule = [LTURLRounter.sharedInstance bestModuleForUrl:url];
-    //[bestModule handleURL:url];
-    [bestModule moduleChainHandleWithUrl:url];
-}
-
-- (LTURLModule *)URLHandler {
-    LTURLModule *hotel = [[LTURLModule alloc] initWithName:@"hotel" parentModule:nil];
-    
-    // 注册子模块
-    {
-        LTURLModule *detail = [[LTURLModule alloc] initWithName:@"detail" parentModule:hotel];
-        detail.canHandleURLBlock = ^BOOL(NSURL * _Nonnull url) {
-            return YES;
-        };
-        detail.handleURLBlock = ^(NSURL * _Nonnull url) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                // do something
-                NSLog(@"跳转到酒店详情页");
-            });
-        };
-        [hotel registeWithSubModule:detail];
-    }
-
-    return hotel;
-}
-
-
 
 #pragma mark - UISceneSession lifecycle
 
