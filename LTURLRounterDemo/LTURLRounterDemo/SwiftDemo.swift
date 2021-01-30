@@ -17,11 +17,11 @@ import Foundation
         URLFlatRounter.sharedInstance.registeModules(pathComponents: ["hotel", "detail"]) { (url) in
             print("跳转到酒店详情页")
         }
-        
+
         URLFlatRounter.sharedInstance.registeModules(pathComponents: ["hotel"]) { (url) in
             print("跳转到酒店垂直页")
         }
-        
+
         URLFlatRounter.sharedInstance.handle(url: URL.init(string: "https://www.klook.com/hotel/1234/detail")!)
         URLFlatRounter.sharedInstance.handle(url: URL.init(string: "https://www.klook.com/hotel/1234/detail1")!)
         

@@ -10,31 +10,31 @@ import Foundation
 
 @objc(LTURLFlatRounter) public class URLFlatRounter: NSObject, URLRounterProtocol {
     @objc public static let sharedInstance = URLFlatRounter()
-    private(set) public var subModules: [String : URLModuleProtocol] = [:]
+    @objc private(set) public var subModules: [String : URLModuleProtocol] = [:]
     
     @objc public func registeModules(pathComponents: [String], handleURLBlock: @escaping (_ url: URL) -> Void) {
         if (pathComponents.count == 0) {
             return;
         }
         
-        var currentModule: URLModule? = nil
+        var currentModule: URLModuleProtocol? = nil
         pathComponents.forEach { (pathComponent) in
             assert(pathComponent.count > 0, "注册的模块名字不能为空,请检测")
+            var subModule: URLModuleProtocol? = nil
             if currentModule == nil {
-                var subModule = subModules[pathComponent]
+                subModule = subModules[pathComponent]
                 if subModule == nil {
                     subModule = URLModule.init(name: pathComponent, parentModule: nil)
                     registe(subModule: subModule!)
                 }
-                currentModule = subModule as! URLModule?;
             } else {
-                var subModule = currentModule!.subModules[pathComponent]
+                subModule = currentModule!.subModules[pathComponent]
                 if subModule == nil {
                     subModule = URLModule.init(name: pathComponent, parentModule: currentModule)
                     currentModule?.registe(subModule: subModule!)
                 }
-                currentModule = subModule as! URLModule?;
             }
+            currentModule = subModule
             
             if (pathComponent == pathComponents.last && currentModule != nil) {                
                 currentModule!.canHandleURLBlock = { (url: URL) in
