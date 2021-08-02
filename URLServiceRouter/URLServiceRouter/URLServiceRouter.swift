@@ -17,6 +17,25 @@ class URLServiceRouter: URLServiceRouterProtocol {
     var servicesMap = [String: URLServiceProtocol]()
     var nodesMap = [String: URLServiceNodelProtocol]()
     let queue = DispatchQueue(label: "com.huanyu.URLServiceRouter.queue", attributes: .concurrent)
+    
+    init() {
+        registerRootNodeParser()
+        registerHttpsNode()
+    }
+    
+    private func registerRootNodeParser() {
+        queue.sync(flags:.barrier) { [self] in
+            rootNode.registe(parser: URLServiceRedirectHttpParser())
+        }
+    }
+    
+    private func registerHttpsNode() {
+        queue.sync(flags:.barrier) { [self] in
+            let httpsNode = URServiceNode(name: "https", nodeType: .host, parentNode: rootNode)
+            httpsNode.registe(parser: URLServiceRedirectTestHostParser())
+            rootNode.registe(subNode: httpsNode)
+        }
+    }
 
     func router(request: URLServiceRequestProtocol) {
         queue.sync(flags:.barrier) { [self] in
@@ -63,6 +82,8 @@ class URLServiceRouter: URLServiceRouterProtocol {
     }
     
     public func allRegistedUrl() -> [String] {
-        return nodesMap.keys.sorted { $0 < $1 }
+        queue.sync(flags: .barrier) { [self] in
+            return nodesMap.keys.sorted { $0 < $1 }
+        }
     }
 }

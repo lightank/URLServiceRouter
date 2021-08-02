@@ -36,7 +36,7 @@ public protocol URLServiceRequestProtocol {
     func replace(nodeNames: [String], from nodeParser: URLServiceNodeParserProtocol ) -> Void
     func reduceOneNodeName(from node: URLServiceNodelProtocol) -> Void
     func restoreOneNodeName(from node: URLServiceNodelProtocol) -> Void
-    func merge(params: Any?, from nodeParser: URLServiceNodeParserProtocol) -> Void
+    func merge(params: Any, from nodeParser: URLServiceNodeParserProtocol) -> Void
     func replace(params: Any?, from nodeParser: URLServiceNodeParserProtocol) -> Void
 }
 
@@ -49,6 +49,8 @@ public enum URLServiceNodeParserType: String {
     case pre = "pre"
     case post = "post"
 }
+
+public let URLServiceNodeParserPriorityDefault = 100
 
 public protocol URLServiceNodeParserProtocol {
     var priority: Int { get }
