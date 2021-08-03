@@ -22,6 +22,8 @@
 		3DC0E0DF26B7C8DE008E4A67 /* URLServiceNodeParserDecision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0D626B7C8DE008E4A67 /* URLServiceNodeParserDecision.swift */; };
 		3DC0E0E026B7C8DE008E4A67 /* URLServiceRequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0D726B7C8DE008E4A67 /* URLServiceRequestResponse.swift */; };
 		3DC0E0E126B7C8DE008E4A67 /* URLServiceRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0D826B7C8DE008E4A67 /* URLServiceRouterProtocol.swift */; };
+		3DC0E1C526B8DB46008E4A67 /* URLServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E1C426B8DB46008E4A67 /* URLServiceError.swift */; };
+		3DC0E1C826B8E186008E4A67 /* URLService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E1C726B8E186008E4A67 /* URLService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		3DC0E0D626B7C8DE008E4A67 /* URLServiceNodeParserDecision.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceNodeParserDecision.swift; sourceTree = "<group>"; };
 		3DC0E0D726B7C8DE008E4A67 /* URLServiceRequestResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRequestResponse.swift; sourceTree = "<group>"; };
 		3DC0E0D826B7C8DE008E4A67 /* URLServiceRouterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRouterProtocol.swift; sourceTree = "<group>"; };
+		3DC0E1C426B8DB46008E4A67 /* URLServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLServiceError.swift; sourceTree = "<group>"; };
+		3DC0E1C726B8E186008E4A67 /* URLService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,8 @@
 				3DC0E0D526B7C8DE008E4A67 /* URLServiceNodeParser.swift */,
 				3DC0E0D626B7C8DE008E4A67 /* URLServiceNodeParserDecision.swift */,
 				3DC0E0D726B7C8DE008E4A67 /* URLServiceRequestResponse.swift */,
+				3DC0E1C426B8DB46008E4A67 /* URLServiceError.swift */,
+				3DC0E1C726B8E186008E4A67 /* URLService.swift */,
 			);
 			path = URLServiceRouter;
 			sourceTree = "<group>";
@@ -184,6 +190,7 @@
 				3DC0E0DA26B7C8DE008E4A67 /* URLServiceRouterResult.swift in Sources */,
 				3DC0E0BB26B7C867008E4A67 /* ViewController.swift in Sources */,
 				3DC0E0B726B7C867008E4A67 /* AppDelegate.swift in Sources */,
+				3DC0E1C826B8E186008E4A67 /* URLService.swift in Sources */,
 				3DC0E0B926B7C867008E4A67 /* SceneDelegate.swift in Sources */,
 				3DC0E0DE26B7C8DE008E4A67 /* URLServiceNodeParser.swift in Sources */,
 				3DC0E0DB26B7C8DE008E4A67 /* URLServiceRouter.swift in Sources */,
@@ -193,6 +200,7 @@
 				3DC0E0DF26B7C8DE008E4A67 /* URLServiceNodeParserDecision.swift in Sources */,
 				3DC0E0E026B7C8DE008E4A67 /* URLServiceRequestResponse.swift in Sources */,
 				3DC0E0DC26B7C8DE008E4A67 /* Extensions.swift in Sources */,
+				3DC0E1C526B8DB46008E4A67 /* URLServiceError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

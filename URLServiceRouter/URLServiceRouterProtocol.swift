@@ -7,37 +7,59 @@
 //
 
 import Foundation
+import UIKit
 
-public protocol URLServiceRouterResultProtocol {
-    var endNode: URLServiceNodelProtocol? { get }
-    var responseNode: URLServiceNodelProtocol? { get }
-    var responseService: URLServiceProtocol? { get }
+public protocol URLServiceRouterDelegateProtocol {
+    func currentNavigationController() -> UINavigationController?
+    var rootNodeParsers: [URLServiceNodeParserProtocol] { get }
+    var levelOneNodes: [URLServiceNodeProtocol] { get }
     
-    var recordEndNode: ((URLServiceNodelProtocol) -> Void) { get }
-    var routerCompletion: ((URLServiceNodelProtocol, URLServiceProtocol?) -> Void) { get }
-    var completion: ((URLServiceRouterResultProtocol) -> Void) { get }
+    func isNodeVaild(name: String, type: URLServiceNodeParserType) -> Bool
+    func logError(message: String) -> Void
+    func logInfo(message: String) -> Void
 }
 
 public protocol URLServiceRouterProtocol {
     func router(request: URLServiceRequestProtocol) -> Void
-    func registerNode(from url: String, completion: @escaping (URLServiceNodelProtocol) -> Void)
+    func registerNode(from url: String, completion: @escaping (URLServiceNodeProtocol) -> Void)
     func register(service: URLServiceProtocol) -> Void
+    func callService(_ service: URLServiceProtocol) ->URLServiceErrorProtocol?
+    func callService(name: String, params: Any?, completion: ((URLServiceProtocol?) -> Void)?) ->URLServiceErrorProtocol?
+    
+    func allRegistedUrls() -> [String]
+    func allRegistedServices() -> [String]
+}
+
+public protocol URLServiceRouterResultProtocol {
+    var endNode: URLServiceNodeProtocol? { get }
+    var responseNode: URLServiceNodeProtocol? { get }
+    var responseService: URLServiceProtocol? { get }
+    
+    var recordEndNode: ((URLServiceNodeProtocol) -> Void) { get }
+    var routerCompletion: ((URLServiceNodeProtocol, URLServiceProtocol?) -> Void) { get }
+    var completion: ((URLServiceRouterResultProtocol) -> Void) { get }
 }
 
 public typealias URLServiceRequestCompletionBlock = (URLServiceRequestProtocol) -> Void
 public protocol URLServiceRequestProtocol {
     var url: URL { get }
-    var nodeNames: [String] { get}
+    var serviceRouter: URLServiceRouterProtocol { get }
+    var nodeNames: [String] { get }
     var response: URLServiceRequestResponseProtocol? { get }
     var success: URLServiceRequestCompletionBlock? { get }
     var failure: URLServiceRequestCompletionBlock? { get }
     
+    func completion(response: URLServiceRequestResponseProtocol) -> Void
     func requestParams() -> Any?
     func replace(nodeNames: [String], from nodeParser: URLServiceNodeParserProtocol ) -> Void
-    func reduceOneNodeName(from node: URLServiceNodelProtocol) -> Void
-    func restoreOneNodeName(from node: URLServiceNodelProtocol) -> Void
+    func reduceOneNodeName(from node: URLServiceNodeProtocol) -> Void
+    func restoreOneNodeName(from node: URLServiceNodeProtocol) -> Void
     func merge(params: Any, from nodeParser: URLServiceNodeParserProtocol) -> Void
     func replace(params: Any?, from nodeParser: URLServiceNodeParserProtocol) -> Void
+    
+    func start() -> Void
+    func stop() -> Void
+    func startWithCompletionBlock(success: URLServiceRequestCompletionBlock?, failure: URLServiceRequestCompletionBlock?) -> Void
 }
 
 public protocol URLServiceRequestResponseProtocol {
@@ -55,7 +77,7 @@ public let URLServiceNodeParserPriorityDefault = 100
 public protocol URLServiceNodeParserProtocol {
     var priority: Int { get }
     var parserType: URLServiceNodeParserType { get }
-    func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodelProtocol, decision: URLServiceNodeParserDecisionProtocol) -> Void
+    func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodeProtocol, decision: URLServiceNodeParserDecisionProtocol) -> Void
 }
 
 public protocol URLServiceNodeParserDecisionProtocol {
@@ -70,14 +92,14 @@ public enum URLServiceNodeType: String {
     case path = "path"
 }
 
-public protocol URLServiceNodelProtocol {
+public protocol URLServiceNodeProtocol {
     var name: String { get }
     var nodeType: URLServiceNodeType { get }
     
-    var parentNode: URLServiceNodelProtocol? { get }
-    var subNodes: [URLServiceNodelProtocol] { get }
-    func registe(subNode: URLServiceNodelProtocol) -> Void
-    func registeSubNode(with name: String, type: URLServiceNodeType) -> URLServiceNodelProtocol
+    var parentNode: URLServiceNodeProtocol? { get }
+    var subNodes: [URLServiceNodeProtocol] { get }
+    func registe(subNode: URLServiceNodeProtocol) -> Void
+    func registeSubNode(with name: String, type: URLServiceNodeType) -> URLServiceNodeProtocol
     
     var preParsers: [URLServiceNodeParserProtocol] { get }
     var postParsers: [URLServiceNodeParserProtocol] { get }
@@ -91,7 +113,7 @@ public protocol URLServiceNodelProtocol {
 
 public protocol URLServiceProtocol {
     var name: String { get }
-    var params: Any? { get }
+    func setParams(_ params: Any?) -> Void
     func meetTheExecutionConditions() -> URLServiceErrorProtocol?
     func execute() -> ((_ object: Any?) -> Void)?
 }

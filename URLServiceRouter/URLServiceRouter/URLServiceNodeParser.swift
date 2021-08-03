@@ -11,13 +11,13 @@ import Foundation
 struct URLServiceNoramlParser :URLServiceNodeParserProtocol {
     let priority: Int
     var parserType: URLServiceNodeParserType
-    var parseBlock: (URLServiceRequestProtocol, URLServiceNodelProtocol, URLServiceNodeParserDecisionProtocol) -> Void
+    var parseBlock: (URLServiceRequestProtocol, URLServiceNodeProtocol, URLServiceNodeParserDecisionProtocol) -> Void
     
-    func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodelProtocol, decision: URLServiceNodeParserDecisionProtocol) {
+    func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodeProtocol, decision: URLServiceNodeParserDecisionProtocol) {
         parseBlock(request, currentNode, decision)
     }
     
-    init(priority: Int = URLServiceNodeParserPriorityDefault, parserType: URLServiceNodeParserType, parseBlock: @escaping (URLServiceRequestProtocol, URLServiceNodelProtocol, URLServiceNodeParserDecisionProtocol) -> Void) {
+    init(priority: Int = URLServiceNodeParserPriorityDefault, parserType: URLServiceNodeParserType, parseBlock: @escaping (URLServiceRequestProtocol, URLServiceNodeProtocol, URLServiceNodeParserDecisionProtocol) -> Void) {
         self.priority = priority
         self.parserType = parserType
         self.parseBlock = parseBlock
@@ -28,7 +28,7 @@ struct URLServiceRedirectTestHostParser :URLServiceNodeParserProtocol {
     let priority: Int = URLServiceNodeParserPriorityDefault
     var parserType: URLServiceNodeParserType = .pre
     
-    func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodelProtocol, decision: URLServiceNodeParserDecisionProtocol) {
+    func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodeProtocol, decision: URLServiceNodeParserDecisionProtocol) {
         if let host = request.url.host, request.nodeNames.contains(host), host.isTestHost {
             var nodeNames = request.nodeNames
             nodeNames.remove(at: 0)
@@ -43,7 +43,7 @@ struct URLServiceRedirectHttpParser :URLServiceNodeParserProtocol {
     let priority: Int = URLServiceNodeParserPriorityDefault
     var parserType: URLServiceNodeParserType = .pre
     
-    func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodelProtocol, decision: URLServiceNodeParserDecisionProtocol) {
+    func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodeProtocol, decision: URLServiceNodeParserDecisionProtocol) {
         if let scheme = request.url.scheme, scheme == "http", request.nodeNames.contains(scheme) {
             var nodeNames = request.nodeNames
             nodeNames.remove(at: 0)

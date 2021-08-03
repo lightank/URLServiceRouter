@@ -9,49 +9,55 @@
 import Foundation
 
 class URLServiceRouter: URLServiceRouterProtocol {
-    public static let share: URLServiceRouter = {
-        return URLServiceRouter()
-    }()
-    
+    let delegate: URLServiceRouterDelegateProtocol
     let rootNode = URServiceNode(name: "root node", nodeType: .root, parentNode: nil)
     var servicesMap = [String: URLServiceProtocol]()
-    var nodesMap = [String: URLServiceNodelProtocol]()
+    var nodesMap = [String: URLServiceNodeProtocol]()
     let queue = DispatchQueue(label: "com.huanyu.URLServiceRouter.queue", attributes: .concurrent)
     
-    init() {
+    init(delegate: URLServiceRouterDelegateProtocol) {
+        self.delegate = delegate
         registerRootNodeParser()
-        registerHttpsNode()
+        registerLevelOneNodes()
     }
     
     private func registerRootNodeParser() {
         queue.sync(flags:.barrier) { [self] in
-            rootNode.registe(parser: URLServiceRedirectHttpParser())
+            delegate.rootNodeParsers.forEach { (nodeParser) in
+                rootNode.registe(parser: URLServiceRedirectHttpParser())
+            }
         }
     }
     
-    private func registerHttpsNode() {
+    private func registerLevelOneNodes() {
         queue.sync(flags:.barrier) { [self] in
-            let httpsNode = URServiceNode(name: "https", nodeType: .host, parentNode: rootNode)
-            httpsNode.registe(parser: URLServiceRedirectTestHostParser())
-            rootNode.registe(subNode: httpsNode)
+            delegate.levelOneNodes.forEach { (node) in
+                rootNode.registe(subNode: node)
+            }
         }
     }
 
     func router(request: URLServiceRequestProtocol) {
         queue.sync(flags:.barrier) { [self] in
             rootNode.router(request: request, result: URLServiceRouterResult(completion: { (routerResult) in
-                
+                var error: URLServiceErrorProtocol? = nil
+                if let service = routerResult.responseService {
+                    error = service.meetTheExecutionConditions()
+                } else {
+                    error = URLServiceErrorNotFound
+                }
+                request.completion(response: URLServiceRequestResponse(service: routerResult.responseService, error: error))
             }))
         }
     }
     
-    func registerNode(from url: String, completion: @escaping (URLServiceNodelProtocol) -> Void) {
+    func registerNode(from url: String, completion: @escaping (URLServiceNodeProtocol) -> Void) {
         queue.sync(flags:.barrier) { [self] in
             if let newUrl = URL(string: url)?.nodeUrl {
                 let nodeUrlKey = newUrl.absoluteString
                 assert(nodesMap[nodeUrlKey] == nil, "url: \(url) already registed")
 
-                var currentNode:URLServiceNodelProtocol = rootNode;
+                var currentNode:URLServiceNodeProtocol = rootNode;
                 if let scheme = newUrl.scheme {
                     currentNode = currentNode.registeSubNode(with: scheme, type: .scheme)
                 }
@@ -81,9 +87,36 @@ class URLServiceRouter: URLServiceRouterProtocol {
         }
     }
     
-    public func allRegistedUrl() -> [String] {
+    func callService(_ service: URLServiceProtocol) ->URLServiceErrorProtocol? {
+        let _ = service.execute()
+        return service.meetTheExecutionConditions()
+    }
+    
+    func callService(name: String, params: Any?, completion: ((URLServiceProtocol?) -> Void)?) ->URLServiceErrorProtocol? {
+        let resultService = servicesMap[name]
+        if let service = resultService {
+            service.setParams(params)
+            if let newCompletion = completion {
+                newCompletion(resultService)
+            }
+            return callService(service)
+        } else {
+            if let newCompletion = completion {
+                newCompletion(resultService)
+            }
+            return URLServiceErrorNotFound
+        }
+    }
+    
+    public func allRegistedUrls() -> [String] {
         queue.sync(flags: .barrier) { [self] in
             return nodesMap.keys.sorted { $0 < $1 }
+        }
+    }
+    
+    public func allRegistedServices() -> [String] {
+        queue.sync(flags: .barrier) { [self] in
+            return servicesMap.keys.sorted { $0 < $1 }
         }
     }
 }

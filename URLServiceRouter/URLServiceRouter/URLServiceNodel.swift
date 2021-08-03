@@ -8,16 +8,16 @@
 
 import Foundation
 
-public class URServiceNode: URLServiceNodelProtocol {
+public class URServiceNode: URLServiceNodeProtocol {
     
     public let name: String
     public let nodeType: URLServiceNodeType
-    public let parentNode: URLServiceNodelProtocol?
-    public private(set) var subNodes: [URLServiceNodelProtocol] = []
+    public let parentNode: URLServiceNodeProtocol?
+    public private(set) var subNodes: [URLServiceNodeProtocol] = []
     public private(set) var preParsers: [URLServiceNodeParserProtocol] = []
     public private(set) var postParsers: [URLServiceNodeParserProtocol] = []
     
-    init(name: String, nodeType:URLServiceNodeType, parentNode: URLServiceNodelProtocol?) {
+    init(name: String, nodeType:URLServiceNodeType, parentNode: URLServiceNodeProtocol?) {
         self.name = name;
         self.nodeType = nodeType;
         self.parentNode = parentNode;
@@ -36,7 +36,7 @@ public class URServiceNode: URLServiceNodelProtocol {
     public func routedNodeNames() -> [String] {
         var routedNodeNames = [String]()
         if nodeType != .root {
-            var currentNode:URLServiceNodelProtocol? = self
+            var currentNode:URLServiceNodeProtocol? = self
             while currentNode != nil && currentNode!.nodeType != .root  {
                 routedNodeNames.insert(currentNode!.name, at: 0)
                 currentNode = currentNode?.parentNode
@@ -45,7 +45,10 @@ public class URServiceNode: URLServiceNodelProtocol {
         return routedNodeNames;
     }
     
-    public func registeSubNode(with name: String, type: URLServiceNodeType) -> URLServiceNodelProtocol {
+    public func registeSubNode(with name: String, type: URLServiceNodeType) -> URLServiceNodeProtocol {
+        if name == "https" && type != .scheme {
+            assert(true, "node: \(name) ‘s type must be: \(URLServiceNodeType.scheme.rawValue)")
+        }
         let lowercasedName = name.lowercased()
         if let subNode = subNodes.first(where: {($0.name == lowercasedName) && ($0.nodeType == type)}) {
             return subNode;
@@ -56,7 +59,7 @@ public class URServiceNode: URLServiceNodelProtocol {
         return node
     }
     
-    public func registe(subNode: URLServiceNodelProtocol) -> Void {
+    public func registe(subNode: URLServiceNodeProtocol) -> Void {
         if exitedSubNode(subNode) {
             assert(true, "node: \(name) have register subNode: \(subNode.name)")
         }
@@ -67,7 +70,7 @@ public class URServiceNode: URLServiceNodelProtocol {
         subNodes.insert(subNode, at: index)
     }
     
-    func exitedSubNode(_ subNode: URLServiceNodelProtocol) -> Bool {
+    func exitedSubNode(_ subNode: URLServiceNodeProtocol) -> Bool {
         return subNodes.contains { (node) -> Bool in
             return (subNode.name == node.name) && (subNode.nodeType == subNode.nodeType)
         }
