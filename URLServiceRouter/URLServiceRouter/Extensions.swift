@@ -24,12 +24,6 @@ extension RandomAccessCollection {
     }
 }
 
-extension String {
-    var isTestHost: Bool {
-        return hasSuffix(".baidu.test")
-    }
-}
-
 extension URL {
     var nodeQueryItems: [String: String] {
         var params = [String: String]()

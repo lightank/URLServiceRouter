@@ -46,9 +46,6 @@ public class URServiceNode: URLServiceNodeProtocol {
     }
     
     public func registeSubNode(with name: String, type: URLServiceNodeType) -> URLServiceNodeProtocol {
-        if name == "https" && type != .scheme {
-            assert(true, "node: \(name) ‘s type must be: \(URLServiceNodeType.scheme.rawValue)")
-        }
         let lowercasedName = name.lowercased()
         if let subNode = subNodes.first(where: {($0.name == lowercasedName) && ($0.nodeType == type)}) {
             return subNode;

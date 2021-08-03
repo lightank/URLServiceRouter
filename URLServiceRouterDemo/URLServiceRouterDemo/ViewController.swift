@@ -12,7 +12,39 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        URLServiceRouter.shared.register(service: URLOwnerInfoService())
         
+        URLServiceRouter.shared.registerNode(from: "https://www.realword.com/owner/") { (node) in
+            node.registe(parser: URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
+                var nodeNames = request.nodeNames
+                if !nodeNames.isEmpty {
+                    request.merge(params: ["id": nodeNames.remove(at: 0)], from: nodeParser)
+                }
+                request.replace(nodeNames: nodeNames, from: nodeParser)
+                decision.next()
+            }))
+        }
+        
+        URLServiceRouter.shared.registerNode(from: "https://www.realword.com/owner/info") { (node) in
+            node.registe(parser: URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
+                decision.complete("user://info")
+            }))
+        }
+        
+        URLServiceRouter.shared.registerNode(from: "https://www.realword.com/company/work") { (node) in
+            
+        }
+        
+        if let url = URL(string: "http://china.realword.io/owner/1/info") {
+            URLServiceRequest(url: url).startWithCompletionBlock { (request) in
+
+            } failure: { (request) in
+
+            } serviceCallback: { (result) in
+                
+            }
+
+        }
     }
     
     func testURLServiceRouter() {

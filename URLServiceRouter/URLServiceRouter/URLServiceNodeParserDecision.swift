@@ -8,11 +8,11 @@
 
 import Foundation
 
-public class URLServiceNodeParserDecision: URLServiceNodeParserDecisionProtocol {
+public class URLServiceNodeParserDecision: URLServiceNodeParserDecisionProtocol {    
     public let next: () -> Void
-    public let complete: (URLServiceProtocol?) -> Void
+    public let complete: (String) -> Void
     
-    init(next: @escaping () -> Void, complete: @escaping (URLServiceProtocol?) -> Void) {
+    init(next: @escaping () -> Void, complete: @escaping (String) -> Void) {
         self.next = next
         self.complete = complete
     }

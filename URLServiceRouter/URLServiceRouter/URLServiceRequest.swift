@@ -17,7 +17,7 @@ class URLServiceRequest: URLServiceRequestProtocol {
     var response: URLServiceRequestResponseProtocol?
     var success: URLServiceRequestCompletionBlock?
     var failure: URLServiceRequestCompletionBlock?
-    
+    var serviceCallback: URLServiceExecutionCallback?
     
     init(url: URL, serviceRouter: URLServiceRouterProtocol) {
         self.url = url
@@ -37,7 +37,8 @@ class URLServiceRequest: URLServiceRequestProtocol {
                 newSuccess(self)
                 success = nil
             }
-            let _ = serviceRouter.callService(name: service.name, params: params, completion: nil)
+            
+            let _ = serviceRouter.callService(name: service.name, params: params, completion: nil, callback: serviceCallback)
         } else {
             if let newFailure = failure {
                 newFailure(self)
@@ -101,9 +102,16 @@ class URLServiceRequest: URLServiceRequestProtocol {
         failure = nil
     }
     
-    func startWithCompletionBlock(success: URLServiceRequestCompletionBlock?, failure: URLServiceRequestCompletionBlock?) -> Void {
+    func startWithCompletionBlock(success: URLServiceRequestCompletionBlock? = nil, failure: URLServiceRequestCompletionBlock? = nil, serviceCallback:URLServiceExecutionCallback? = nil) -> Void {
         self.success = success
         self.failure = success
+        self.serviceCallback = serviceCallback
         start()
+    }
+    
+    public var description: String {
+        get {
+            return "URLServiceRequest - url: \(String(describing: url)), params:\(String(describing: params))"
+        }
     }
 }

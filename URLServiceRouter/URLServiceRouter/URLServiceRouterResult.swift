@@ -11,13 +11,13 @@ import Foundation
 class URLServiceRouterResult: URLServiceRouterResultProtocol {
     public private(set) var endNode: URLServiceNodeProtocol?
     public private(set) var responseNode: URLServiceNodeProtocol?
-    public private(set) var responseService: URLServiceProtocol?
+    public private(set) var responseServiceName: String?
     public private(set) lazy var recordEndNode = {(node: URLServiceNodeProtocol) -> Void in
         self.endNode = node
     }
-    public private(set) lazy var routerCompletion = {(node: URLServiceNodeProtocol, service: URLServiceProtocol?) -> Void in
+    public private(set) lazy var routerCompletion = {(node: URLServiceNodeProtocol, serviceName: String?) -> Void in
         self.responseNode = node
-        self.responseService = service
+        self.responseServiceName = serviceName
         self.completion(self)
     }
     var completion: ((URLServiceRouterResultProtocol) -> Void)

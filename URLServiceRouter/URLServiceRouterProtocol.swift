@@ -10,33 +10,35 @@ import Foundation
 import UIKit
 
 public protocol URLServiceRouterDelegateProtocol {
-    func currentNavigationController() -> UINavigationController?
     var rootNodeParsers: [URLServiceNodeParserProtocol] { get }
-    var levelOneNodes: [URLServiceNodeProtocol] { get }
     
-    func isNodeVaild(name: String, type: URLServiceNodeParserType) -> Bool
     func logError(message: String) -> Void
     func logInfo(message: String) -> Void
+    func configRootNode(_ rootNode: URLServiceNodeProtocol) -> Void
 }
 
 public protocol URLServiceRouterProtocol {
+    var delegate: URLServiceRouterDelegateProtocol? { get }
+
     func router(request: URLServiceRequestProtocol) -> Void
     func registerNode(from url: String, completion: @escaping (URLServiceNodeProtocol) -> Void)
     func register(service: URLServiceProtocol) -> Void
-    func callService(_ service: URLServiceProtocol) ->URLServiceErrorProtocol?
-    func callService(name: String, params: Any?, completion: ((URLServiceProtocol?) -> Void)?) ->URLServiceErrorProtocol?
+    func callService(_ service: URLServiceProtocol, callback: URLServiceExecutionCallback?) -> URLServiceErrorProtocol?
+    func callService(name: String, params: Any?, completion: ((URLServiceProtocol?) -> Void)?, callback: URLServiceExecutionCallback?) -> URLServiceErrorProtocol?
     
     func allRegistedUrls() -> [String]
     func allRegistedServices() -> [String]
+    
+    func unitTest(url: String, completion: @escaping ((URLServiceProtocol?, Any?) -> Void))  -> Void
 }
 
 public protocol URLServiceRouterResultProtocol {
     var endNode: URLServiceNodeProtocol? { get }
     var responseNode: URLServiceNodeProtocol? { get }
-    var responseService: URLServiceProtocol? { get }
+    var responseServiceName: String? { get }
     
     var recordEndNode: ((URLServiceNodeProtocol) -> Void) { get }
-    var routerCompletion: ((URLServiceNodeProtocol, URLServiceProtocol?) -> Void) { get }
+    var routerCompletion: ((URLServiceNodeProtocol, String?) -> Void) { get }
     var completion: ((URLServiceRouterResultProtocol) -> Void) { get }
 }
 
@@ -48,6 +50,8 @@ public protocol URLServiceRequestProtocol {
     var response: URLServiceRequestResponseProtocol? { get }
     var success: URLServiceRequestCompletionBlock? { get }
     var failure: URLServiceRequestCompletionBlock? { get }
+    var serviceCallback: URLServiceExecutionCallback? { get }
+    var description: String { get }
     
     func completion(response: URLServiceRequestResponseProtocol) -> Void
     func requestParams() -> Any?
@@ -59,7 +63,7 @@ public protocol URLServiceRequestProtocol {
     
     func start() -> Void
     func stop() -> Void
-    func startWithCompletionBlock(success: URLServiceRequestCompletionBlock?, failure: URLServiceRequestCompletionBlock?) -> Void
+    func startWithCompletionBlock(success: URLServiceRequestCompletionBlock?, failure: URLServiceRequestCompletionBlock?, serviceCallback: URLServiceExecutionCallback?) -> Void
 }
 
 public protocol URLServiceRequestResponseProtocol {
@@ -82,7 +86,7 @@ public protocol URLServiceNodeParserProtocol {
 
 public protocol URLServiceNodeParserDecisionProtocol {
     var next: (() -> Void) { get }
-    var complete: ((URLServiceProtocol?) -> Void) { get }
+    var complete: ((String) -> Void) { get }
 }
 
 public enum URLServiceNodeType: String {
@@ -111,11 +115,13 @@ public protocol URLServiceNodeProtocol {
     func routedNodeNames() -> [String]
 }
 
+public typealias URLServiceExecutionCallback = (Any?) -> Void
+
 public protocol URLServiceProtocol {
     var name: String { get }
     func setParams(_ params: Any?) -> Void
     func meetTheExecutionConditions() -> URLServiceErrorProtocol?
-    func execute() -> ((_ object: Any?) -> Void)?
+    func execute(callback:URLServiceExecutionCallback?) -> Void
 }
 
 public protocol URLServiceErrorProtocol {
