@@ -107,4 +107,10 @@ extension String {
     static var productionHost: String {
         return "www.realword.com"
     }
+    
+    var isPureInt: Bool {
+        let scanner = Scanner(string: self)
+        var value: UnsafeMutablePointer<Int>?
+        return scanner.scanInt(value) && scanner.isAtEnd
+    }
 }

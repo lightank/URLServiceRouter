@@ -28,10 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/") { (node) in
             node.registe(parser: URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
                 var nodeNames = request.nodeNames
-                if !nodeNames.isEmpty {
+                if let first = nodeNames.first, first.isPureInt {
                     request.merge(params: ["id": nodeNames.remove(at: 0)], from: nodeParser)
+                    request.replace(nodeNames: nodeNames, from: nodeParser)
                 }
-                request.replace(nodeNames: nodeNames, from: nodeParser)
                 decision.next()
             }))
         }
