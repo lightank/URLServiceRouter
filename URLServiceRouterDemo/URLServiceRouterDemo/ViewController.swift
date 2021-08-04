@@ -12,9 +12,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        URLServiceRouter.shared.register(service: URLOwnerInfoService())
+        URLServiceRouter.share.register(service: URLOwnerInfoService())
         
-        URLServiceRouter.shared.registerNode(from: "https://www.realword.com/owner/") { (node) in
+        URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/") { (node) in
             node.registe(parser: URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
                 var nodeNames = request.nodeNames
                 if !nodeNames.isEmpty {
@@ -25,25 +25,24 @@ class ViewController: UIViewController {
             }))
         }
         
-        URLServiceRouter.shared.registerNode(from: "https://www.realword.com/owner/info") { (node) in
+        URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/info") { (node) in
             node.registe(parser: URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
                 decision.complete("user://info")
             }))
         }
         
-        URLServiceRouter.shared.registerNode(from: "https://www.realword.com/company/work") { (node) in
+        URLServiceRouter.share.registerNode(from: "https://www.realword.com/company/work") { (node) in
             
         }
         
         if let url = URL(string: "http://china.realword.io/owner/1/info") {
-            URLServiceRequest(url: url).startWithCompletionBlock { (request) in
-
+            URLServiceRequest(url: url).start { (request) in
+                
             } failure: { (request) in
-
+                
             } serviceCallback: { (result) in
                 
             }
-
         }
     }
     

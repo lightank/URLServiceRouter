@@ -19,7 +19,7 @@ class URLServiceRequest: URLServiceRequestProtocol {
     var failure: URLServiceRequestCompletionBlock?
     var serviceCallback: URLServiceExecutionCallback?
     
-    init(url: URL, serviceRouter: URLServiceRouterProtocol) {
+    init(url: URL, serviceRouter: URLServiceRouterProtocol = URLServiceRouter.share) {
         self.url = url
         self.serviceRouter = serviceRouter
         self.nodeNames = url.nodeNames
@@ -93,20 +93,17 @@ class URLServiceRequest: URLServiceRequestProtocol {
         }
     }
     
-    func start() -> Void {
+    func start(success: URLServiceRequestCompletionBlock? = nil, failure: URLServiceRequestCompletionBlock? = nil, serviceCallback: URLServiceExecutionCallback? = nil) -> Void {
+        self.success = success
+        self.failure = success
+        self.serviceCallback = serviceCallback
         serviceRouter.router(request: self)
     }
     
     func stop() -> Void {
         success = nil
         failure = nil
-    }
-    
-    func startWithCompletionBlock(success: URLServiceRequestCompletionBlock? = nil, failure: URLServiceRequestCompletionBlock? = nil, serviceCallback:URLServiceExecutionCallback? = nil) -> Void {
-        self.success = success
-        self.failure = success
-        self.serviceCallback = serviceCallback
-        start()
+        serviceCallback = nil
     }
     
     public var description: String {

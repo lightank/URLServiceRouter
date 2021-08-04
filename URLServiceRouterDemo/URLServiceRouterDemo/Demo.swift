@@ -68,12 +68,12 @@ class URLServiceRouterDelegate: URLServiceRouterDelegateProtocol {
         rootNode.registe(subNode: httpsNode)
     }
     
-    func logError(message: String) {
-        print("❌URLServiceRouter log: \n\(message)")
+    func logError(_ message: String) {
+        print(message)
     }
     
-    func logInfo(message: String) {
-        print("❕URLServiceRouter log: \n\(message)")
+    func logInfo(_ message: String) {
+        print(message)
     }
 }
 
@@ -100,15 +100,4 @@ extension String {
     static var productionHost: String {
         return "www.realword.com"
     }
-}
-
-
-extension URLServiceRequest {
-    convenience init(url: URL) {
-        self.init(url: url, serviceRouter: URLServiceRouter.shared)
-    }
-}
-
-extension URLServiceRouter {
-    static let shared = URLServiceRouter(delegate: URLServiceRouterDelegate())
 }

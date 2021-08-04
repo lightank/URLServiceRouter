@@ -12,13 +12,14 @@ import UIKit
 public protocol URLServiceRouterDelegateProtocol {
     var rootNodeParsers: [URLServiceNodeParserProtocol] { get }
     
-    func logError(message: String) -> Void
-    func logInfo(message: String) -> Void
+    func logError(_ message: String) -> Void
+    func logInfo(_ message: String) -> Void
     func configRootNode(_ rootNode: URLServiceNodeProtocol) -> Void
 }
 
 public protocol URLServiceRouterProtocol {
     var delegate: URLServiceRouterDelegateProtocol? { get }
+    func config(delegate: URLServiceRouterDelegateProtocol) -> Void
 
     func router(request: URLServiceRequestProtocol) -> Void
     func registerNode(from url: String, completion: @escaping (URLServiceNodeProtocol) -> Void)
@@ -29,7 +30,10 @@ public protocol URLServiceRouterProtocol {
     func allRegistedUrls() -> [String]
     func allRegistedServices() -> [String]
     
-    func unitTest(url: String, completion: @escaping ((URLServiceProtocol?, Any?) -> Void))  -> Void
+    func logInfo(_ message: String) -> Void
+    func logError(_ message: String) -> Void
+    
+    func unitTest(url: String, completion: @escaping ((URLServiceProtocol?, Any?) -> Void)) -> Void
 }
 
 public protocol URLServiceRouterResultProtocol {
@@ -61,9 +65,8 @@ public protocol URLServiceRequestProtocol {
     func merge(params: Any, from nodeParser: URLServiceNodeParserProtocol) -> Void
     func replace(params: Any?, from nodeParser: URLServiceNodeParserProtocol) -> Void
     
-    func start() -> Void
+    func start(success: URLServiceRequestCompletionBlock?, failure: URLServiceRequestCompletionBlock?, serviceCallback: URLServiceExecutionCallback?) -> Void
     func stop() -> Void
-    func startWithCompletionBlock(success: URLServiceRequestCompletionBlock?, failure: URLServiceRequestCompletionBlock?, serviceCallback: URLServiceExecutionCallback?) -> Void
 }
 
 public protocol URLServiceRequestResponseProtocol {
