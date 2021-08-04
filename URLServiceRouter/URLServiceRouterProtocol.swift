@@ -124,7 +124,7 @@ public protocol URLServiceProtocol {
     var name: String { get }
     func setParams(_ params: Any?) -> Void
     func meetTheExecutionConditions() -> URLServiceErrorProtocol?
-    func execute(callback:URLServiceExecutionCallback?) -> Void
+    func execute(callback: URLServiceExecutionCallback?) -> Void
 }
 
 public protocol URLServiceErrorProtocol {

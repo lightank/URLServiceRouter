@@ -105,7 +105,7 @@ class URLServiceRouter: URLServiceRouterProtocol {
         return service.meetTheExecutionConditions()
     }
     
-    func callService(name: String, params: Any?, completion: ((URLServiceProtocol?) -> Void)?, callback: URLServiceExecutionCallback? = nil) ->URLServiceErrorProtocol? {
+    func callService(name: String, params: Any?, completion: ((URLServiceProtocol?) -> Void)? = nil, callback: URLServiceExecutionCallback? = nil) ->URLServiceErrorProtocol? {
         let resultService = servicesMap[name]
         if let service = resultService {
             service.setParams(params)
@@ -122,11 +122,11 @@ class URLServiceRouter: URLServiceRouterProtocol {
     }
     
     func logInfo(_ message: String) {
-        delegate?.logInfo("❕URLServiceRouter log info start: \n\(message)\n❕URLServiceRouter log info end❕")
+        delegate?.logInfo(message)
     }
     
     func logError(_ message: String) {
-        delegate?.logError("❌URLServiceRouter log error start: \n\(message)\n❕URLServiceRouter log error end❌")
+        delegate?.logError(message)
     }
     
     public func allRegistedUrls() -> [String] {

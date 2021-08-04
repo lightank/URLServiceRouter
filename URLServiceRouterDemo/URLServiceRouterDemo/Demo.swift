@@ -33,10 +33,17 @@ class URLOwnerInfoService: URLServiceProtocol {
         if (meetTheExecutionConditions() != nil) {
             return
         }
-        if let id = params["id"], id is String {
-            if let newCallback = callback {
-                newCallback(findUser(with: id as! String))
+        
+        let userInfoCallback = {
+            if let id = self.params["id"], id is String {
+                if let newCallback = callback {
+                    newCallback(self.findUser(with: id as! String))
+                }
             }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            userInfoCallback()
         }
     }
     
@@ -69,11 +76,11 @@ class URLServiceRouterDelegate: URLServiceRouterDelegateProtocol {
     }
     
     func logError(_ message: String) {
-        print(message)
+        print("❌URLServiceRouter log error start: \n\(message)\n❕URLServiceRouter log error end❌")
     }
     
     func logInfo(_ message: String) {
-        print(message)
+        print("❕URLServiceRouter log info start: \n\(message)\n❕URLServiceRouter log info end❕")
     }
 }
 
