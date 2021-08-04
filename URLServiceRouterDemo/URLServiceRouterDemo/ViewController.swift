@@ -21,6 +21,13 @@ class ViewController: UIViewController {
                 URLServiceRouter.share.logInfo("\(String(describing: result))")
             }
         }
+        
+        URLServiceRouter.share.callService(name: "user://info", params: "1") { (service, error) in
+            
+        } callback: { (result) in
+            
+        }
+
     }
 }
 

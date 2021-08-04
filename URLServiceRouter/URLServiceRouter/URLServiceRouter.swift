@@ -100,24 +100,25 @@ class URLServiceRouter: URLServiceRouterProtocol {
         }
     }
     
-    func callService(_ service: URLServiceProtocol, callback: URLServiceExecutionCallback? = nil) -> URLServiceErrorProtocol? {
+    private func callService(_ service: URLServiceProtocol, callback: URLServiceExecutionCallback? = nil) -> URLServiceErrorProtocol? {
         service.execute(callback: callback)
         return service.meetTheExecutionConditions()
     }
     
-    func callService(name: String, params: Any?, completion: ((URLServiceProtocol?) -> Void)? = nil, callback: URLServiceExecutionCallback? = nil) ->URLServiceErrorProtocol? {
+    func searchService(name: String, params: Any? = nil) -> URLServiceProtocol? {
         let resultService = servicesMap[name]
+        resultService?.setParams(params)
+        return resultService
+    }
+    
+    func callService(name: String, params: Any? = nil, completion: ((URLServiceProtocol?, URLServiceErrorProtocol?) -> Void)?, callback: URLServiceExecutionCallback?) -> Void {
+        let resultService = searchService(name: name, params: params)
+        let error:URLServiceErrorProtocol? = resultService != nil ? resultService?.meetTheExecutionConditions() : URLServiceErrorNotFound
+        if let newCompletion = completion {
+            newCompletion(resultService, error)
+        }
         if let service = resultService {
-            service.setParams(params)
-            if let newCompletion = completion {
-                newCompletion(resultService)
-            }
-            return callService(service, callback: callback)
-        } else {
-            if let newCompletion = completion {
-                newCompletion(resultService)
-            }
-            return URLServiceErrorNotFound
+            let _ = callService(service, callback: callback)
         }
     }
     

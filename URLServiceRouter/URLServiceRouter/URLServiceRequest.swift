@@ -19,11 +19,13 @@ class URLServiceRequest: URLServiceRequestProtocol {
     var failure: URLServiceRequestCompletionBlock?
     var serviceCallback: URLServiceExecutionCallback?
     
-    init(url: URL, serviceRouter: URLServiceRouterProtocol = URLServiceRouter.share) {
+    init(url: URL, params: [String: Any] = [String: Any](), serviceRouter: URLServiceRouterProtocol = URLServiceRouter.share) {
         self.url = url
         self.serviceRouter = serviceRouter
         self.nodeNames = url.nodeNames
         self.params = url.nodeQueryItems
+        self.params.merge(params) {(current, _) in current}
+        self.params[URLServiceRequestProtocolParameterURLKey] = url.absoluteURL
     }
     
     func requestParams() -> Any? {
@@ -38,7 +40,7 @@ class URLServiceRequest: URLServiceRequestProtocol {
                 success = nil
             }
             
-            let _ = serviceRouter.callService(name: service.name, params: params, completion: nil, callback: serviceCallback)
+            let _ = serviceRouter.callService(name: service.name, params: requestParams(), completion: nil, callback: serviceCallback)
         } else {
             if let newFailure = failure {
                 newFailure(self)

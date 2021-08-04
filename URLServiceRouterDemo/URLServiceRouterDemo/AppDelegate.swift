@@ -25,6 +25,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func congifURLServiceRouter() -> Void {
         URLServiceRouter.share.config(delegate: URLServiceRouterDelegate())
         URLServiceRouter.share.register(service: URLOwnerInfoService())
+        URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/info") { (node) in
+            node.registe(parser: URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
+                decision.complete("user://info")
+            }))
+        }
         URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/") { (node) in
             node.registe(parser: URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
                 var nodeNames = request.nodeNames
@@ -33,12 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     request.replace(nodeNames: nodeNames, from: nodeParser)
                 }
                 decision.next()
-            }))
-        }
-        
-        URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/info") { (node) in
-            node.registe(parser: URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
-                decision.complete("user://info")
             }))
         }
         

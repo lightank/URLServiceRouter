@@ -10,20 +10,23 @@
  */
 
 import Foundation
+import UIKit
 
 class URLOwnerInfoService: URLServiceProtocol {
     let name: String = "user://info"
     private var ownders: [User] = [User(name: "神秘客", id: "1"), User(name: "打工人", id: "999"),]
-    private var params = [String: Any]()
+    private var id: String?
     
     func setParams(_ params: Any?) {
-        if params is [String: Any] {
-            self.params.merge(params as! [String : Any]) {(current, _) in current}
+        if params is [String: Any], let newId = (params as! [String : Any])["id"] {
+            id = newId as? String
+        } else if params is String? {
+            id = params as? String
         }
     }
     
     func meetTheExecutionConditions() -> URLServiceErrorProtocol? {
-        if params["id"] == nil{
+        if id == nil{
             return URLServiceError(code: "1111", content: "no id to accsee owner info")
         }
         return nil
@@ -35,9 +38,9 @@ class URLOwnerInfoService: URLServiceProtocol {
         }
         
         let userInfoCallback = {
-            if let id = self.params["id"], id is String {
+            if let newId = self.id {
                 if let newCallback = callback {
-                    newCallback(self.findUser(with: id as! String))
+                    newCallback(self.findUser(with: newId))
                 }
             }
         }
@@ -62,7 +65,30 @@ struct User {
 }
 
 class URLServiceRouterDelegate: URLServiceRouterDelegateProtocol {
-    let rootNodeParsers: [URLServiceNodeParserProtocol] = [URLServiceRedirectHttpParser()]
+    func currentViewController() -> UIViewController? {
+        var topViewController = UIApplication.shared.delegate?.window??.rootViewController
+        while let viewController = topViewController?.presentedViewController {
+            topViewController = viewController
+        }
+        while let viewController = topViewController,
+              viewController is UINavigationController,
+              let navigationController = viewController as? UINavigationController,
+              let topVC = navigationController.topViewController  {
+            topViewController = topVC
+        }
+        return topViewController
+    }
+    
+    func currentNavigationController() -> UINavigationController? {
+        return currentViewController()?.navigationController
+    }
+    
+    func shouldRouter(request: URLServiceRequestProtocol) -> Bool {
+        return true
+    }
+    func dynamicProcessingRouterResult(service: URLServiceProtocol) -> URLServiceProtocol? {
+        return service
+    }
     
     func configRootNode(_ rootNode: URLServiceNodeProtocol) -> Void {
         rootNode.registe(parser: URLServiceRedirectHttpParser())
