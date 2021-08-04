@@ -1,9 +1,9 @@
 //
 //  URLServiceRounter.swift
-//  LTURLRounterDemo
+//  URLServiceRouter
 //
 //  Created by huanyu.li on 2021/8/1.
-//  Copyright © 2021 huanyu.li. All rights reserved.
+//  Copyright © 2021 huanyu.li. All rights reserved.https://github.com/lightank/URLServiceRouter
 //
 
 import Foundation
@@ -23,9 +23,9 @@ class URLServiceRouter: URLServiceRouterProtocol {
         self.delegate = delegate
         delegate.configRootNode(rootNode)
     }
-
+    
     func router(request: URLServiceRequestProtocol) {
-//        queue.sync(flags:.barrier) { [self] in
+        queue.sync(flags:.barrier) { [self] in
             logInfo("URLServiceRouter start router \nrequest: \(request.description)")
             rootNode.router(request: request, result: URLServiceRouterResult(completion: { (routerResult) in
                 var error: URLServiceErrorProtocol? = nil
@@ -41,7 +41,7 @@ class URLServiceRouter: URLServiceRouterProtocol {
                     self.logInfo("URLServiceRouter end router \nrequest: \(request.description), \nerrorCode:\(String(describing: error?.code)) \nerrorMessage:\(String(describing: error?.content))")
                 }
             }))
-//        }
+        }
     }
     
     func unitTest(url: String, completion: @escaping ((URLServiceProtocol?, Any?) -> Void))  -> Void {
@@ -65,11 +65,11 @@ class URLServiceRouter: URLServiceRouterProtocol {
     }
     
     func registerNode(from url: String, completion: @escaping (URLServiceNodeProtocol) -> Void) {
-//        queue.sync(flags:.barrier) { [self] in
+        queue.sync(flags:.barrier) { [self] in
             if let newUrl = URL(string: url)?.nodeUrl {
                 let nodeUrlKey = newUrl.absoluteString
                 assert(nodesMap[nodeUrlKey] == nil, "url: \(url) already registed")
-
+                
                 var currentNode:URLServiceNodeProtocol = rootNode;
                 if let scheme = newUrl.scheme {
                     currentNode = currentNode.registeSubNode(with: scheme, type: .scheme)
@@ -90,14 +90,14 @@ class URLServiceRouter: URLServiceRouterProtocol {
                 nodesMap[nodeUrlKey] = currentNode
                 completion(currentNode)
             }
-//        }
+        }
     }
     
     func register(service: URLServiceProtocol) {
-//        queue.sync(flags: .barrier) { [self] in
+        queue.sync(flags:.barrier) { [self] in
             assert(servicesMap[service.name] == nil, "service: \(service.name) already exist")
             servicesMap[service.name] = service
-//        }
+        }
     }
     
     func callService(_ service: URLServiceProtocol, callback: URLServiceExecutionCallback? = nil) -> URLServiceErrorProtocol? {

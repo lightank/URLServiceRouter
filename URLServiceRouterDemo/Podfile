@@ -1,0 +1,22 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'URLServiceRouterDemo' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for URLServiceRouterDemo
+
+  target 'URLServiceRouterDemoTests' do
+    inherit! :search_paths
+    # Pods for testing
+    pod 'Quick', '4.0.0'
+    pod 'Nimble', '9.2.0'
+    pod 'OCMock', '3.8.1'
+  end
+
+  target 'URLServiceRouterDemoUITests' do
+    # Pods for testing
+  end
+
+end

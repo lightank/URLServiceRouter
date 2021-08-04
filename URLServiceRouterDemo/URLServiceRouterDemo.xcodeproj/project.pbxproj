@@ -3,130 +3,232 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3DBB877C26B94F6B0075BAC3 /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBB877B26B94F6B0075BAC3 /* Demo.swift */; };
-		3DC0E0B726B7C867008E4A67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0B626B7C867008E4A67 /* AppDelegate.swift */; };
-		3DC0E0B926B7C867008E4A67 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0B826B7C867008E4A67 /* SceneDelegate.swift */; };
-		3DC0E0BB26B7C867008E4A67 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0BA26B7C867008E4A67 /* ViewController.swift */; };
-		3DC0E0BE26B7C867008E4A67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DC0E0BC26B7C867008E4A67 /* Main.storyboard */; };
-		3DC0E0C026B7C869008E4A67 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DC0E0BF26B7C869008E4A67 /* Assets.xcassets */; };
-		3DC0E0C326B7C869008E4A67 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DC0E0C126B7C869008E4A67 /* LaunchScreen.storyboard */; };
-		3DC0E0D926B7C8DE008E4A67 /* URLServiceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0D026B7C8DE008E4A67 /* URLServiceRequest.swift */; };
-		3DC0E0DA26B7C8DE008E4A67 /* URLServiceRouterResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0D126B7C8DE008E4A67 /* URLServiceRouterResult.swift */; };
-		3DC0E0DB26B7C8DE008E4A67 /* URLServiceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0D226B7C8DE008E4A67 /* URLServiceRouter.swift */; };
-		3DC0E0DC26B7C8DE008E4A67 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0D326B7C8DE008E4A67 /* Extensions.swift */; };
-		3DC0E0DD26B7C8DE008E4A67 /* URLServiceNodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0D426B7C8DE008E4A67 /* URLServiceNodel.swift */; };
-		3DC0E0DE26B7C8DE008E4A67 /* URLServiceNodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0D526B7C8DE008E4A67 /* URLServiceNodeParser.swift */; };
-		3DC0E0DF26B7C8DE008E4A67 /* URLServiceNodeParserDecision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0D626B7C8DE008E4A67 /* URLServiceNodeParserDecision.swift */; };
-		3DC0E0E026B7C8DE008E4A67 /* URLServiceRequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0D726B7C8DE008E4A67 /* URLServiceRequestResponse.swift */; };
-		3DC0E0E126B7C8DE008E4A67 /* URLServiceRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E0D826B7C8DE008E4A67 /* URLServiceRouterProtocol.swift */; };
-		3DC0E1C526B8DB46008E4A67 /* URLServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0E1C426B8DB46008E4A67 /* URLServiceError.swift */; };
+		2935D35A9AD3A4A03AA56786 /* Pods_URLServiceRouterDemo_URLServiceRouterDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54DF6070CF8248CF524366E6 /* Pods_URLServiceRouterDemo_URLServiceRouterDemoUITests.framework */; };
+		3D37A3BD26BA6E53003BDFF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A3BC26BA6E53003BDFF8 /* AppDelegate.swift */; };
+		3D37A3C126BA6E53003BDFF8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A3C026BA6E53003BDFF8 /* ViewController.swift */; };
+		3D37A3C426BA6E53003BDFF8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D37A3C226BA6E53003BDFF8 /* Main.storyboard */; };
+		3D37A3C626BA6E54003BDFF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D37A3C526BA6E54003BDFF8 /* Assets.xcassets */; };
+		3D37A3C926BA6E54003BDFF8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D37A3C726BA6E54003BDFF8 /* LaunchScreen.storyboard */; };
+		3D37A3D426BA6E54003BDFF8 /* URLServiceRouterDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A3D326BA6E54003BDFF8 /* URLServiceRouterDemoTests.swift */; };
+		3D37A3DF26BA6E54003BDFF8 /* URLServiceRouterDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A3DE26BA6E54003BDFF8 /* URLServiceRouterDemoUITests.swift */; };
+		3D37A41326BA7096003BDFF8 /* URLServiceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A40926BA7096003BDFF8 /* URLServiceRequest.swift */; };
+		3D37A41426BA7096003BDFF8 /* URLServiceRouterResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A40A26BA7096003BDFF8 /* URLServiceRouterResult.swift */; };
+		3D37A41526BA7096003BDFF8 /* URLServiceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A40B26BA7096003BDFF8 /* URLServiceRouter.swift */; };
+		3D37A41626BA7096003BDFF8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A40C26BA7096003BDFF8 /* Extensions.swift */; };
+		3D37A41726BA7096003BDFF8 /* URLServiceNodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A40D26BA7096003BDFF8 /* URLServiceNodel.swift */; };
+		3D37A41826BA7096003BDFF8 /* URLServiceNodeParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A40E26BA7096003BDFF8 /* URLServiceNodeParser.swift */; };
+		3D37A41926BA7096003BDFF8 /* URLServiceNodeParserDecision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A40F26BA7096003BDFF8 /* URLServiceNodeParserDecision.swift */; };
+		3D37A41A26BA7096003BDFF8 /* URLServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A41026BA7096003BDFF8 /* URLServiceError.swift */; };
+		3D37A41B26BA7096003BDFF8 /* URLServiceRequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A41126BA7096003BDFF8 /* URLServiceRequestResponse.swift */; };
+		3D37A41C26BA7096003BDFF8 /* URLServiceRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A41226BA7096003BDFF8 /* URLServiceRouterProtocol.swift */; };
+		3D37A42226BA70EE003BDFF8 /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A42126BA70EE003BDFF8 /* Demo.swift */; };
+		3D37A43626BA7C49003BDFF8 /* URLServiceUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D37A43526BA7C49003BDFF8 /* URLServiceUnitTest.swift */; };
+		6B1400C68FAB6E6337AEECB4 /* Pods_URLServiceRouterDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 106293F90065BB08B70EE05C /* Pods_URLServiceRouterDemoTests.framework */; };
+		719F0EADCFC2888EDADD83C3 /* Pods_URLServiceRouterDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D151C7B6ECE53DC8C014F61B /* Pods_URLServiceRouterDemo.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3D37A3D026BA6E54003BDFF8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D37A3B126BA6E53003BDFF8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3D37A3B826BA6E53003BDFF8;
+			remoteInfo = URLServiceRouterDemo;
+		};
+		3D37A3DB26BA6E54003BDFF8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D37A3B126BA6E53003BDFF8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3D37A3B826BA6E53003BDFF8;
+			remoteInfo = URLServiceRouterDemo;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		3DBB877B26B94F6B0075BAC3 /* Demo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
-		3DC0E0B326B7C867008E4A67 /* URLServiceRouterDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URLServiceRouterDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3DC0E0B626B7C867008E4A67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3DC0E0B826B7C867008E4A67 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3DC0E0BA26B7C867008E4A67 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		3DC0E0BD26B7C867008E4A67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		3DC0E0BF26B7C869008E4A67 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		3DC0E0C226B7C869008E4A67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		3DC0E0C426B7C869008E4A67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3DC0E0D026B7C8DE008E4A67 /* URLServiceRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRequest.swift; sourceTree = "<group>"; };
-		3DC0E0D126B7C8DE008E4A67 /* URLServiceRouterResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRouterResult.swift; sourceTree = "<group>"; };
-		3DC0E0D226B7C8DE008E4A67 /* URLServiceRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRouter.swift; sourceTree = "<group>"; };
-		3DC0E0D326B7C8DE008E4A67 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		3DC0E0D426B7C8DE008E4A67 /* URLServiceNodel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceNodel.swift; sourceTree = "<group>"; };
-		3DC0E0D526B7C8DE008E4A67 /* URLServiceNodeParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceNodeParser.swift; sourceTree = "<group>"; };
-		3DC0E0D626B7C8DE008E4A67 /* URLServiceNodeParserDecision.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceNodeParserDecision.swift; sourceTree = "<group>"; };
-		3DC0E0D726B7C8DE008E4A67 /* URLServiceRequestResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRequestResponse.swift; sourceTree = "<group>"; };
-		3DC0E0D826B7C8DE008E4A67 /* URLServiceRouterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRouterProtocol.swift; sourceTree = "<group>"; };
-		3DC0E1C426B8DB46008E4A67 /* URLServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLServiceError.swift; sourceTree = "<group>"; };
+		106293F90065BB08B70EE05C /* Pods_URLServiceRouterDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_URLServiceRouterDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D37A3B926BA6E53003BDFF8 /* URLServiceRouterDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URLServiceRouterDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D37A3BC26BA6E53003BDFF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3D37A3C026BA6E53003BDFF8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3D37A3C326BA6E53003BDFF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3D37A3C526BA6E54003BDFF8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3D37A3C826BA6E54003BDFF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3D37A3CA26BA6E54003BDFF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D37A3CF26BA6E54003BDFF8 /* URLServiceRouterDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLServiceRouterDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D37A3D326BA6E54003BDFF8 /* URLServiceRouterDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLServiceRouterDemoTests.swift; sourceTree = "<group>"; };
+		3D37A3D526BA6E54003BDFF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D37A3DA26BA6E54003BDFF8 /* URLServiceRouterDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLServiceRouterDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D37A3DE26BA6E54003BDFF8 /* URLServiceRouterDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLServiceRouterDemoUITests.swift; sourceTree = "<group>"; };
+		3D37A3E026BA6E54003BDFF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D37A40926BA7096003BDFF8 /* URLServiceRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRequest.swift; sourceTree = "<group>"; };
+		3D37A40A26BA7096003BDFF8 /* URLServiceRouterResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRouterResult.swift; sourceTree = "<group>"; };
+		3D37A40B26BA7096003BDFF8 /* URLServiceRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRouter.swift; sourceTree = "<group>"; };
+		3D37A40C26BA7096003BDFF8 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		3D37A40D26BA7096003BDFF8 /* URLServiceNodel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceNodel.swift; sourceTree = "<group>"; };
+		3D37A40E26BA7096003BDFF8 /* URLServiceNodeParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceNodeParser.swift; sourceTree = "<group>"; };
+		3D37A40F26BA7096003BDFF8 /* URLServiceNodeParserDecision.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceNodeParserDecision.swift; sourceTree = "<group>"; };
+		3D37A41026BA7096003BDFF8 /* URLServiceError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceError.swift; sourceTree = "<group>"; };
+		3D37A41126BA7096003BDFF8 /* URLServiceRequestResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRequestResponse.swift; sourceTree = "<group>"; };
+		3D37A41226BA7096003BDFF8 /* URLServiceRouterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRouterProtocol.swift; sourceTree = "<group>"; };
+		3D37A42126BA70EE003BDFF8 /* Demo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
+		3D37A43526BA7C49003BDFF8 /* URLServiceUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = URLServiceUnitTest.swift; path = ../../../../../../Documents/URLServiceUnitTest.swift; sourceTree = "<group>"; };
+		3DFA38C9EC2A9160A6942E76 /* Pods-URLServiceRouterDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URLServiceRouterDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-URLServiceRouterDemoTests/Pods-URLServiceRouterDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		54DF6070CF8248CF524366E6 /* Pods_URLServiceRouterDemo_URLServiceRouterDemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_URLServiceRouterDemo_URLServiceRouterDemoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DB5AF0DCE740F8709B6E93A /* Pods-URLServiceRouterDemo-URLServiceRouterDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URLServiceRouterDemo-URLServiceRouterDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-URLServiceRouterDemo-URLServiceRouterDemoUITests/Pods-URLServiceRouterDemo-URLServiceRouterDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		8F1B3115B57C85E030B861F9 /* Pods-URLServiceRouterDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URLServiceRouterDemo.debug.xcconfig"; path = "Target Support Files/Pods-URLServiceRouterDemo/Pods-URLServiceRouterDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		B0EA47C02E92DECE0FB810C3 /* Pods-URLServiceRouterDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URLServiceRouterDemo.release.xcconfig"; path = "Target Support Files/Pods-URLServiceRouterDemo/Pods-URLServiceRouterDemo.release.xcconfig"; sourceTree = "<group>"; };
+		C1EFE22C3B4B60F14EE96AA3 /* Pods-URLServiceRouterDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URLServiceRouterDemoTests.release.xcconfig"; path = "Target Support Files/Pods-URLServiceRouterDemoTests/Pods-URLServiceRouterDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		D151C7B6ECE53DC8C014F61B /* Pods_URLServiceRouterDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_URLServiceRouterDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E73D9D728C975FABE9613098 /* Pods-URLServiceRouterDemo-URLServiceRouterDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URLServiceRouterDemo-URLServiceRouterDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-URLServiceRouterDemo-URLServiceRouterDemoUITests/Pods-URLServiceRouterDemo-URLServiceRouterDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3DC0E0B026B7C867008E4A67 /* Frameworks */ = {
+		3D37A3B626BA6E53003BDFF8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				719F0EADCFC2888EDADD83C3 /* Pods_URLServiceRouterDemo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D37A3CC26BA6E54003BDFF8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B1400C68FAB6E6337AEECB4 /* Pods_URLServiceRouterDemoTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D37A3D726BA6E54003BDFF8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2935D35A9AD3A4A03AA56786 /* Pods_URLServiceRouterDemo_URLServiceRouterDemoUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3DC0E0AA26B7C867008E4A67 = {
+		11EED6247D81B3F7AC7D8E90 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3DC0E0CE26B7C8DE008E4A67 /* URLServiceRouter */,
-				3DC0E0B526B7C867008E4A67 /* URLServiceRouterDemo */,
-				3DC0E0B426B7C867008E4A67 /* Products */,
+				8F1B3115B57C85E030B861F9 /* Pods-URLServiceRouterDemo.debug.xcconfig */,
+				B0EA47C02E92DECE0FB810C3 /* Pods-URLServiceRouterDemo.release.xcconfig */,
+				8DB5AF0DCE740F8709B6E93A /* Pods-URLServiceRouterDemo-URLServiceRouterDemoUITests.debug.xcconfig */,
+				E73D9D728C975FABE9613098 /* Pods-URLServiceRouterDemo-URLServiceRouterDemoUITests.release.xcconfig */,
+				3DFA38C9EC2A9160A6942E76 /* Pods-URLServiceRouterDemoTests.debug.xcconfig */,
+				C1EFE22C3B4B60F14EE96AA3 /* Pods-URLServiceRouterDemoTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		3D37A3B026BA6E53003BDFF8 = {
+			isa = PBXGroup;
+			children = (
+				3D37A40726BA7096003BDFF8 /* URLServiceRouter */,
+				3D37A3BB26BA6E53003BDFF8 /* URLServiceRouterDemo */,
+				3D37A3D226BA6E54003BDFF8 /* URLServiceRouterDemoTests */,
+				3D37A3DD26BA6E54003BDFF8 /* URLServiceRouterDemoUITests */,
+				3D37A3BA26BA6E53003BDFF8 /* Products */,
+				11EED6247D81B3F7AC7D8E90 /* Pods */,
+				43BB90E66F87A3B3F3F55990 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		3DC0E0B426B7C867008E4A67 /* Products */ = {
+		3D37A3BA26BA6E53003BDFF8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3DC0E0B326B7C867008E4A67 /* URLServiceRouterDemo.app */,
+				3D37A3B926BA6E53003BDFF8 /* URLServiceRouterDemo.app */,
+				3D37A3CF26BA6E54003BDFF8 /* URLServiceRouterDemoTests.xctest */,
+				3D37A3DA26BA6E54003BDFF8 /* URLServiceRouterDemoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3DC0E0B526B7C867008E4A67 /* URLServiceRouterDemo */ = {
+		3D37A3BB26BA6E53003BDFF8 /* URLServiceRouterDemo */ = {
 			isa = PBXGroup;
 			children = (
-				3DC0E0B626B7C867008E4A67 /* AppDelegate.swift */,
-				3DC0E0B826B7C867008E4A67 /* SceneDelegate.swift */,
-				3DC0E0BA26B7C867008E4A67 /* ViewController.swift */,
-				3DBB877B26B94F6B0075BAC3 /* Demo.swift */,
-				3DC0E0BC26B7C867008E4A67 /* Main.storyboard */,
-				3DC0E0BF26B7C869008E4A67 /* Assets.xcassets */,
-				3DC0E0C126B7C869008E4A67 /* LaunchScreen.storyboard */,
-				3DC0E0C426B7C869008E4A67 /* Info.plist */,
+				3D37A3BC26BA6E53003BDFF8 /* AppDelegate.swift */,
+				3D37A3C026BA6E53003BDFF8 /* ViewController.swift */,
+				3D37A42126BA70EE003BDFF8 /* Demo.swift */,
+				3D37A3C226BA6E53003BDFF8 /* Main.storyboard */,
+				3D37A3C526BA6E54003BDFF8 /* Assets.xcassets */,
+				3D37A3C726BA6E54003BDFF8 /* LaunchScreen.storyboard */,
+				3D37A3CA26BA6E54003BDFF8 /* Info.plist */,
 			);
 			path = URLServiceRouterDemo;
 			sourceTree = "<group>";
 		};
-		3DC0E0CE26B7C8DE008E4A67 /* URLServiceRouter */ = {
+		3D37A3D226BA6E54003BDFF8 /* URLServiceRouterDemoTests */ = {
 			isa = PBXGroup;
 			children = (
-				3DC0E0CF26B7C8DE008E4A67 /* URLServiceRouter */,
-				3DC0E0D826B7C8DE008E4A67 /* URLServiceRouterProtocol.swift */,
+				3D37A3D326BA6E54003BDFF8 /* URLServiceRouterDemoTests.swift */,
+				3D37A43526BA7C49003BDFF8 /* URLServiceUnitTest.swift */,
+				3D37A3D526BA6E54003BDFF8 /* Info.plist */,
+			);
+			path = URLServiceRouterDemoTests;
+			sourceTree = "<group>";
+		};
+		3D37A3DD26BA6E54003BDFF8 /* URLServiceRouterDemoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3D37A3DE26BA6E54003BDFF8 /* URLServiceRouterDemoUITests.swift */,
+				3D37A3E026BA6E54003BDFF8 /* Info.plist */,
+			);
+			path = URLServiceRouterDemoUITests;
+			sourceTree = "<group>";
+		};
+		3D37A40726BA7096003BDFF8 /* URLServiceRouter */ = {
+			isa = PBXGroup;
+			children = (
+				3D37A40826BA7096003BDFF8 /* URLServiceRouter */,
+				3D37A41226BA7096003BDFF8 /* URLServiceRouterProtocol.swift */,
 			);
 			name = URLServiceRouter;
 			path = ../URLServiceRouter;
 			sourceTree = "<group>";
 		};
-		3DC0E0CF26B7C8DE008E4A67 /* URLServiceRouter */ = {
+		3D37A40826BA7096003BDFF8 /* URLServiceRouter */ = {
 			isa = PBXGroup;
 			children = (
-				3DC0E0D226B7C8DE008E4A67 /* URLServiceRouter.swift */,
-				3DC0E0D026B7C8DE008E4A67 /* URLServiceRequest.swift */,
-				3DC0E0D126B7C8DE008E4A67 /* URLServiceRouterResult.swift */,
-				3DC0E0D326B7C8DE008E4A67 /* Extensions.swift */,
-				3DC0E0D426B7C8DE008E4A67 /* URLServiceNodel.swift */,
-				3DC0E0D526B7C8DE008E4A67 /* URLServiceNodeParser.swift */,
-				3DC0E0D626B7C8DE008E4A67 /* URLServiceNodeParserDecision.swift */,
-				3DC0E0D726B7C8DE008E4A67 /* URLServiceRequestResponse.swift */,
-				3DC0E1C426B8DB46008E4A67 /* URLServiceError.swift */,
+				3D37A40926BA7096003BDFF8 /* URLServiceRequest.swift */,
+				3D37A40A26BA7096003BDFF8 /* URLServiceRouterResult.swift */,
+				3D37A40B26BA7096003BDFF8 /* URLServiceRouter.swift */,
+				3D37A40C26BA7096003BDFF8 /* Extensions.swift */,
+				3D37A40D26BA7096003BDFF8 /* URLServiceNodel.swift */,
+				3D37A40E26BA7096003BDFF8 /* URLServiceNodeParser.swift */,
+				3D37A40F26BA7096003BDFF8 /* URLServiceNodeParserDecision.swift */,
+				3D37A41026BA7096003BDFF8 /* URLServiceError.swift */,
+				3D37A41126BA7096003BDFF8 /* URLServiceRequestResponse.swift */,
 			);
 			path = URLServiceRouter;
+			sourceTree = "<group>";
+		};
+		43BB90E66F87A3B3F3F55990 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D151C7B6ECE53DC8C014F61B /* Pods_URLServiceRouterDemo.framework */,
+				54DF6070CF8248CF524366E6 /* Pods_URLServiceRouterDemo_URLServiceRouterDemoUITests.framework */,
+				106293F90065BB08B70EE05C /* Pods_URLServiceRouterDemoTests.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3DC0E0B226B7C867008E4A67 /* URLServiceRouterDemo */ = {
+		3D37A3B826BA6E53003BDFF8 /* URLServiceRouterDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3DC0E0C726B7C869008E4A67 /* Build configuration list for PBXNativeTarget "URLServiceRouterDemo" */;
+			buildConfigurationList = 3D37A3E326BA6E54003BDFF8 /* Build configuration list for PBXNativeTarget "URLServiceRouterDemo" */;
 			buildPhases = (
-				3DC0E0AF26B7C867008E4A67 /* Sources */,
-				3DC0E0B026B7C867008E4A67 /* Frameworks */,
-				3DC0E0B126B7C867008E4A67 /* Resources */,
+				3434A6626889A4D6B78A8305 /* [CP] Check Pods Manifest.lock */,
+				3D37A3B526BA6E53003BDFF8 /* Sources */,
+				3D37A3B626BA6E53003BDFF8 /* Frameworks */,
+				3D37A3B726BA6E53003BDFF8 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -134,24 +236,71 @@
 			);
 			name = URLServiceRouterDemo;
 			productName = URLServiceRouterDemo;
-			productReference = 3DC0E0B326B7C867008E4A67 /* URLServiceRouterDemo.app */;
+			productReference = 3D37A3B926BA6E53003BDFF8 /* URLServiceRouterDemo.app */;
 			productType = "com.apple.product-type.application";
+		};
+		3D37A3CE26BA6E54003BDFF8 /* URLServiceRouterDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3D37A3E626BA6E54003BDFF8 /* Build configuration list for PBXNativeTarget "URLServiceRouterDemoTests" */;
+			buildPhases = (
+				6B634FA7B2E6DBEC802FE004 /* [CP] Check Pods Manifest.lock */,
+				3D37A3CB26BA6E54003BDFF8 /* Sources */,
+				3D37A3CC26BA6E54003BDFF8 /* Frameworks */,
+				3D37A3CD26BA6E54003BDFF8 /* Resources */,
+				F4889C354CA910AD4773891F /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3D37A3D126BA6E54003BDFF8 /* PBXTargetDependency */,
+			);
+			name = URLServiceRouterDemoTests;
+			productName = URLServiceRouterDemoTests;
+			productReference = 3D37A3CF26BA6E54003BDFF8 /* URLServiceRouterDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3D37A3D926BA6E54003BDFF8 /* URLServiceRouterDemoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3D37A3E926BA6E54003BDFF8 /* Build configuration list for PBXNativeTarget "URLServiceRouterDemoUITests" */;
+			buildPhases = (
+				C96F3AE07B065CE489CF21ED /* [CP] Check Pods Manifest.lock */,
+				3D37A3D626BA6E54003BDFF8 /* Sources */,
+				3D37A3D726BA6E54003BDFF8 /* Frameworks */,
+				3D37A3D826BA6E54003BDFF8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3D37A3DC26BA6E54003BDFF8 /* PBXTargetDependency */,
+			);
+			name = URLServiceRouterDemoUITests;
+			productName = URLServiceRouterDemoUITests;
+			productReference = 3D37A3DA26BA6E54003BDFF8 /* URLServiceRouterDemoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		3DC0E0AB26B7C867008E4A67 /* Project object */ = {
+		3D37A3B126BA6E53003BDFF8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
-					3DC0E0B226B7C867008E4A67 = {
+					3D37A3B826BA6E53003BDFF8 = {
 						CreatedOnToolsVersion = 12.4;
+					};
+					3D37A3CE26BA6E54003BDFF8 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 3D37A3B826BA6E53003BDFF8;
+					};
+					3D37A3D926BA6E54003BDFF8 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 3D37A3B826BA6E53003BDFF8;
 					};
 				};
 			};
-			buildConfigurationList = 3DC0E0AE26B7C867008E4A67 /* Build configuration list for PBXProject "URLServiceRouterDemo" */;
+			buildConfigurationList = 3D37A3B426BA6E53003BDFF8 /* Build configuration list for PBXProject "URLServiceRouterDemo" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -159,66 +308,197 @@
 				en,
 				Base,
 			);
-			mainGroup = 3DC0E0AA26B7C867008E4A67;
-			productRefGroup = 3DC0E0B426B7C867008E4A67 /* Products */;
+			mainGroup = 3D37A3B026BA6E53003BDFF8;
+			productRefGroup = 3D37A3BA26BA6E53003BDFF8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3DC0E0B226B7C867008E4A67 /* URLServiceRouterDemo */,
+				3D37A3B826BA6E53003BDFF8 /* URLServiceRouterDemo */,
+				3D37A3CE26BA6E54003BDFF8 /* URLServiceRouterDemoTests */,
+				3D37A3D926BA6E54003BDFF8 /* URLServiceRouterDemoUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		3DC0E0B126B7C867008E4A67 /* Resources */ = {
+		3D37A3B726BA6E53003BDFF8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3DC0E0C326B7C869008E4A67 /* LaunchScreen.storyboard in Resources */,
-				3DC0E0C026B7C869008E4A67 /* Assets.xcassets in Resources */,
-				3DC0E0BE26B7C867008E4A67 /* Main.storyboard in Resources */,
+				3D37A3C926BA6E54003BDFF8 /* LaunchScreen.storyboard in Resources */,
+				3D37A3C626BA6E54003BDFF8 /* Assets.xcassets in Resources */,
+				3D37A3C426BA6E53003BDFF8 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D37A3CD26BA6E54003BDFF8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D37A3D826BA6E54003BDFF8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3434A6626889A4D6B78A8305 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-URLServiceRouterDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6B634FA7B2E6DBEC802FE004 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-URLServiceRouterDemoTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C96F3AE07B065CE489CF21ED /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-URLServiceRouterDemo-URLServiceRouterDemoUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F4889C354CA910AD4773891F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-URLServiceRouterDemoTests/Pods-URLServiceRouterDemoTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-URLServiceRouterDemoTests/Pods-URLServiceRouterDemoTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-URLServiceRouterDemoTests/Pods-URLServiceRouterDemoTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		3DC0E0AF26B7C867008E4A67 /* Sources */ = {
+		3D37A3B526BA6E53003BDFF8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3DC0E0DA26B7C8DE008E4A67 /* URLServiceRouterResult.swift in Sources */,
-				3DC0E0BB26B7C867008E4A67 /* ViewController.swift in Sources */,
-				3DC0E0B726B7C867008E4A67 /* AppDelegate.swift in Sources */,
-				3DC0E0B926B7C867008E4A67 /* SceneDelegate.swift in Sources */,
-				3DC0E0DE26B7C8DE008E4A67 /* URLServiceNodeParser.swift in Sources */,
-				3DC0E0DB26B7C8DE008E4A67 /* URLServiceRouter.swift in Sources */,
-				3DC0E0D926B7C8DE008E4A67 /* URLServiceRequest.swift in Sources */,
-				3DC0E0DD26B7C8DE008E4A67 /* URLServiceNodel.swift in Sources */,
-				3DC0E0E126B7C8DE008E4A67 /* URLServiceRouterProtocol.swift in Sources */,
-				3DC0E0DF26B7C8DE008E4A67 /* URLServiceNodeParserDecision.swift in Sources */,
-				3DBB877C26B94F6B0075BAC3 /* Demo.swift in Sources */,
-				3DC0E0E026B7C8DE008E4A67 /* URLServiceRequestResponse.swift in Sources */,
-				3DC0E0DC26B7C8DE008E4A67 /* Extensions.swift in Sources */,
-				3DC0E1C526B8DB46008E4A67 /* URLServiceError.swift in Sources */,
+				3D37A41426BA7096003BDFF8 /* URLServiceRouterResult.swift in Sources */,
+				3D37A3C126BA6E53003BDFF8 /* ViewController.swift in Sources */,
+				3D37A41B26BA7096003BDFF8 /* URLServiceRequestResponse.swift in Sources */,
+				3D37A41C26BA7096003BDFF8 /* URLServiceRouterProtocol.swift in Sources */,
+				3D37A42226BA70EE003BDFF8 /* Demo.swift in Sources */,
+				3D37A3BD26BA6E53003BDFF8 /* AppDelegate.swift in Sources */,
+				3D37A41A26BA7096003BDFF8 /* URLServiceError.swift in Sources */,
+				3D37A41826BA7096003BDFF8 /* URLServiceNodeParser.swift in Sources */,
+				3D37A41526BA7096003BDFF8 /* URLServiceRouter.swift in Sources */,
+				3D37A41326BA7096003BDFF8 /* URLServiceRequest.swift in Sources */,
+				3D37A41726BA7096003BDFF8 /* URLServiceNodel.swift in Sources */,
+				3D37A41926BA7096003BDFF8 /* URLServiceNodeParserDecision.swift in Sources */,
+				3D37A41626BA7096003BDFF8 /* Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D37A3CB26BA6E54003BDFF8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D37A3D426BA6E54003BDFF8 /* URLServiceRouterDemoTests.swift in Sources */,
+				3D37A43626BA7C49003BDFF8 /* URLServiceUnitTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D37A3D626BA6E54003BDFF8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D37A3DF26BA6E54003BDFF8 /* URLServiceRouterDemoUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3D37A3D126BA6E54003BDFF8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3D37A3B826BA6E53003BDFF8 /* URLServiceRouterDemo */;
+			targetProxy = 3D37A3D026BA6E54003BDFF8 /* PBXContainerItemProxy */;
+		};
+		3D37A3DC26BA6E54003BDFF8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3D37A3B826BA6E53003BDFF8 /* URLServiceRouterDemo */;
+			targetProxy = 3D37A3DB26BA6E54003BDFF8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
-		3DC0E0BC26B7C867008E4A67 /* Main.storyboard */ = {
+		3D37A3C226BA6E53003BDFF8 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				3DC0E0BD26B7C867008E4A67 /* Base */,
+				3D37A3C326BA6E53003BDFF8 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		3DC0E0C126B7C869008E4A67 /* LaunchScreen.storyboard */ = {
+		3D37A3C726BA6E54003BDFF8 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				3DC0E0C226B7C869008E4A67 /* Base */,
+				3D37A3C826BA6E54003BDFF8 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -226,7 +506,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		3DC0E0C526B7C869008E4A67 /* Debug */ = {
+		3D37A3E126BA6E54003BDFF8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -287,7 +567,7 @@
 			};
 			name = Debug;
 		};
-		3DC0E0C626B7C869008E4A67 /* Release */ = {
+		3D37A3E226BA6E54003BDFF8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -342,14 +622,15 @@
 			};
 			name = Release;
 		};
-		3DC0E0C826B7C869008E4A67 /* Debug */ = {
+		3D37A3E426BA6E54003BDFF8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F1B3115B57C85E030B861F9 /* Pods-URLServiceRouterDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = URLServiceRouterDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -361,14 +642,15 @@
 			};
 			name = Debug;
 		};
-		3DC0E0C926B7C869008E4A67 /* Release */ = {
+		3D37A3E526BA6E54003BDFF8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B0EA47C02E92DECE0FB810C3 /* Pods-URLServiceRouterDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = URLServiceRouterDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -380,28 +662,130 @@
 			};
 			name = Release;
 		};
+		3D37A3E726BA6E54003BDFF8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3DFA38C9EC2A9160A6942E76 /* Pods-URLServiceRouterDemoTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = URLServiceRouterDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = huanyu.li.URLServiceRouterDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/URLServiceRouterDemo.app/URLServiceRouterDemo";
+			};
+			name = Debug;
+		};
+		3D37A3E826BA6E54003BDFF8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C1EFE22C3B4B60F14EE96AA3 /* Pods-URLServiceRouterDemoTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = URLServiceRouterDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = huanyu.li.URLServiceRouterDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/URLServiceRouterDemo.app/URLServiceRouterDemo";
+			};
+			name = Release;
+		};
+		3D37A3EA26BA6E54003BDFF8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8DB5AF0DCE740F8709B6E93A /* Pods-URLServiceRouterDemo-URLServiceRouterDemoUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = URLServiceRouterDemoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = huanyu.li.URLServiceRouterDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = URLServiceRouterDemo;
+			};
+			name = Debug;
+		};
+		3D37A3EB26BA6E54003BDFF8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E73D9D728C975FABE9613098 /* Pods-URLServiceRouterDemo-URLServiceRouterDemoUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = URLServiceRouterDemoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = huanyu.li.URLServiceRouterDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = URLServiceRouterDemo;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3DC0E0AE26B7C867008E4A67 /* Build configuration list for PBXProject "URLServiceRouterDemo" */ = {
+		3D37A3B426BA6E53003BDFF8 /* Build configuration list for PBXProject "URLServiceRouterDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3DC0E0C526B7C869008E4A67 /* Debug */,
-				3DC0E0C626B7C869008E4A67 /* Release */,
+				3D37A3E126BA6E54003BDFF8 /* Debug */,
+				3D37A3E226BA6E54003BDFF8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3DC0E0C726B7C869008E4A67 /* Build configuration list for PBXNativeTarget "URLServiceRouterDemo" */ = {
+		3D37A3E326BA6E54003BDFF8 /* Build configuration list for PBXNativeTarget "URLServiceRouterDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3DC0E0C826B7C869008E4A67 /* Debug */,
-				3DC0E0C926B7C869008E4A67 /* Release */,
+				3D37A3E426BA6E54003BDFF8 /* Debug */,
+				3D37A3E526BA6E54003BDFF8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3D37A3E626BA6E54003BDFF8 /* Build configuration list for PBXNativeTarget "URLServiceRouterDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3D37A3E726BA6E54003BDFF8 /* Debug */,
+				3D37A3E826BA6E54003BDFF8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3D37A3E926BA6E54003BDFF8 /* Build configuration list for PBXNativeTarget "URLServiceRouterDemoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3D37A3EA26BA6E54003BDFF8 /* Debug */,
+				3D37A3EB26BA6E54003BDFF8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 3DC0E0AB26B7C867008E4A67 /* Project object */;
+	rootObject = 3D37A3B126BA6E53003BDFF8 /* Project object */;
 }
