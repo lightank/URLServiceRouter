@@ -86,7 +86,8 @@ class URLServiceRouterDelegate: URLServiceRouterDelegateProtocol {
     func shouldRouter(request: URLServiceRequestProtocol) -> Bool {
         return true
     }
-    func dynamicProcessingRouterResult(service: URLServiceProtocol) -> URLServiceProtocol? {
+    
+    func dynamicProcessingRouterResult(request: URLServiceRequestProtocol, service: URLServiceProtocol?) -> URLServiceProtocol? {
         return service
     }
     

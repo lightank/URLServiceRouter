@@ -26,21 +26,39 @@ class URLServiceRouter: URLServiceRouterProtocol {
     
     func router(request: URLServiceRequestProtocol) {
         queue.sync(flags:.barrier) { [self] in
-            logInfo("URLServiceRouter start router \nrequest: \(request.description)")
-            rootNode.router(request: request, result: URLServiceRouterResult(completion: { (routerResult) in
-                var error: URLServiceErrorProtocol? = nil
-                if let serviceName = routerResult.responseServiceName, let service = self.servicesMap[serviceName] {
-                    error = service.meetTheExecutionConditions()
-                    request.completion(response: URLServiceRequestResponse(service: service, error: error))
+            var shoudshouldRouter = true
+            if let newDelegate = delegate {
+                shoudshouldRouter = newDelegate.shouldRouter(request: request)
+            }
+            
+            if shoudshouldRouter == true {
+                logInfo("URLServiceRouter start router \nrequest: \(request.description)")
+                rootNode.router(request: request, result: URLServiceRouterResult(completion: { (routerResult) in
+                    var error: URLServiceErrorProtocol?
+                    var responseService: URLServiceProtocol?
+                    if let serviceName = routerResult.responseServiceName, let service = self.servicesMap[serviceName] {
+                        responseService = service
+                        if let newDelegate = delegate {
+                            responseService = newDelegate.dynamicProcessingRouterResult(request: request, service: service)
+                        }
+                        if let newResponseService = responseService {
+                            error = newResponseService.meetTheExecutionConditions()
+                        }
+                        request.completion(response: URLServiceRequestResponse(service: responseService, error: error))
+                    } else {
+                        let responseService = delegate?.dynamicProcessingRouterResult(request: request, service: nil)
+                        error = URLServiceErrorNotFound
+                        if let newResponseService = responseService {
+                            error = newResponseService.meetTheExecutionConditions()
+                        }
+                        request.completion(response: URLServiceRequestResponse(service: responseService, error: error))
+                    }
                     
-                    self.logInfo("URLServiceRouter end router \nrequest: \(request.description), \nservice:\(String(describing: service.name)) \nerrorCode:\(String(describing: error?.code)) \nerrorMessage:\(String(describing: error?.content))")
-                } else {
-                    error = URLServiceErrorNotFound
-                    request.completion(response: URLServiceRequestResponse(service: nil, error: error))
-                    
-                    self.logInfo("URLServiceRouter end router \nrequest: \(request.description), \nerrorCode:\(String(describing: error?.code)) \nerrorMessage:\(String(describing: error?.content))")
-                }
-            }))
+                    self.logInfo("URLServiceRouter end router \nrequest: \(request.description), \nservice:\(String(describing: responseService?.name)) \nerrorCode:\(String(describing: error?.code)) \nerrorMessage:\(String(describing: error?.content))")
+                }))
+            } else {
+                logInfo("URLServiceRouter request: \(request.description) is refused by \(String(describing: delegate))")
+            }
         }
     }
     

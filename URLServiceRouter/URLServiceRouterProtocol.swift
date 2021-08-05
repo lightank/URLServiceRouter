@@ -16,7 +16,7 @@ public protocol URLServiceRouterDelegateProtocol {
     func currentViewController() -> UIViewController?
     func currentNavigationController() -> UINavigationController?
     func shouldRouter(request: URLServiceRequestProtocol) -> Bool
-    func dynamicProcessingRouterResult(service: URLServiceProtocol) -> URLServiceProtocol?
+    func dynamicProcessingRouterResult(request: URLServiceRequestProtocol, service: URLServiceProtocol?) -> URLServiceProtocol?
     func logError(_ message: String) -> Void
     func logInfo(_ message: String) -> Void
 }
