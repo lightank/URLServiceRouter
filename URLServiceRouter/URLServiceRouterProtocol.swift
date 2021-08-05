@@ -9,13 +9,14 @@
 import Foundation
 import UIKit
 
-public let URLServiceRequestProtocolParameterURLKey = "URLServiceRequestProtocolParameterURLKey"
+public let URLServiceRequestOriginalURLKey = "origin_request_url"
+public let URLServiceNodeParserPriorityDefault = 100
 
 public protocol URLServiceRouterDelegateProtocol {
     func configRootNode(_ rootNode: URLServiceNodeProtocol) -> Void
     func currentViewController() -> UIViewController?
     func currentNavigationController() -> UINavigationController?
-    func shouldRouter(request: URLServiceRequestProtocol) -> Bool
+    func shouldRouter(request: URLServiceRequestProtocol) -> URLServiceRequestProtocol?
     func dynamicProcessingRouterResult(request: URLServiceRequestProtocol, service: URLServiceProtocol?) -> URLServiceProtocol?
     func logError(_ message: String) -> Void
     func logInfo(_ message: String) -> Void
@@ -28,7 +29,7 @@ public protocol URLServiceRouterProtocol {
     func router(request: URLServiceRequestProtocol) -> Void
     func registerNode(from url: String, completion: @escaping (URLServiceNodeProtocol) -> Void)
     func register(service: URLServiceProtocol) -> Void
-    func searchService(name: String, params: Any?) -> URLServiceProtocol?
+    func isServiceValid(with name: String) -> Bool
     func callService(name: String, params: Any?, completion: ((URLServiceProtocol?, URLServiceErrorProtocol?) -> Void)?, callback: URLServiceExecutionCallback?) -> Void
     
     func allRegistedUrls() -> [String]
@@ -82,8 +83,6 @@ public enum URLServiceNodeParserType: String {
     case pre = "pre"
     case post = "post"
 }
-
-public let URLServiceNodeParserPriorityDefault = 100
 
 public protocol URLServiceNodeParserProtocol {
     var priority: Int { get }

@@ -26,12 +26,12 @@ class URLServiceRouter: URLServiceRouterProtocol {
     
     func router(request: URLServiceRequestProtocol) {
         queue.sync(flags:.barrier) { [self] in
-            var shoudshouldRouter = true
+            var newRequest: URLServiceRequestProtocol?
             if let newDelegate = delegate {
-                shoudshouldRouter = newDelegate.shouldRouter(request: request)
+                newRequest = newDelegate.shouldRouter(request: request)
             }
             
-            if shoudshouldRouter == true {
+            if let request = newRequest {
                 logInfo("URLServiceRouter start router \nrequest: \(request.description)")
                 rootNode.router(request: request, result: URLServiceRouterResult(completion: { (routerResult) in
                     var error: URLServiceErrorProtocol?
@@ -41,19 +41,16 @@ class URLServiceRouter: URLServiceRouterProtocol {
                         if let newDelegate = delegate {
                             responseService = newDelegate.dynamicProcessingRouterResult(request: request, service: service)
                         }
-                        if let newResponseService = responseService {
-                            error = newResponseService.meetTheExecutionConditions()
-                        }
-                        request.completion(response: URLServiceRequestResponse(service: responseService, error: error))
                     } else {
-                        let responseService = delegate?.dynamicProcessingRouterResult(request: request, service: nil)
+                        responseService = delegate?.dynamicProcessingRouterResult(request: request, service: nil)
                         error = URLServiceErrorNotFound
-                        if let newResponseService = responseService {
-                            error = newResponseService.meetTheExecutionConditions()
-                        }
-                        request.completion(response: URLServiceRequestResponse(service: responseService, error: error))
                     }
                     
+                    if let newResponseService = responseService {
+                        error = newResponseService.meetTheExecutionConditions()
+                    }
+                    
+                    request.completion(response: URLServiceRequestResponse(service: responseService, error: error))
                     self.logInfo("URLServiceRouter end router \nrequest: \(request.description), \nservice:\(String(describing: responseService?.name)) \nerrorCode:\(String(describing: error?.code)) \nerrorMessage:\(String(describing: error?.content))")
                 }))
             } else {
@@ -123,10 +120,15 @@ class URLServiceRouter: URLServiceRouterProtocol {
         return service.meetTheExecutionConditions()
     }
     
-    func searchService(name: String, params: Any? = nil) -> URLServiceProtocol? {
+    private func searchService(name: String, params: Any? = nil) -> URLServiceProtocol? {
         let resultService = servicesMap[name]
         resultService?.setParams(params)
         return resultService
+    }
+    
+    func isServiceValid(with name: String) -> Bool {
+        let resultService = servicesMap[name]
+        return resultService != nil
     }
     
     func callService(name: String, params: Any? = nil, completion: ((URLServiceProtocol?, URLServiceErrorProtocol?) -> Void)?, callback: URLServiceExecutionCallback?) -> Void {

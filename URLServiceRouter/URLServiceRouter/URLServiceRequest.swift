@@ -25,7 +25,7 @@ class URLServiceRequest: URLServiceRequestProtocol {
         self.nodeNames = url.nodeNames
         self.params = url.nodeQueryItems
         self.params.merge(params) {(current, _) in current}
-        self.params[URLServiceRequestProtocolParameterURLKey] = url.absoluteURL
+        self.params[URLServiceRequestOriginalURLKey] = url.absoluteURL
     }
     
     func requestParams() -> Any? {
@@ -41,7 +41,7 @@ class URLServiceRequest: URLServiceRequestProtocol {
             }
             
             let _ = serviceRouter.callService(name: service.name, params: requestParams(), completion: nil, callback: serviceCallback)
-        } else {
+        } else { 
             if let newFailure = failure {
                 newFailure(self)
                 failure = nil
