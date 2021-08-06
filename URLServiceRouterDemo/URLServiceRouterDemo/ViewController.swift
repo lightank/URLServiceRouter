@@ -27,7 +27,10 @@ class ViewController: UIViewController {
         } callback: { (result) in
             
         }
-
+        
+        URLServiceRouter.share.unitTestRequest(url: "http://china.realword.io/owner/1/info") { (request, routerResult) in
+            
+        }
     }
 }
 

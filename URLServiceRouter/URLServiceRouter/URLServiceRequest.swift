@@ -8,6 +8,16 @@
 
 import Foundation
 
+func MainThreadExecute(_ block: @escaping () -> Void) -> Void {
+    if Thread.isMainThread {
+        block()
+    } else {
+        DispatchQueue.main.async {
+            block()
+        }
+    }
+}
+
 class URLServiceRequest: URLServiceRequestProtocol {
     public private(set) var url: URL
     let serviceRouter: URLServiceRouterProtocol
@@ -33,18 +43,20 @@ class URLServiceRequest: URLServiceRequestProtocol {
     }
     
     func completion(response: URLServiceRequestResponseProtocol) {
-        self.response = response
-        if let service = response.service {
-            if let newSuccess = success {
-                newSuccess(self)
-                success = nil
-            }
-            
-            let _ = serviceRouter.callService(name: service.name, params: requestParams(), completion: nil, callback: serviceCallback)
-        } else { 
-            if let newFailure = failure {
-                newFailure(self)
-                failure = nil
+        MainThreadExecute { [self] in
+            self.response = response
+            if let service = response.service {
+                if let newSuccess = success {
+                    newSuccess(self)
+                    success = nil
+                }
+                
+                let _ = serviceRouter.callService(name: service.name, params: requestParams(), completion: nil, callback: serviceCallback)
+            } else {
+                if let newFailure = failure {
+                    newFailure(self)
+                    failure = nil
+                }
             }
         }
     }

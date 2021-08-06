@@ -38,7 +38,7 @@ public protocol URLServiceRouterProtocol {
     func logInfo(_ message: String) -> Void
     func logError(_ message: String) -> Void
     
-    func unitTest(url: String, completion: @escaping ((URLServiceProtocol?, Any?) -> Void)) -> Void
+    func unitTestRequest(url: String, shouldDelegateProcessingRouterResult: Bool, completion: @escaping ((URLServiceRequestProtocol, URLServiceRouterResultProtocol) -> Void)) -> Void
 }
 
 public protocol URLServiceRouterResultProtocol {

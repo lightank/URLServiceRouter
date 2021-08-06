@@ -13,7 +13,7 @@ class URLServiceRouter: URLServiceRouterProtocol {
     let rootNode = URServiceNode(name: "root node", nodeType: .root, parentNode: nil)
     var servicesMap = [String: URLServiceProtocol]()
     var nodesMap = [String: URLServiceNodeProtocol]()
-    let queue = DispatchQueue(label: "com.huanyu.URLServiceRouter.queue", attributes: .concurrent)
+    let queue = DispatchQueue(label: "com.URLServiceRouter.queue", attributes: .concurrent)
     
     public static let share: URLServiceRouter = {
         return URLServiceRouter()
@@ -59,23 +59,24 @@ class URLServiceRouter: URLServiceRouterProtocol {
         }
     }
     
-    func unitTest(url: String, completion: @escaping ((URLServiceProtocol?, Any?) -> Void))  -> Void {
+    func unitTestRequest(url: String, shouldDelegateProcessingRouterResult: Bool = false, completion: @escaping ((URLServiceRequestProtocol, URLServiceRouterResultProtocol) -> Void)) -> Void {
+        assert(URL(string: url) != nil, "unitTest request url:\(url) is inviald")
         if let newUrl = URL(string: url) {
             let request = URLServiceRequest(url: newUrl)
-            logInfo( "URLServiceRouter start unitTest: \request: \(request.description)")
-            rootNode.router(request: request, result: URLServiceRouterResult(completion: { (routerResult) in
-                if let serviceName = routerResult.responseServiceName, let service = self.servicesMap[serviceName] {
-                    completion(service, request.requestParams())
-                    
-                    self.logInfo( "URLServiceRouter end unitTest: \nrequest: \(request.description), \nservice: \(serviceName)")
+            logInfo( "URLServiceRouter start unitTest: \nrequest: \(request.description)")
+            rootNode.router(request: request, result: URLServiceRouterResult(completion: {[self] (routerResult) in
+                if shouldDelegateProcessingRouterResult == true, let newDelegate = delegate {
+                    var resultService: URLServiceProtocol?
+                    if let serviceName = routerResult.responseServiceName, let service = servicesMap[serviceName] {
+                        resultService = service
+                    }
+                    resultService = newDelegate.dynamicProcessingRouterResult(request: request, service: resultService)
+                    let newRouterResult = URLServiceRouterResult(endNode: routerResult.endNode, responseNode: routerResult.responseNode, responseServiceName: routerResult.responseServiceName) { (result) in}
+                    completion(request, newRouterResult)
                 } else {
-                    completion(nil, request.requestParams())
-                    
-                    self.logInfo( "URLServiceRouter end unitTest: \nrequest: \(request.description), \n not found service:")
+                    completion(request, routerResult)
                 }
             }))
-        } else {
-            completion(nil, nil)
         }
     }
     

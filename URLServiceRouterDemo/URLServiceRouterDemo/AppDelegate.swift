@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         URLServiceRouter.share.config(delegate: URLServiceRouterDelegate())
         URLServiceRouter.share.register(service: URLOwnerInfoService())
         URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/info") { (node) in
-            node.registe(parser: URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
+            node.registe(parser: URLServiceNoramlParser(parserType: .post, parseBlock: { (nodeParser, request, currentNode, decision) in
                 decision.complete("user://info")
             }))
         }
