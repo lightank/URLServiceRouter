@@ -20,12 +20,14 @@ class URLServiceRouter: URLServiceRouterProtocol {
     }()
     
     func config(delegate: URLServiceRouterDelegateProtocol) -> Void {
-        self.delegate = delegate
-        delegate.configRootNode(rootNode)
+        queue.sync(flags:.barrier) { [self] in
+            self.delegate = delegate
+            delegate.configRootNode(rootNode)
+        }
     }
     
     func router(request: URLServiceRequestProtocol) {
-        queue.sync(flags:.barrier) { [self] in
+        queue.sync { [self] in
             var newRequest: URLServiceRequestProtocol?
             if let newDelegate = delegate {
                 newRequest = newDelegate.shouldRouter(request: request)
@@ -60,23 +62,25 @@ class URLServiceRouter: URLServiceRouterProtocol {
     }
     
     func unitTestRequest(url: String, shouldDelegateProcessingRouterResult: Bool = false, completion: @escaping ((URLServiceRequestProtocol, URLServiceRouterResultProtocol) -> Void)) -> Void {
-        assert(URL(string: url) != nil, "unitTest request url:\(url) is inviald")
-        if let newUrl = URL(string: url) {
-            let request = URLServiceRequest(url: newUrl)
-            logInfo( "URLServiceRouter start unitTest: \nrequest: \(request.description)")
-            rootNode.router(request: request, result: URLServiceRouterResult(completion: {[self] (routerResult) in
-                if shouldDelegateProcessingRouterResult == true, let newDelegate = delegate {
-                    var resultService: URLServiceProtocol?
-                    if let serviceName = routerResult.responseServiceName, let service = servicesMap[serviceName] {
-                        resultService = service
+        queue.sync { [self] in
+            assert(URL(string: url) != nil, "unitTest request url:\(url) is inviald")
+            if let newUrl = URL(string: url) {
+                let request = URLServiceRequest(url: newUrl)
+                logInfo( "URLServiceRouter start unitTest: \nrequest: \(request.description)")
+                rootNode.router(request: request, result: URLServiceRouterResult(completion: {[self] (routerResult) in
+                    if shouldDelegateProcessingRouterResult == true, let newDelegate = delegate {
+                        var resultService: URLServiceProtocol?
+                        if let serviceName = routerResult.responseServiceName, let service = servicesMap[serviceName] {
+                            resultService = service
+                        }
+                        resultService = newDelegate.dynamicProcessingRouterResult(request: request, service: resultService)
+                        let newRouterResult = URLServiceRouterResult(endNode: routerResult.endNode, responseNode: routerResult.responseNode, responseServiceName: routerResult.responseServiceName) { (result) in}
+                        completion(request, newRouterResult)
+                    } else {
+                        completion(request, routerResult)
                     }
-                    resultService = newDelegate.dynamicProcessingRouterResult(request: request, service: resultService)
-                    let newRouterResult = URLServiceRouterResult(endNode: routerResult.endNode, responseNode: routerResult.responseNode, responseServiceName: routerResult.responseServiceName) { (result) in}
-                    completion(request, newRouterResult)
-                } else {
-                    completion(request, routerResult)
-                }
-            }))
+                }))
+            }
         }
     }
     
@@ -117,8 +121,10 @@ class URLServiceRouter: URLServiceRouterProtocol {
     }
     
     private func callService(_ service: URLServiceProtocol, callback: URLServiceExecutionCallback? = nil) -> URLServiceErrorProtocol? {
-        service.execute(callback: callback)
-        return service.meetTheExecutionConditions()
+        queue.sync {
+            service.execute(callback: callback)
+            return service.meetTheExecutionConditions()
+        }
     }
     
     private func searchService(name: String, params: Any? = nil) -> URLServiceProtocol? {
@@ -151,11 +157,15 @@ class URLServiceRouter: URLServiceRouterProtocol {
         delegate?.logError(message)
     }
     
-    public func allRegistedUrls() -> [String] {
-        return nodesMap.keys.sorted { $0 < $1 }
+    public func allRegistedNodeUrls() -> [String] {
+        queue.sync {
+            return nodesMap.keys.sorted { $0 < $1 }
+        }
     }
     
-    public func allRegistedServices() -> [String] {
-        return servicesMap.keys.sorted { $0 < $1 }
+    public func allRegistedServiceNames() -> [String] {
+        queue.sync {
+            return servicesMap.keys.sorted { $0 < $1 }
+        }
     }
 }

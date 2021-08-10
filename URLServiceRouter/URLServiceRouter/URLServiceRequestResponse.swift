@@ -11,6 +11,7 @@ import Foundation
 class URLServiceRequestResponse: URLServiceRequestResponseProtocol {
     public private(set) var service: URLServiceProtocol?
     public private(set) var error: URLServiceErrorProtocol?
+    var data: Any?
     
     init(service: URLServiceProtocol?, error: URLServiceErrorProtocol?) {
         self.service = service

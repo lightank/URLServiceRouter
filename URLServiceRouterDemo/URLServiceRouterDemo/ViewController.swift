@@ -13,23 +13,19 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         if let url = URL(string: "http://china.realword.io/owner/1/info") {
-            URLServiceRequest(url: url).start { (request) in
-                
-            } failure: { (request) in
-                
-            } serviceCallback: { (result) in
-                URLServiceRouter.share.logInfo("\(String(describing: result))")
-            }
+            URLServiceRequest(url: url).start(callback: { (request) in
+                URLServiceRouter.share.logInfo("\(String(describing: request.response?.data))")
+            })
         }
         
         URLServiceRouter.share.callService(name: "user://info", params: "1") { (service, error) in
             
         } callback: { (result) in
-            
+            URLServiceRouter.share.logInfo("\(String(describing: result))")
         }
         
         URLServiceRouter.share.unitTestRequest(url: "http://china.realword.io/owner/1/info") { (request, routerResult) in
-            
+            URLServiceRouter.share.logInfo("\(String(describing: request.response?.data))")
         }
     }
 }
