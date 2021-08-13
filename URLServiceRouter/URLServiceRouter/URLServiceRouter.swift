@@ -10,7 +10,7 @@ import Foundation
 
 class URLServiceRouter: URLServiceRouterProtocol {
     public private(set) var delegate: URLServiceRouterDelegateProtocol?
-    let rootNode = URServiceNode(name: "root node", nodeType: .root, parentNode: nil)
+    let rootNode = URServiceNode(name: "root node", parentNode: nil)
     var servicesMap = [String: URLServiceProtocol]()
     var nodesMap = [String: URLServiceNodeProtocol]()
     let queue = DispatchQueue(label: "com.URLServiceRouter.queue", attributes: .concurrent)
@@ -20,9 +20,11 @@ class URLServiceRouter: URLServiceRouterProtocol {
     }()
     
     func config(delegate: URLServiceRouterDelegateProtocol) -> Void {
-        queue.sync(flags:.barrier) { [self] in
+        queue.sync { [self] in
             self.delegate = delegate
-            delegate.configRootNode(rootNode)
+            if let parsers = delegate.rootNodeParsers() {
+                parsers.forEach { rootNode.registe(parser: $0) }
+            }
         }
     }
     
@@ -84,31 +86,19 @@ class URLServiceRouter: URLServiceRouterProtocol {
         }
     }
     
-    func registerNode(from url: String, completion: @escaping (URLServiceNodeProtocol) -> Void) {
+    func registerNode(from url: String, parsers: [URLServiceNodeParserProtocol]? = nil) {
         queue.sync(flags:.barrier) { [self] in
             if let newUrl = URL(string: url)?.nodeUrl {
                 let nodeUrlKey = newUrl.absoluteString
                 assert(nodesMap[nodeUrlKey] == nil, "url: \(url) already registed")
                 
                 var currentNode:URLServiceNodeProtocol = rootNode;
-                if let scheme = newUrl.scheme {
-                    currentNode = currentNode.registeSubNode(with: scheme, type: .scheme)
-                }
-                if let host = newUrl.host {
-                    currentNode = currentNode.registeSubNode(with: host, type: .host)
-                }
-                
-                var paths = newUrl.pathComponents
-                if paths.count > 0 && paths.first == "/" {
-                    paths.remove(at: 0)
-                }
-                if !paths.isEmpty {
-                    paths.forEach { (name) in
-                        currentNode = currentNode.registeSubNode(with: name, type: .path)
-                    }
-                }
+                let paths = newUrl.nodeNames
+                paths.forEach { currentNode = currentNode.registeSubNode(with: $0) }
                 nodesMap[nodeUrlKey] = currentNode
-                completion(currentNode)
+                if let newParsers = parsers {
+                    newParsers.forEach { currentNode.registe(parser: $0) }
+                }
             }
         }
     }

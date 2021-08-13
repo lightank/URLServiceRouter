@@ -35,7 +35,7 @@ class URLServiceRequest: URLServiceRequestProtocol {
         self.serviceRouter = serviceRouter
         self.nodeNames = url.nodeNames
         self.params = url.nodeQueryItems
-        self.params.merge(params) {(current, _) in current}
+        self.params.merge(params) {(_, new) in new}
         self.params[URLServiceRequestOriginalURLKey] = url.absoluteURL
     }
     
@@ -69,7 +69,7 @@ class URLServiceRequest: URLServiceRequestProtocol {
     }
     
     func reduceOneNodeName(from node: URLServiceNodeProtocol) -> Void {
-        if node.nodeType != .root {
+        if node.parentNode != nil {
             nodeNames.remove(at: 0)
         }
     }
@@ -94,7 +94,7 @@ class URLServiceRequest: URLServiceRequestProtocol {
     
     func merge(params: Any, from nodeParser: URLServiceNodeParserProtocol) -> Void {
         if nodeParser.parserType == .pre && params is [String: Any] {
-            self.params.merge(params as! [String : Any]) {(current, _) in current}
+            self.params.merge(params as! [String : Any]) {(_, new) in new}
         }
     }
     
@@ -116,7 +116,10 @@ class URLServiceRequest: URLServiceRequestProtocol {
             serviceCallback = {[self] (result: Any?) in
                 response?.data = result
                 if let newCallback = self.callback {
-                    newCallback(self)
+                    MainThreadExecute {
+                        newCallback(self)
+                        self.callback = nil
+                    }
                 }
             }
         }

@@ -11,22 +11,20 @@ import Foundation
 public class URServiceNode: URLServiceNodeProtocol {
     
     public let name: String
-    public let nodeType: URLServiceNodeType
     public let parentNode: URLServiceNodeProtocol?
     public private(set) var subNodes: [URLServiceNodeProtocol] = []
     public private(set) var preParsers: [URLServiceNodeParserProtocol] = []
     public private(set) var postParsers: [URLServiceNodeParserProtocol] = []
     
-    init(name: String, nodeType:URLServiceNodeType, parentNode: URLServiceNodeProtocol?) {
+    init(name: String, parentNode: URLServiceNodeProtocol?) {
         self.name = name;
-        self.nodeType = nodeType;
         self.parentNode = parentNode;
     }
     
     func fullPath() -> String {
         var components = [name]
         var parent = parentNode
-        while parent != nil && parent!.nodeType != .root {
+        while parent != nil && parent?.parentNode != nil {
             components.insert(parent!.name, at: 0)
             parent = parent?.parentNode
         }
@@ -35,9 +33,9 @@ public class URServiceNode: URLServiceNodeProtocol {
     
     public func routedNodeNames() -> [String] {
         var routedNodeNames = [String]()
-        if nodeType != .root {
+        if parentNode != nil {
             var currentNode:URLServiceNodeProtocol? = self
-            while currentNode != nil && currentNode!.nodeType != .root  {
+            while currentNode != nil && currentNode?.parentNode != nil  {
                 routedNodeNames.insert(currentNode!.name, at: 0)
                 currentNode = currentNode?.parentNode
             }
@@ -45,13 +43,13 @@ public class URServiceNode: URLServiceNodeProtocol {
         return routedNodeNames;
     }
     
-    public func registeSubNode(with name: String, type: URLServiceNodeType) -> URLServiceNodeProtocol {
+    public func registeSubNode(with name: String) -> URLServiceNodeProtocol {
         let lowercasedName = name.lowercased()
-        if let subNode = subNodes.first(where: {($0.name == lowercasedName) && ($0.nodeType == type)}) {
+        if let subNode = subNodes.first(where: {($0.name == lowercasedName)}) {
             return subNode;
         }
 
-        let node = URServiceNode(name: lowercasedName, nodeType: type, parentNode: self)
+        let node = URServiceNode(name: lowercasedName, parentNode: self)
         registe(subNode: node)
         return node
     }
@@ -69,7 +67,7 @@ public class URServiceNode: URLServiceNodeProtocol {
     
     func exitedSubNode(_ subNode: URLServiceNodeProtocol) -> Bool {
         return subNodes.contains { (node) -> Bool in
-            return (subNode.name == node.name) && (subNode.nodeType == subNode.nodeType)
+            return (subNode.name == node.name)
         }
     }
     

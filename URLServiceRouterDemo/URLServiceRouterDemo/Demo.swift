@@ -91,15 +91,8 @@ class URLServiceRouterDelegate: URLServiceRouterDelegateProtocol {
         return service
     }
     
-    func configRootNode(_ rootNode: URLServiceNodeProtocol) -> Void {
-        rootNode.registe(parser: URLServiceRedirectHttpParser())
-        registerlevelOneNodes(with: rootNode)
-    }
-    
-    func registerlevelOneNodes(with rootNode: URLServiceNodeProtocol) -> Void {
-        let httpsNode = URServiceNode(name: "https", nodeType: .scheme, parentNode: rootNode)
-        httpsNode.registe(parser: URLServiceRedirectTestHostParser())
-        rootNode.registe(subNode: httpsNode)
+    func rootNodeParsers() -> [URLServiceNodeParserProtocol]? {
+        return [URLServiceRedirectHttpParser()]
     }
     
     func logError(_ message: String) {

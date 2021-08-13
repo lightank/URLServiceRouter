@@ -69,9 +69,7 @@ extension URL {
         if let host = host?.lowercased() {
             paths.insert(host, at: 0)
         }
-        if !paths.isEmpty {
-            nodeUrl += paths.map{ $0.lowercased()}.joined(separator: "/")
-        }
+        nodeUrl += paths.map{ $0.lowercased()}.joined(separator: "/")
         if let url = URL(string: nodeUrl) {
             return url
         } else {

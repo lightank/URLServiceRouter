@@ -15,7 +15,7 @@ public let URLServiceNodeParserPriorityDefault = 100
 public protocol URLServiceRouterDelegateProtocol {
     /// config service router's rootNode, eg: register Parser, register level one node
     /// - Parameter rootNode: service router's rootNode
-    func configRootNode(_ rootNode: URLServiceNodeProtocol) -> Void
+    func rootNodeParsers() -> [URLServiceNodeParserProtocol]?
     /// return app's current viewController, when you need to show a new page, you may need this
     func currentViewController() -> UIViewController?
     /// return app's current NavigationController, when you need to show a new page, you may need this
@@ -49,8 +49,8 @@ public protocol URLServiceRouterProtocol {
     /// register a node chain from a url, return the end node when finishing
     /// - Parameters:
     ///   - url: url
-    ///   - completion: a completion block when finishing registering, you can access the end node to register parser
-    func registerNode(from url: String, completion: @escaping (URLServiceNodeProtocol) -> Void)
+    ///   - completion: a completion block when finishing registering, you can provide a parsers array to register
+    func registerNode(from url: String, parsers: [URLServiceNodeParserProtocol]?)
     /// register a service
     /// - Parameter service: a service need to register
     func register(service: URLServiceProtocol) -> Void
@@ -189,19 +189,9 @@ public protocol URLServiceNodeParserDecisionProtocol {
     var complete: ((String) -> Void) { get }
 }
 
-/// node type, a node tree only have one root-type node, other types represent the components in the URL
-public enum URLServiceNodeType: String {
-    case root = "root"
-    case scheme = "scheme"
-    case host = "host"
-    case path = "path"
-}
-
 public protocol URLServiceNodeProtocol {
     /// node name, maybe represent one component in the URL or the root node
     var name: String { get }
-    /// node type
-    var nodeType: URLServiceNodeType { get }
     
     /// parent node, the backtracking process depends on this
     var parentNode: URLServiceNodeProtocol? { get }
@@ -214,7 +204,7 @@ public protocol URLServiceNodeProtocol {
     /// - Parameters:
     ///   - name: subNode name
     ///   - type: subNode type
-    func registeSubNode(with name: String, type: URLServiceNodeType) -> URLServiceNodeProtocol
+    func registeSubNode(with name: String) -> URLServiceNodeProtocol
     
     /// The parser arrar will be executed in the search process, the higher the priority, the first to execute
     var preParsers: [URLServiceNodeParserProtocol] { get }

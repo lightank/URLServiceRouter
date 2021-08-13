@@ -25,25 +25,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func congifURLServiceRouter() -> Void {
         URLServiceRouter.share.config(delegate: URLServiceRouterDelegate())
         URLServiceRouter.share.register(service: URLOwnerInfoService())
-        URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/info") { (node) in
-            node.registe(parser: URLServiceNoramlParser(parserType: .post, parseBlock: { (nodeParser, request, currentNode, decision) in
+        
+        URLServiceRouter.share.registerNode(from: "https", parsers:[URLServiceRedirectTestHostParser()]);
+        
+        do {
+            let parser = URLServiceNoramlParser(parserType: .post, parseBlock: { (nodeParser, request, currentNode, decision) in
                 decision.complete("user://info")
-            }))
+            })
+             
+            URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/info", parsers:[parser]);
         }
-        URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/") { (node) in
-            node.registe(parser: URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
+
+        do {
+            let parser = URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
                 var nodeNames = request.nodeNames
                 if let first = nodeNames.first, first.isPureInt {
                     request.merge(params: ["id": nodeNames.remove(at: 0)], from: nodeParser)
                     request.replace(nodeNames: nodeNames, from: nodeParser)
                 }
                 decision.next()
-            }))
+            })
+             
+            URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/", parsers:[parser]);
         }
         
-        URLServiceRouter.share.registerNode(from: "https://www.realword.com/company/work") { (node) in
-            
-        }
+        URLServiceRouter.share.registerNode(from: "https://www.realword.com/company/work");
     }
 }
 

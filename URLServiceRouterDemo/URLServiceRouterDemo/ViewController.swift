@@ -14,6 +14,15 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         if let url = URL(string: "http://china.realword.io/owner/1/info") {
             URLServiceRequest(url: url).start(callback: { (request) in
+                 if let data = request.response?.data {
+                    if data is URLServiceErrorProtocol {
+                        // 遇到错误了
+
+                    } else {
+                        // 正确的数据
+                        
+                    }
+                }
                 URLServiceRouter.share.logInfo("\(String(describing: request.response?.data))")
             })
         }
