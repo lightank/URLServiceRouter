@@ -8,15 +8,15 @@
 
 import Foundation
 
-let URLServiceErrorNotFoundCode = "404"
-let URLServiceErrorNotFound = URLServiceError(code: URLServiceErrorNotFoundCode, content: "service not found")
+public let URLServiceErrorNotFoundCode = "404"
+public let URLServiceErrorNotFound = URLServiceError(code: URLServiceErrorNotFoundCode, message: "service not found")
 
-class URLServiceError: URLServiceErrorProtocol {
-    var code: String
-    var content: String
+public struct URLServiceError: URLServiceErrorProtocol {
+    public var code: String
+    public var message: String
     
-    init(code: String, content: String) {
+    public init(code: String, message: String = "") {
         self.code = code
-        self.content = content
+        self.message = message
     }
 }

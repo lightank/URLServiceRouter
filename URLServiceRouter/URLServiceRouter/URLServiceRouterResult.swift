@@ -8,7 +8,7 @@
 
 import Foundation
 
-class URLServiceRouterResult: URLServiceRouterResultProtocol {
+public class URLServiceRouterResult: URLServiceRouterResultProtocol {
     public private(set) var endNode: URLServiceNodeProtocol?
     public private(set) var responseNode: URLServiceNodeProtocol?
     public private(set) var responseServiceName: String?
@@ -20,7 +20,7 @@ class URLServiceRouterResult: URLServiceRouterResultProtocol {
         self.responseServiceName = serviceName
         self.completion(self)
     }
-    var completion: ((URLServiceRouterResultProtocol) -> Void)
+    public var completion: ((URLServiceRouterResultProtocol) -> Void)
 
     init(endNode: URLServiceNodeProtocol? = nil, responseNode: URLServiceNodeProtocol? = nil, responseServiceName: String? = nil, completion: @escaping (URLServiceRouterResultProtocol) -> Void) {
         self.endNode = endNode

@@ -8,7 +8,7 @@
 
 import Foundation
 
-func MainThreadExecute(_ block: @escaping () -> Void) -> Void {
+public func MainThreadExecute(_ block: @escaping () -> Void) -> Void {
     if Thread.isMainThread {
         block()
     } else {
@@ -18,19 +18,19 @@ func MainThreadExecute(_ block: @escaping () -> Void) -> Void {
     }
 }
 
-class URLServiceRequest: URLServiceRequestProtocol {
+@objcMembers public class URLServiceRequest: URLServiceRequestProtocol {
     public private(set) var url: URL
-    let serviceRouter: URLServiceRouterProtocol
+    public let serviceRouter: URLServiceRouterProtocol
     public private(set) var nodeNames: [String]
     private var params: [String: Any]
     private var finalNodeNames: [String] = []
-    var response: URLServiceRequestResponseProtocol?
-    var success: URLServiceRequestCompletionBlock?
-    var failure: URLServiceRequestCompletionBlock?
-    var callback: URLServiceRequestCompletionBlock?
+    public var response: URLServiceRequestResponseProtocol?
+    public var success: URLServiceRequestCompletionBlock?
+    public var failure: URLServiceRequestCompletionBlock?
+    public var callback: URLServiceRequestCompletionBlock?
     private var serviceCallback: URLServiceExecutionCallback?
     
-    init(url: URL, params: [String: Any] = [String: Any](), serviceRouter: URLServiceRouterProtocol = URLServiceRouter.share) {
+    public init(url: URL, params: [String: Any] = [String: Any](), serviceRouter: URLServiceRouterProtocol = URLServiceRouter.share) {
         self.url = url
         self.serviceRouter = serviceRouter
         self.nodeNames = url.nodeNames
@@ -39,11 +39,11 @@ class URLServiceRequest: URLServiceRequestProtocol {
         self.params[URLServiceRequestOriginalURLKey] = url.absoluteURL
     }
     
-    func requestParams() -> Any? {
+    public func requestParams() -> Any? {
         return params
     }
     
-    func completion(response: URLServiceRequestResponseProtocol) {
+    public func completion(response: URLServiceRequestResponseProtocol) {
         MainThreadExecute { [self] in
             self.response = response
             if let service = response.service {
@@ -62,19 +62,19 @@ class URLServiceRequest: URLServiceRequestProtocol {
         }
     }
     
-    func replace(nodeNames: [String], from nodeParser: URLServiceNodeParserProtocol ) -> Void {
+    public func replace(nodeNames: [String], from nodeParser: URLServiceNodeParserProtocol ) -> Void {
         if nodeParser.parserType == .pre {
             self.nodeNames = nodeNames
         }
     }
     
-    func reduceOneNodeName(from node: URLServiceNodeProtocol) -> Void {
+    public func reduceOneNodeName(from node: URLServiceNodeProtocol) -> Void {
         if node.parentNode != nil {
             nodeNames.remove(at: 0)
         }
     }
     
-    func restoreOneNodeName(from node: URLServiceNodeProtocol) -> Void {
+    public func restoreOneNodeName(from node: URLServiceNodeProtocol) -> Void {
         let routedNodeNames = node.routedNodeNames()
         if (routedNodeNames.isEmpty) {
             return
@@ -92,13 +92,13 @@ class URLServiceRequest: URLServiceRequestProtocol {
         }
     }
     
-    func merge(params: Any, from nodeParser: URLServiceNodeParserProtocol) -> Void {
+    public func merge(params: Any, from nodeParser: URLServiceNodeParserProtocol) -> Void {
         if nodeParser.parserType == .pre && params is [String: Any] {
             self.params.merge(params as! [String : Any]) {(_, new) in new}
         }
     }
     
-    func replace(params: Any?, from nodeParser: URLServiceNodeParserProtocol) -> Void {
+    public func replace(params: Any?, from nodeParser: URLServiceNodeParserProtocol) -> Void {
         if nodeParser.parserType == .pre && (params is [String: Any]?) {
             if params != nil {
                 self.params = params as! [String: Any]
@@ -108,7 +108,7 @@ class URLServiceRequest: URLServiceRequestProtocol {
         }
     }
     
-    func start(success: URLServiceRequestCompletionBlock? = nil, failure: URLServiceRequestCompletionBlock? = nil, callback: URLServiceRequestCompletionBlock? = nil) -> Void {
+    public func start(success: URLServiceRequestCompletionBlock? = nil, failure: URLServiceRequestCompletionBlock? = nil, callback: URLServiceRequestCompletionBlock? = nil) -> Void {
         self.success = success
         self.failure = success
         self.callback = callback
@@ -126,7 +126,7 @@ class URLServiceRequest: URLServiceRequestProtocol {
         serviceRouter.router(request: self)
     }
     
-    func stop() -> Void {
+    public func stop() -> Void {
         success = nil
         failure = nil
         callback = nil

@@ -46,11 +46,11 @@ public protocol URLServiceRouterProtocol {
     /// start router a given request. Generally speaking, it is handled by nodeTree
     /// - Parameter request: request need to router
     func router(request: URLServiceRequestProtocol) -> Void
-    /// register a node chain from a url, return the end node when finishing
+    /// register a node chain from a node name array, and the end node will register all parsers in the parser array
     /// - Parameters:
-    ///   - url: url
-    ///   - completion: a completion block when finishing registering, you can provide a parsers array to register
-    func registerNode(from url: String, parsers: [URLServiceNodeParserProtocol]?)
+    ///   - names: a string array storing node name
+    ///   - parsers: a parser array for end node to register
+    func registerNode(from names: [String], parsers: [URLServiceNodeParserProtocol]?)
     /// register a service
     /// - Parameter service: a service need to register
     func register(service: URLServiceProtocol) -> Void
@@ -252,5 +252,5 @@ public protocol URLServiceErrorProtocol {
     /// error code
     var code: String { get }
     /// error message
-    var content: String { get }
+    var message: String { get }
 }

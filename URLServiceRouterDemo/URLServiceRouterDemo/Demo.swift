@@ -27,7 +27,7 @@ class URLOwnerInfoService: URLServiceProtocol {
     
     func meetTheExecutionConditions() -> URLServiceErrorProtocol? {
         if id == nil{
-            return URLServiceError(code: "1111", content: "no id to accsee owner info")
+            return URLServiceError(code: "1111", message: "no id to accsee owner info")
         }
         return nil
     }
@@ -132,5 +132,20 @@ extension String {
         let scanner = Scanner(string: self)
         var value: UnsafeMutablePointer<Int>?
         return scanner.scanInt(value) && scanner.isAtEnd
+    }
+}
+
+public struct URLServiceRedirectHttpParser :URLServiceNodeParserProtocol {
+    public let priority: Int = URLServiceNodeParserPriorityDefault
+    public var parserType: URLServiceNodeParserType = .pre
+    
+    public func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodeProtocol, decision: URLServiceNodeParserDecisionProtocol) {
+        if let scheme = request.url.scheme, scheme == "http", request.nodeNames.contains(scheme) {
+            var nodeNames = request.nodeNames
+            nodeNames.remove(at: 0)
+            nodeNames.insert("https", at: 0)
+            request.replace(nodeNames: nodeNames, from: self)
+        }
+        decision.next();
     }
 }

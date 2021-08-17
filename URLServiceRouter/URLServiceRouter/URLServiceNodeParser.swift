@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct URLServiceNoramlParser :URLServiceNodeParserProtocol {
-    let priority: Int
-    var parserType: URLServiceNodeParserType
+public struct URLServiceNoramlParser :URLServiceNodeParserProtocol {
+    public let priority: Int
+    public var parserType: URLServiceNodeParserType
     var parseBlock: (URLServiceNodeParserProtocol, URLServiceRequestProtocol, URLServiceNodeProtocol, URLServiceNodeParserDecisionProtocol) -> Void
     
-    func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodeProtocol, decision: URLServiceNodeParserDecisionProtocol) {
+    public func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodeProtocol, decision: URLServiceNodeParserDecisionProtocol) {
         parseBlock(self, request, currentNode, decision)
     }
     
@@ -24,17 +24,3 @@ struct URLServiceNoramlParser :URLServiceNodeParserProtocol {
     }
 }
 
-struct URLServiceRedirectHttpParser :URLServiceNodeParserProtocol {
-    let priority: Int = URLServiceNodeParserPriorityDefault
-    var parserType: URLServiceNodeParserType = .pre
-    
-    func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodeProtocol, decision: URLServiceNodeParserDecisionProtocol) {
-        if let scheme = request.url.scheme, scheme == "http", request.nodeNames.contains(scheme) {
-            var nodeNames = request.nodeNames
-            nodeNames.remove(at: 0)
-            nodeNames.insert("https", at: 0)
-            request.replace(nodeNames: nodeNames, from: self)
-        }
-        decision.next();
-    }
-}

@@ -8,10 +8,10 @@
 
 import Foundation
 
-class URLServiceRequestResponse: URLServiceRequestResponseProtocol {
+public struct URLServiceRequestResponse: URLServiceRequestResponseProtocol {
     public private(set) var service: URLServiceProtocol?
     public private(set) var error: URLServiceErrorProtocol?
-    var data: Any?
+    public var data: Any?
     
     init(service: URLServiceProtocol?, error: URLServiceErrorProtocol?) {
         self.service = service

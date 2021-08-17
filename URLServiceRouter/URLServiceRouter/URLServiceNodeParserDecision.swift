@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class URLServiceNodeParserDecision: URLServiceNodeParserDecisionProtocol {    
+public struct URLServiceNodeParserDecision: URLServiceNodeParserDecisionProtocol {    
     public let next: () -> Void
     public let complete: (String) -> Void
     

@@ -9,7 +9,7 @@
 import Foundation
 
 extension RandomAccessCollection {
-    func binarySearch(predicate: (Iterator.Element) -> Bool) -> Index {
+    public func binarySearch(predicate: (Iterator.Element) -> Bool) -> Index {
         var low = startIndex
         var high = endIndex
         while low != high {
@@ -25,7 +25,7 @@ extension RandomAccessCollection {
 }
 
 extension URL {
-    var nodeQueryItems: [String: String] {
+    public var nodeQueryItems: [String: String] {
         var params = [String: String]()
         return URLComponents(url: self, resolvingAgainstBaseURL: false)?
             .queryItems?
@@ -35,7 +35,7 @@ extension URL {
             }) ?? [:]
     }
     
-    var nodeNames: [String] {
+    public var nodeNames: [String] {
         var nodeNames = [String]()
         
         if let scheme = scheme?.lowercased() {
@@ -56,7 +56,7 @@ extension URL {
         return nodeNames;
     }
     
-    var nodeUrl: URL {
+    public var nodeUrl: URL {
         var nodeUrl = ""
         if let scheme = scheme?.lowercased() {
             nodeUrl += "\(scheme)://"
