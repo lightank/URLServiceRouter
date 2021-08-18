@@ -17,7 +17,8 @@ Pod::Spec.new do |spec|
 
   spec.name         = "URLServiceRouter"
   spec.version      = "0.0.1"
-  spec.summary      = "A Swift URL router implement by a high-degree-of-freedom nodeTree and RPC."
+  spec.summary      = "A Swift URL router implemented by a high-degree-of-freedom nodeTree and RPC."
+  spec.swift_versions =  '5.0'
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -25,6 +26,7 @@ Pod::Spec.new do |spec|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   spec.description  = <<-DESC
+  URLServiceRouter is a Swift URL router implemented by a high-degree-of-freedom nodeTree and RPC.
                    DESC
 
   spec.homepage     = "https://github.com/lightank/URLServiceRouter"
@@ -90,7 +92,7 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.source_files  = "URLServiceRouter/**/", "Classes/**/*.{h,m}"
+  spec.source_files  = "URLServiceRouter/*.swift", "URLServiceRouter/**/*.swift"
   # spec.exclude_files = "Classes/Exclude"
 
   # spec.public_header_files = "Classes/**/*.h"
