@@ -18,7 +18,7 @@ public func MainThreadExecute(_ block: @escaping () -> Void) -> Void {
     }
 }
 
-@objcMembers public class URLServiceRequest: URLServiceRequestProtocol {
+public class URLServiceRequest: URLServiceRequestProtocol {
     public private(set) var url: URL
     public let serviceRouter: URLServiceRouterProtocol
     public private(set) var nodeNames: [String]

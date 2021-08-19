@@ -48,7 +48,7 @@ public class URServiceNode: URLServiceNodeProtocol {
         if let subNode = subNodes.first(where: {($0.name == lowercasedName)}) {
             return subNode;
         }
-
+        
         let node = URServiceNode(name: lowercasedName, parentNode: self)
         registe(subNode: node)
         return node
@@ -58,7 +58,7 @@ public class URServiceNode: URLServiceNodeProtocol {
         if exitedSubNode(subNode) {
             assert(true, "node: \(name) have register subNode: \(subNode.name)")
         }
-
+        
         let index = subNodes.binarySearch { (node) -> Bool in
             node.name.caseInsensitiveCompare(subNode.name).rawValue <= 0
         }

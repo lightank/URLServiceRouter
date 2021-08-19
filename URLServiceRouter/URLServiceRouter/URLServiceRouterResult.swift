@@ -22,7 +22,7 @@ public class URLServiceRouterResult: URLServiceRouterResultProtocol {
     }
     public var completion: ((URLServiceRouterResultProtocol) -> Void)
 
-    init(endNode: URLServiceNodeProtocol? = nil, responseNode: URLServiceNodeProtocol? = nil, responseServiceName: String? = nil, completion: @escaping (URLServiceRouterResultProtocol) -> Void) {
+    public init(endNode: URLServiceNodeProtocol? = nil, responseNode: URLServiceNodeProtocol? = nil, responseServiceName: String? = nil, completion: @escaping (URLServiceRouterResultProtocol) -> Void) {
         self.endNode = endNode
         self.responseNode = responseNode
         self.responseServiceName = responseServiceName

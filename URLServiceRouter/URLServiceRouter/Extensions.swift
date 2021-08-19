@@ -44,7 +44,7 @@ extension URL {
         if let host = host?.lowercased() {
             nodeNames.append(host)
         }
-
+        
         var paths = pathComponents
         if paths.count > 0 && paths.first == "/" {
             paths.remove(at: 0)
@@ -52,7 +52,7 @@ extension URL {
         if !path.isEmpty {
             nodeNames += paths.map{ $0.lowercased()}
         }
-
+        
         return nodeNames;
     }
     
@@ -61,7 +61,7 @@ extension URL {
         if let scheme = scheme?.lowercased() {
             nodeUrl += "\(scheme)://"
         }
-
+        
         var paths = pathComponents
         if paths.count > 0 && paths.first == "/" {
             paths.remove(at: 0)

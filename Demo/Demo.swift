@@ -11,6 +11,7 @@
 
 import Foundation
 import UIKit
+import URLServiceRouter
 
 class URLOwnerInfoService: URLServiceProtocol {
     let name: String = "user://info"

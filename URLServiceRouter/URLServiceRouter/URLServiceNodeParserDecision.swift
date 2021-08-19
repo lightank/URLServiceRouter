@@ -12,7 +12,7 @@ public struct URLServiceNodeParserDecision: URLServiceNodeParserDecisionProtocol
     public let next: () -> Void
     public let complete: (String) -> Void
     
-    init(next: @escaping () -> Void, complete: @escaping (String) -> Void) {
+    public init(next: @escaping () -> Void, complete: @escaping (String) -> Void) {
         self.next = next
         self.complete = complete
     }

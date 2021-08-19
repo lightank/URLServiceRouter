@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import URLServiceRouter
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

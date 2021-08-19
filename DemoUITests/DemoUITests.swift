@@ -1,13 +1,13 @@
 //
-//  URLServiceRouterDemoUITests.swift
-//  URLServiceRouterDemoUITests
+//  DemoUITests.swift
+//  DemoUITests
 //
-//  Created by huanyu.li on 2021/8/4.
+//  Created by huanyu.li on 2021/8/19.
 //
 
 import XCTest
 
-class URLServiceRouterDemoUITests: XCTestCase {
+class DemoUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
