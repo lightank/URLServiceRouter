@@ -1,8 +1,23 @@
 # URLServiceRouter
 
 ## What is it?
+
 URLServiceRouter is a Swift URL router implemented by a high-degree-of-freedom nodeTree and RPC.
 
+## Installation
+
+### CocoaPods
+
+1. Add `pod 'URLServiceRouter'` to your Podfile.
+2. Run `pod install` or `pod update`.
+3. `import URLServiceRouter`
+
+
+## Requirements
+
+* iOS 10.0
+* Swift 5.x
+* Xcode 12.x
 
 ## Getting Started
 

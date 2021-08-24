@@ -33,7 +33,6 @@
 		3DD80D7D26CE2DA8001FF9FB /* URLServiceRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D2FCD7526CDF623008CD97F /* URLServiceRouter.framework */; };
 		3DD80D7E26CE2DA8001FF9FB /* URLServiceRouter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D2FCD7526CDF623008CD97F /* URLServiceRouter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7BB1BD6F08B9D5BF94998214 /* Pods_DemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87A9CA32B04B6731EFD71846 /* Pods_DemoTests.framework */; };
-		AC2B58A162927BEC6E32E43B /* Pods_URLServiceRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E68CA165B419C0E786E807 /* Pods_URLServiceRouter.framework */; };
 		BF23338C968A771249EE1D20 /* Pods_Demo_DemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2018AB0B3B08431A1A58009 /* Pods_Demo_DemoUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -135,7 +134,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC2B58A162927BEC6E32E43B /* Pods_URLServiceRouter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -781,7 +779,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -839,7 +837,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
