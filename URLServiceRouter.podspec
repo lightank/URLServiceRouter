@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "URLServiceRouter"
-  spec.version      = "0.0.3"
+  spec.version      = "0.0.4"
   spec.summary      = "A Swift URL router implemented by a high-degree-of-freedom nodeTree and RPC."
   spec.swift_versions =  '5.0'
 
@@ -92,7 +92,7 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.source_files  = "URLServiceRouter/*.swift", "URLServiceRouter/**/*.swift"
+  spec.source_files  = "Sources/URLServiceRouter/*.swift", "Sources/URLServiceRouter/**/*.swift"
   # spec.exclude_files = "Classes/Exclude"
 
   # spec.public_header_files = "Classes/**/*.h"

@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#endif
 
 public let URLServiceRequestOriginalURLKey = "origin_request_url"
 public let URLServiceNodeParserPriorityDefault = 100
@@ -16,10 +18,12 @@ public protocol URLServiceRouterDelegateProtocol {
     /// config service router's rootNode, eg: register Parser, register level one node
     /// - Parameter rootNode: service router's rootNode
     func rootNodeParsers() -> [URLServiceNodeParserProtocol]?
+#if canImport(UIKit)
     /// return app's current viewController, when you need to show a new page, you may need this
     func currentViewController() -> UIViewController?
     /// return app's current NavigationController, when you need to show a new page, you may need this
     func currentNavigationController() -> UINavigationController?
+#endif
     /// you can decide whether start this service request
     /// - Parameter request: a service request maybe start routering
     func shouldRouter(request: URLServiceRequestProtocol) -> URLServiceRequestProtocol?

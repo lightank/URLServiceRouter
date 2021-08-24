@@ -1,5 +1,11 @@
 # URLServiceRouter
 
+[![Cocoapods](https://img.shields.io/cocoapods/v/URLServiceRouter.svg)](https://cocoapods.org/pods/URLServiceRouter)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-Compatible-brightgreen.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![SPM compatible](https://img.shields.io/badge/SPM-Compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager/)
+[![Swift](https://img.shields.io/badge/Swift-5.3-orange.svg)](https://swift.org)
+[![Xcode](https://img.shields.io/badge/Xcode-12.4-blue.svg)](https://developer.apple.com/xcode)
+
 ## What is it?
 
 URLServiceRouter is a Swift URL router implemented by a high-degree-of-freedom nodeTree and RPC.
