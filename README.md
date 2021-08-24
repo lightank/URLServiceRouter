@@ -12,6 +12,12 @@ URLServiceRouter is a Swift URL router implemented by a high-degree-of-freedom n
 2. Run `pod install` or `pod update`.
 3. `import URLServiceRouter`
 
+### Carthage
+
+1. Add `github "lightank/URLServiceRouter"` to your Cartfile.
+2. Run `carthage update --platform ios` and add the framework to your project.
+3. `import URLServiceRouter`
+
 
 ## Requirements
 
