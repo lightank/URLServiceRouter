@@ -11,7 +11,6 @@
 		35186983623DE6C29B19D17D /* Pods_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 988FD0EE3D3004011AA204A8 /* Pods_Demo.framework */; };
 		3D2FCD7F26CDF624008CD97F /* URLServiceRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D2FCD7526CDF623008CD97F /* URLServiceRouter.framework */; };
 		3D2FCD8426CDF624008CD97F /* URLServiceRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2FCD8326CDF624008CD97F /* URLServiceRouterTests.swift */; };
-		3D2FCD8626CDF624008CD97F /* URLServiceRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D2FCD7826CDF623008CD97F /* URLServiceRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3D2FCDA426CE029D008CD97F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2FCDA326CE029D008CD97F /* AppDelegate.swift */; };
 		3D2FCDA826CE029D008CD97F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2FCDA726CE029D008CD97F /* ViewController.swift */; };
 		3D2FCDAB26CE029D008CD97F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D2FCDA926CE029D008CD97F /* Main.storyboard */; };
@@ -30,6 +29,16 @@
 		3D2FCDE926CE04D3008CD97F /* URLServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2FCDDF26CE04D3008CD97F /* URLServiceError.swift */; };
 		3D2FCDEA26CE04D3008CD97F /* URLServiceRequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2FCDE026CE04D3008CD97F /* URLServiceRequestResponse.swift */; };
 		3D2FCE0926CE05D5008CD97F /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2FCE0726CE05D5008CD97F /* Demo.swift */; };
+		3DB3E32726D49170007EBA96 /* URLServiceRequest.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D2FCDD826CE04D3008CD97F /* URLServiceRequest.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		3DB3E32826D49170007EBA96 /* URLServiceRouterResult.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D2FCDD926CE04D3008CD97F /* URLServiceRouterResult.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		3DB3E32926D49170007EBA96 /* URLServiceRouter.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D2FCDDA26CE04D3008CD97F /* URLServiceRouter.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		3DB3E32A26D49170007EBA96 /* Extensions.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D2FCDDB26CE04D3008CD97F /* Extensions.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		3DB3E32B26D49170007EBA96 /* URLServiceNodel.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D2FCDDC26CE04D3008CD97F /* URLServiceNodel.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		3DB3E32C26D49170007EBA96 /* URLServiceNodeParser.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D2FCDDD26CE04D3008CD97F /* URLServiceNodeParser.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		3DB3E32D26D49170007EBA96 /* URLServiceNodeParserDecision.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D2FCDDE26CE04D3008CD97F /* URLServiceNodeParserDecision.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		3DB3E32E26D49170007EBA96 /* URLServiceError.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D2FCDDF26CE04D3008CD97F /* URLServiceError.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		3DB3E32F26D49170007EBA96 /* URLServiceRequestResponse.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D2FCDE026CE04D3008CD97F /* URLServiceRequestResponse.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		3DB3E33026D49170007EBA96 /* URLServiceRouterProtocol.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D2FCDD626CE04D3008CD97F /* URLServiceRouterProtocol.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		3DD80D7D26CE2DA8001FF9FB /* URLServiceRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D2FCD7526CDF623008CD97F /* URLServiceRouter.framework */; };
 		3DD80D7E26CE2DA8001FF9FB /* URLServiceRouter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D2FCD7526CDF623008CD97F /* URLServiceRouter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7BB1BD6F08B9D5BF94998214 /* Pods_DemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87A9CA32B04B6731EFD71846 /* Pods_DemoTests.framework */; };
@@ -88,7 +97,6 @@
 		23A2E6D667B8D82E8815D264 /* Pods-Demo-DemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo-DemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-Demo-DemoUITests/Pods-Demo-DemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		2EBC411B1EC3F7A9D9867490 /* Pods-DemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoTests.debug.xcconfig"; path = "Target Support Files/Pods-DemoTests/Pods-DemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3D2FCD7526CDF623008CD97F /* URLServiceRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = URLServiceRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3D2FCD7826CDF623008CD97F /* URLServiceRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLServiceRouter.h; sourceTree = "<group>"; };
 		3D2FCD7926CDF623008CD97F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D2FCD7E26CDF624008CD97F /* URLServiceRouterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLServiceRouterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D2FCD8326CDF624008CD97F /* URLServiceRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLServiceRouterTests.swift; sourceTree = "<group>"; };
@@ -205,7 +213,6 @@
 			children = (
 				3D2FCDD726CE04D3008CD97F /* URLServiceRouter */,
 				3D2FCDD626CE04D3008CD97F /* URLServiceRouterProtocol.swift */,
-				3D2FCD7826CDF623008CD97F /* URLServiceRouter.h */,
 				3D2FCD7926CDF623008CD97F /* Info.plist */,
 			);
 			path = URLServiceRouter;
@@ -304,7 +311,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D2FCD8626CDF624008CD97F /* URLServiceRouter.h in Headers */,
+				3DB3E32726D49170007EBA96 /* URLServiceRequest.swift in Headers */,
+				3DB3E32826D49170007EBA96 /* URLServiceRouterResult.swift in Headers */,
+				3DB3E32A26D49170007EBA96 /* Extensions.swift in Headers */,
+				3DB3E32926D49170007EBA96 /* URLServiceRouter.swift in Headers */,
+				3DB3E32B26D49170007EBA96 /* URLServiceNodel.swift in Headers */,
+				3DB3E32C26D49170007EBA96 /* URLServiceNodeParser.swift in Headers */,
+				3DB3E32D26D49170007EBA96 /* URLServiceNodeParserDecision.swift in Headers */,
+				3DB3E32E26D49170007EBA96 /* URLServiceError.swift in Headers */,
+				3DB3E32F26D49170007EBA96 /* URLServiceRequestResponse.swift in Headers */,
+				3DB3E33026D49170007EBA96 /* URLServiceRouterProtocol.swift in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -868,8 +884,9 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = huanyu.li.URLServiceRouter;
+				MARKETING_VERSION = 0.0.3;
+				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = URLServiceRouter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -898,8 +915,9 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = huanyu.li.URLServiceRouter;
+				MARKETING_VERSION = 0.0.3;
+				OTHER_LDFLAGS = "-all_load";
+				PRODUCT_BUNDLE_IDENTIFIER = URLServiceRouter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
