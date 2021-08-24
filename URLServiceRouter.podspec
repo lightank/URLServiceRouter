@@ -93,7 +93,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.source_files  = "Sources/URLServiceRouter/*.swift", "Sources/URLServiceRouter/**/*.swift"
-  # spec.exclude_files = "Classes/Exclude"
+  spec.exclude_files = "URLServiceRouter/URLServiceRouter/*.plist"
 
   # spec.public_header_files = "Classes/**/*.h"
 
