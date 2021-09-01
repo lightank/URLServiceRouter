@@ -9,18 +9,12 @@
 import Foundation
 
 public struct URLServiceRequestResponse: URLServiceRequestResponseProtocol {
-    public private(set) var service: URLServiceProtocol?
-    public private(set) var error: URLServiceErrorProtocol?
+    public var serviceName: String?
+    public var error: URLServiceErrorProtocol?
     public var data: Any?
     
-    init(service: URLServiceProtocol?, error: URLServiceErrorProtocol?) {
-        self.service = service
-        if (error != nil) {
-            self.error = error
-        } else {
-            if let newService = service {
-                self.error = newService.meetTheExecutionConditions()
-            }
-        }
+    init(serviceName: String?, error: URLServiceErrorProtocol? = nil) {
+        self.serviceName = serviceName
+        self.error = error
     }
 }

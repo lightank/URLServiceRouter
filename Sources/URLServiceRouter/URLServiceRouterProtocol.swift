@@ -18,20 +18,19 @@ public protocol URLServiceRouterDelegateProtocol {
     /// config service router's rootNode, eg: register Parser, register level one node
     /// - Parameter rootNode: service router's rootNode
     func rootNodeParsers() -> [URLServiceNodeParserProtocol]?
-#if canImport(UIKit)
+    #if canImport(UIKit)
     /// return app's current viewController, when you need to show a new page, you may need this
     func currentViewController() -> UIViewController?
     /// return app's current NavigationController, when you need to show a new page, you may need this
     func currentNavigationController() -> UINavigationController?
-#endif
+    #endif
     /// you can decide whether start this service request
     /// - Parameter request: a service request maybe start routering
-    func shouldRouter(request: URLServiceRequestProtocol) -> URLServiceRequestProtocol?
-    /// you can change the request‘s response service, or reject the result when finish the request routering
+    func shouldRouter(request: URLServiceRequestProtocol) -> Bool
+    /// you can change the request‘s response service
     /// - Parameters:
     ///   - request: current routering request
-    ///   - service: final response service
-    func dynamicProcessingRouterResult(request: URLServiceRequestProtocol, service: URLServiceProtocol?) -> URLServiceProtocol?
+    func dynamicProcessingRouterRequest(_ request: URLServiceRequestProtocol) -> Void
     /// log error, you may need record this to help solving problem
     /// - Parameter message: error message
     func logError(_ message: String) -> Void
@@ -124,9 +123,9 @@ public protocol URLServiceRequestProtocol {
     var callback: URLServiceRequestCompletionBlock? { get }
     var description: String { get }
     
-    /// a completion block  that will be executed when service router finishing request routering
-    /// - Parameter response: response model
-    func completion(response: URLServiceRequestResponseProtocol) -> Void
+    func updateResponse(_ response: URLServiceRequestResponseProtocol?) -> Void
+    /// a completion block  that will be executed when service router finishing request routering, you should assign value to response before calling this method
+    func routingCompletion() -> Void
     /// request parameters provided to the service
     func requestParams() -> Any?
     /// process the request to replace the current service request‘s nodeNames from a node parser
@@ -162,8 +161,8 @@ public protocol URLServiceRequestProtocol {
 }
 
 public protocol URLServiceRequestResponseProtocol {
-    var service: URLServiceProtocol? { get }
-    var error: URLServiceErrorProtocol? { get }
+    var serviceName: String? { get set }
+    var error: URLServiceErrorProtocol? { get set }
     var data: Any? { get set }
 }
 

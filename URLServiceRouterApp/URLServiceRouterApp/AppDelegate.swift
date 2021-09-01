@@ -34,11 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 decision.complete("user://info")
             })
              
-            URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/info", parsers:[parser]);
+            URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/info", parsers: [parser]);
         }
 
         do {
-            let parser = URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
+            let preParser = URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
                 var nodeNames = request.nodeNames
                 if let first = nodeNames.first, first.isPureInt {
                     request.merge(params: ["id": nodeNames.remove(at: 0)], from: nodeParser)
@@ -46,8 +46,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
                 decision.next()
             })
+            
+            let postParser = URLServiceNoramlParser(parserType: .post, parseBlock: { (nodeParser, request, currentNode, decision) in
+                decision.next()
+            })
              
-            URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/", parsers:[parser]);
+            URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/", parsers:[preParser, postParser]);
         }
         
         URLServiceRouter.share.registerNode(from: "https://www.realword.com/company/work");

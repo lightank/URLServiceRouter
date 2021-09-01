@@ -27,7 +27,7 @@ class URLOwnerInfoService: URLServiceProtocol {
     }
     
     func meetTheExecutionConditions() -> URLServiceErrorProtocol? {
-        if id == nil{
+        if id == nil {
             return URLServiceError(code: "1111", message: "no id to accsee owner info")
         }
         return nil
@@ -84,12 +84,12 @@ class URLServiceRouterDelegate: URLServiceRouterDelegateProtocol {
         return currentViewController()?.navigationController
     }
     
-    func shouldRouter(request: URLServiceRequestProtocol) -> URLServiceRequestProtocol? {
-        return request
+    func shouldRouter(request: URLServiceRequestProtocol) -> Bool {
+        return true
     }
     
-    func dynamicProcessingRouterResult(request: URLServiceRequestProtocol, service: URLServiceProtocol?) -> URLServiceProtocol? {
-        return service
+    func dynamicProcessingRouterRequest(_ request: URLServiceRequestProtocol) {
+        
     }
     
     func rootNodeParsers() -> [URLServiceNodeParserProtocol]? {

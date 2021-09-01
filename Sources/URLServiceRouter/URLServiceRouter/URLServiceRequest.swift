@@ -23,7 +23,6 @@ public class URLServiceRequest: URLServiceRequestProtocol {
     public let serviceRouter: URLServiceRouterProtocol
     public private(set) var nodeNames: [String]
     private var params: [String: Any]
-    private var finalNodeNames: [String] = []
     public var response: URLServiceRequestResponseProtocol?
     public var success: URLServiceRequestCompletionBlock?
     public var failure: URLServiceRequestCompletionBlock?
@@ -43,21 +42,32 @@ public class URLServiceRequest: URLServiceRequestProtocol {
         return params
     }
     
-    public func completion(response: URLServiceRequestResponseProtocol) {
+    public func updateResponse(_ response: URLServiceRequestResponseProtocol?) -> Void {
+        self.response = response
+    }
+    
+    public func routingCompletion() -> Void {
         MainThreadExecute { [self] in
-            self.response = response
-            if let service = response.service {
-                if let newSuccess = success {
-                    newSuccess(self)
-                    success = nil
+            if let respons = self.response {
+                if let serviceName = respons.serviceName {
+                    if let newSuccess = success {
+                        newSuccess(self)
+                        success = nil
+                    }
+                    
+                    let _ = serviceRouter.callService(name: serviceName, params: requestParams(), completion: nil, callback: serviceCallback)
+                } else {
+                    if let newFailure = failure {
+                        newFailure(self)
+                    }
+                    stop()
                 }
-                
-                let _ = serviceRouter.callService(name: service.name, params: requestParams(), completion: nil, callback: serviceCallback)
             } else {
+                serviceRouter.logError("request: \(self.description)\n have no respons");
                 if let newFailure = failure {
                     newFailure(self)
-                    failure = nil
                 }
+                stop()
             }
         }
     }
@@ -79,17 +89,7 @@ public class URLServiceRequest: URLServiceRequestProtocol {
         if (routedNodeNames.isEmpty) {
             return
         }
-        updateFinalNodeNames(with: node)
-        var nodeNames = finalNodeNames
-        nodeNames.removeSubrange(0..<routedNodeNames.count - 1)
-        self.nodeNames = nodeNames
-    }
-    
-    private func updateFinalNodeNames(with node: URLServiceNodeProtocol) -> Void {
-        if (finalNodeNames.isEmpty) {
-            let routedNodeNames = node.routedNodeNames()
-            finalNodeNames = routedNodeNames + nodeNames
-        }
+        self.nodeNames.insert(node.name, at: 0)
     }
     
     public func merge(params: Any, from nodeParser: URLServiceNodeParserProtocol) -> Void {
@@ -118,7 +118,7 @@ public class URLServiceRequest: URLServiceRequestProtocol {
                 if let newCallback = self.callback {
                     MainThreadExecute {
                         newCallback(self)
-                        self.callback = nil
+                        stop()
                     }
                 }
             }
