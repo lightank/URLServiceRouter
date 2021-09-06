@@ -93,13 +93,15 @@ public protocol URLServiceRouterResultProtocol {
     var endNode: URLServiceNodeProtocol? { get }
     /// the node that finally gives the response result
     var responseNode: URLServiceNodeProtocol? { get }
+    /// the node parser that finally gives the response result
+    var responseNodeParser: URLServiceNodeParserProtocol? { get }
     /// the  name of the response service
     var responseServiceName: String? { get }
     
     /// record end node
     var recordEndNode: ((URLServiceNodeProtocol) -> Void) { get }
     /// record response node when the routing ends. if no node response, it will  be the root node
-    var routerCompletion: ((URLServiceNodeProtocol, String?) -> Void) { get }
+    var routerCompletion: ((URLServiceNodeProtocol, URLServiceNodeParserProtocol?, String?) -> Void) { get }
     /// a completion block when the routing ends. we notify request here
     var completion: ((URLServiceRouterResultProtocol) -> Void) { get }
 }
@@ -180,16 +182,15 @@ public protocol URLServiceNodeParserProtocol {
     /// parse service request, you may change request requestParams or nodeNames here
     /// - Parameters:
     ///   - request: current service request,
-    ///   - currentNode: current node that is processing the request
     ///   - decision: decision of current node parser
-    func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodeProtocol, decision: URLServiceNodeParserDecisionProtocol) -> Void
+    func parse(request: URLServiceRequestProtocol, decision: URLServiceNodeParserDecisionProtocol) -> Void
 }
 
 public protocol URLServiceNodeParserDecisionProtocol {
-    /// Go to the next step
+    /// go to the next step
     var next: (() -> Void) { get }
-    /// end the processing and inform the hit service name
-    var complete: ((String) -> Void) { get }
+    /// a node parser end the processing and give the hit service name
+    var complete: ((URLServiceNodeParserProtocol, String) -> Void) { get }
 }
 
 public protocol URLServiceNodeProtocol {

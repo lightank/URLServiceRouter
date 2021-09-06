@@ -30,15 +30,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         URLServiceRouter.share.registerNode(from: "https", parsers:[URLServiceRedirectTestHostParser()]);
         
         do {
-            let parser = URLServiceNoramlParser(parserType: .post, parseBlock: { (nodeParser, request, currentNode, decision) in
-                decision.complete("user://info")
+            let parser = URLServiceNoramlParser(parserType: .post, parseBlock: { (nodeParser, request, decision) in
+                decision.complete(nodeParser ,"user://info")
             })
              
             URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/info", parsers: [parser]);
         }
 
         do {
-            let preParser = URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, currentNode, decision) in
+            let preParser = URLServiceNoramlParser(parserType: .pre, parseBlock: { (nodeParser, request, decision) in
                 var nodeNames = request.nodeNames
                 if let first = nodeNames.first, first.isPureInt {
                     request.merge(params: ["id": nodeNames.remove(at: 0)], from: nodeParser)
@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 decision.next()
             })
             
-            let postParser = URLServiceNoramlParser(parserType: .post, parseBlock: { (nodeParser, request, currentNode, decision) in
+            let postParser = URLServiceNoramlParser(parserType: .post, parseBlock: { (nodeParser, request, decision) in
                 decision.next()
             })
              

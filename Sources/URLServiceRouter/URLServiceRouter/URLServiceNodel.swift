@@ -66,9 +66,7 @@ public class URServiceNode: URLServiceNodeProtocol {
     }
     
     func exitedSubNode(_ subNode: URLServiceNodeProtocol) -> Bool {
-        return subNodes.contains { (node) -> Bool in
-            return (subNode.name == node.name)
-        }
+        return subNodes.contains { subNode.name == $0.name }
     }
     
     public func registe(parser: URLServiceNodeParserProtocol) -> Void {
@@ -95,17 +93,17 @@ public class URServiceNode: URLServiceNodeProtocol {
                 result.recordEndNode(self)
                 routerPostParser(request: request, result: result)
             }
-        }, complete: { (service) in
-            result.routerCompletion(self, service)
+        }, complete: { (nodeParser ,service) in
+            result.routerCompletion(self, nodeParser, service)
         }))
     }
     
     func preParser(request:URLServiceRequestProtocol, parserIndex: Int, decision: URLServiceNodeParserDecisionProtocol) {
         if preParsers.count > parserIndex {
-            preParsers[parserIndex].parse(request: request, currentNode: self, decision: URLServiceNodeParserDecision(next: { [self] in
+            preParsers[parserIndex].parse(request: request, decision: URLServiceNodeParserDecision(next: { [self] in
                 preParser(request:request, parserIndex: parserIndex + 1, decision: decision)
-            }, complete: { (result) in
-                decision.complete(result);
+            }, complete: { (nodeParser ,result) in
+                decision.complete(nodeParser, result);
             }))
         } else {
             decision.next()
@@ -118,19 +116,19 @@ public class URServiceNode: URLServiceNodeProtocol {
                 request.restoreOneNodeName(from: self)
                 parentNode.routerPostParser(request: request, result: result)
             } else {
-                result.routerCompletion(self, nil)
+                result.routerCompletion(self, nil, nil)
             }
-        }, complete: { (service) in
-            result.routerCompletion(self, service)
+        }, complete: { (nodeParser ,service) in
+            result.routerCompletion(self, nodeParser , service)
         }))
     }
     
     func postParser(request:URLServiceRequestProtocol, parserIndex: Int, decision: URLServiceNodeParserDecisionProtocol) {
         if postParsers.count > parserIndex {
-            postParsers[parserIndex].parse(request: request, currentNode: self, decision: URLServiceNodeParserDecision(next: { [self] in
+            postParsers[parserIndex].parse(request: request, decision: URLServiceNodeParserDecision(next: { [self] in
                 postParser(request: request, parserIndex: parserIndex + 1, decision: decision)
-            }, complete: { (result) in
-                decision.complete(result)
+            }, complete: { (nodeParser ,result) in
+                decision.complete(nodeParser ,result)
             }))
         } else {
             decision.next()

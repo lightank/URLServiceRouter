@@ -10,9 +10,9 @@ import Foundation
 
 public struct URLServiceNodeParserDecision: URLServiceNodeParserDecisionProtocol {    
     public let next: () -> Void
-    public let complete: (String) -> Void
+    public let complete: (URLServiceNodeParserProtocol, String) -> Void
     
-    public init(next: @escaping () -> Void, complete: @escaping (String) -> Void) {
+    public init(next: @escaping () -> Void, complete: @escaping (URLServiceNodeParserProtocol, String) -> Void) {
         self.next = next
         self.complete = complete
     }

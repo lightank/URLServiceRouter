@@ -109,7 +109,7 @@ struct URLServiceRedirectTestHostParser :URLServiceNodeParserProtocol {
     let priority: Int = URLServiceNodeParserPriorityDefault
     var parserType: URLServiceNodeParserType = .pre
     
-    func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodeProtocol, decision: URLServiceNodeParserDecisionProtocol) {
+    func parse(request: URLServiceRequestProtocol, decision: URLServiceNodeParserDecisionProtocol) {
         if let host = request.url.host, request.nodeNames.contains(host), host.isTestHost {
             var nodeNames = request.nodeNames
             nodeNames.remove(at: 0)
@@ -140,7 +140,7 @@ public struct URLServiceRedirectHttpParser :URLServiceNodeParserProtocol {
     public let priority: Int = URLServiceNodeParserPriorityDefault
     public var parserType: URLServiceNodeParserType = .pre
     
-    public func parse(request: URLServiceRequestProtocol, currentNode: URLServiceNodeProtocol, decision: URLServiceNodeParserDecisionProtocol) {
+    public func parse(request: URLServiceRequestProtocol, decision: URLServiceNodeParserDecisionProtocol) {
         if let scheme = request.url.scheme, scheme == "http", request.nodeNames.contains(scheme) {
             var nodeNames = request.nodeNames
             nodeNames.remove(at: 0)
