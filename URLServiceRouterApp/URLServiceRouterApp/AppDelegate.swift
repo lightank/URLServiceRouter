@@ -18,23 +18,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow.init(frame: UIScreen.main.bounds)
         window?.backgroundColor = .white
         window?.makeKeyAndVisible()
-
-        window?.rootViewController = ViewController()
+        
+        window?.rootViewController = UINavigationController.init(rootViewController: ViewController())
         return true
     }
     
     func congifURLServiceRouter() -> Void {
-        URLServiceRouter.share.config(delegate: URLServiceRouterDelegate())
-        URLServiceRouter.share.register(service: URLOwnerInfoService())
-        
-        URLServiceRouter.share.registerNode(from: "https", parsers:[URLServiceRedirectTestHostParser()]);
+        URLServiceRouter.shared.config(delegate: URLServiceRouterDelegate())
+        registerServices()
+        registerNodes()
+    }
+    
+    func registerServices() {
+        URLServiceRouter.shared.register(service: URLOwnerInfoService())
+        URLServiceRouter.shared.register(service: InputPageService())
+    }
+    
+    func registerNodes() {
+        URLServiceRouter.shared.registerNode(from: "https", parsers:[URLServiceRedirectTestHostParser()])
         
         do {
             let parser = URLServiceNoramlParser(parserType: .post, parseBlock: { (nodeParser, request, decision) in
                 decision.complete(nodeParser ,"user://info")
             })
              
-            URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/info", parsers: [parser]);
+            URLServiceRouter.shared.registerNode(from: "https://www.realword.com/owner/info", parsers: [parser]);
         }
 
         do {
@@ -51,10 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 decision.next()
             })
              
-            URLServiceRouter.share.registerNode(from: "https://www.realword.com/owner/", parsers:[preParser, postParser]);
+            URLServiceRouter.shared.registerNode(from: "https://www.realword.com/owner/", parsers:[preParser, postParser]);
         }
         
-        URLServiceRouter.share.registerNode(from: "https://www.realword.com/company/work");
+        URLServiceRouter.shared.registerNode(from: "https://www.realword.com/company/work");
     }
 }
 

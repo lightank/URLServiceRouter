@@ -29,7 +29,7 @@ public class URLServiceRequest: URLServiceRequestProtocol {
     public var callback: URLServiceRequestCompletionBlock?
     private var serviceCallback: URLServiceExecutionCallback?
     
-    public init(url: URL, params: [String: Any] = [String: Any](), serviceRouter: URLServiceRouterProtocol = URLServiceRouter.share) {
+    public init(url: URL, params: [String: Any] = [String: Any](), serviceRouter: URLServiceRouterProtocol = URLServiceRouter.shared) {
         self.url = url
         self.serviceRouter = serviceRouter
         self.nodeNames = url.nodeNames
@@ -55,7 +55,7 @@ public class URLServiceRequest: URLServiceRequestProtocol {
                         success = nil
                     }
                     
-                    let _ = serviceRouter.callService(name: serviceName, params: requestParams(), completion: nil, callback: serviceCallback)
+                    serviceRouter.callService(name: serviceName, params: requestParams(), completion: nil, callback: serviceCallback)
                 } else {
                     if let newFailure = failure {
                         newFailure(self)

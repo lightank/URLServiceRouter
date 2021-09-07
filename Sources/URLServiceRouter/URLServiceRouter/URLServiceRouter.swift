@@ -15,9 +15,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     var nodesMap = [String: URLServiceNodeProtocol]()
     let queue = DispatchQueue(label: "com.URLServiceRouter.queue", attributes: .concurrent)
     
-    public static let share: URLServiceRouter = {
-        return URLServiceRouter()
-    }()
+    public static let shared = URLServiceRouter()
     
     public func config(delegate: URLServiceRouterDelegateProtocol) -> Void {
         queue.sync { [self] in
@@ -54,7 +52,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
                 }
                 
                 if let newResponseService = responseService {
-                    error = newResponseService.meetTheExecutionConditions()
+                    error = newResponseService.meetTheExecutionConditions(params: request.requestParams())
                 }
                 
                 request.updateResponse(URLServiceRequestResponse(serviceName: response?.serviceName, error: error))
@@ -113,32 +111,19 @@ public class URLServiceRouter: URLServiceRouterProtocol {
         }
     }
     
-    private func callService(_ service: URLServiceProtocol, callback: URLServiceExecutionCallback? = nil) -> URLServiceErrorProtocol? {
-        queue.sync {
-            service.execute(callback: callback)
-            return service.meetTheExecutionConditions()
-        }
-    }
-    
-    private func searchService(name: String, params: Any? = nil) -> URLServiceProtocol? {
-        let resultService = servicesMap[name]
-        resultService?.setParams(params)
-        return resultService
-    }
-    
     public func isServiceValid(with name: String) -> Bool {
         let resultService = servicesMap[name]
         return resultService != nil
     }
     
     public func callService(name: String, params: Any? = nil, completion: ((URLServiceProtocol?, URLServiceErrorProtocol?) -> Void)?, callback: URLServiceExecutionCallback?) -> Void {
-        let resultService = searchService(name: name, params: params)
-        let error:URLServiceErrorProtocol? = resultService != nil ? resultService?.meetTheExecutionConditions() : URLServiceErrorNotFound
+        let resultService = servicesMap[name]
+        let error: URLServiceErrorProtocol? = resultService != nil ? resultService?.meetTheExecutionConditions(params: params) : URLServiceErrorNotFound
         if let newCompletion = completion {
             newCompletion(resultService, error)
         }
         if let service = resultService {
-            let _ = callService(service, callback: callback)
+            service.execute(params: params, callback: callback)
         }
     }
     

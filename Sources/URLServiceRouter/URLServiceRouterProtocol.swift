@@ -242,14 +242,12 @@ public typealias URLServiceExecutionCallback = (Any?) -> Void
 public protocol URLServiceProtocol {
     /// service name
     var name: String { get }
-    /// set  params
-    /// - Parameter params: params
-    func setParams(_ params: Any?) -> Void
     /// check whether the execution conditions are met
-    func meetTheExecutionConditions() -> URLServiceErrorProtocol?
+    func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol?
     /// execute current service, you need to decide for yourself whether to execute if the execution conditions are not met
+    /// - Parameter params: params
     /// - Parameter callback: callback block, you can pass the response data
-    func execute(callback: URLServiceExecutionCallback?) -> Void
+    func execute(params: Any?, callback: URLServiceExecutionCallback?) -> Void
 }
 
 public protocol URLServiceErrorProtocol {
