@@ -123,7 +123,7 @@ public class URLServiceRequest: URLServiceRequestProtocol {
                 }
             }
         }
-        serviceRouter.router(request: self)
+        serviceRouter.route(request: self)
     }
     
     public func stop() -> Void {

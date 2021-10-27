@@ -11,7 +11,7 @@
 		3D2FCD8426CDF624008CD97F /* URLServiceRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2FCD8326CDF624008CD97F /* URLServiceRouterTests.swift */; };
 		3D5DBF5626D4DC49009607EA /* URLServiceRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF4B26D4DC49009607EA /* URLServiceRouterProtocol.swift */; };
 		3D5DBF5726D4DC49009607EA /* URLServiceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF4D26D4DC49009607EA /* URLServiceRequest.swift */; };
-		3D5DBF5826D4DC49009607EA /* URLServiceRouterResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF4E26D4DC49009607EA /* URLServiceRouterResult.swift */; };
+		3D5DBF5826D4DC49009607EA /* URLServiceRouteResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF4E26D4DC49009607EA /* URLServiceRouteResult.swift */; };
 		3D5DBF5926D4DC49009607EA /* URLServiceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF4F26D4DC49009607EA /* URLServiceRouter.swift */; };
 		3D5DBF5A26D4DC49009607EA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF5026D4DC49009607EA /* Extensions.swift */; };
 		3D5DBF5B26D4DC49009607EA /* URLServiceNodel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF5126D4DC49009607EA /* URLServiceNodel.swift */; };
@@ -20,7 +20,7 @@
 		3D5DBF5E26D4DC49009607EA /* URLServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF5426D4DC49009607EA /* URLServiceError.swift */; };
 		3D5DBF5F26D4DC49009607EA /* URLServiceRequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF5526D4DC49009607EA /* URLServiceRequestResponse.swift */; };
 		3D5DBFDC26D4E1E8009607EA /* URLServiceRequest.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D5DBF4D26D4DC49009607EA /* URLServiceRequest.swift */; settings = {ATTRIBUTES = (Public, ); }; };
-		3D5DBFDD26D4E1E8009607EA /* URLServiceRouterResult.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D5DBF4E26D4DC49009607EA /* URLServiceRouterResult.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		3D5DBFDD26D4E1E8009607EA /* URLServiceRouteResult.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D5DBF4E26D4DC49009607EA /* URLServiceRouteResult.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		3D5DBFDE26D4E1E8009607EA /* URLServiceRouter.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D5DBF4F26D4DC49009607EA /* URLServiceRouter.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		3D5DBFDF26D4E1E8009607EA /* Extensions.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D5DBF5026D4DC49009607EA /* Extensions.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		3D5DBFE026D4E1E8009607EA /* URLServiceNodel.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D5DBF5126D4DC49009607EA /* URLServiceNodel.swift */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -49,7 +49,7 @@
 		3D2FCD8526CDF624008CD97F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D5DBF4B26D4DC49009607EA /* URLServiceRouterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = URLServiceRouterProtocol.swift; path = ../../Sources/URLServiceRouter/URLServiceRouterProtocol.swift; sourceTree = "<group>"; };
 		3D5DBF4D26D4DC49009607EA /* URLServiceRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRequest.swift; sourceTree = "<group>"; };
-		3D5DBF4E26D4DC49009607EA /* URLServiceRouterResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRouterResult.swift; sourceTree = "<group>"; };
+		3D5DBF4E26D4DC49009607EA /* URLServiceRouteResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRouteResult.swift; sourceTree = "<group>"; };
 		3D5DBF4F26D4DC49009607EA /* URLServiceRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRouter.swift; sourceTree = "<group>"; };
 		3D5DBF5026D4DC49009607EA /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3D5DBF5126D4DC49009607EA /* URLServiceNodel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceNodel.swift; sourceTree = "<group>"; };
@@ -118,15 +118,15 @@
 		3D5DBF4C26D4DC49009607EA /* URLServiceRouter */ = {
 			isa = PBXGroup;
 			children = (
-				3D5DBF4D26D4DC49009607EA /* URLServiceRequest.swift */,
-				3D5DBF4E26D4DC49009607EA /* URLServiceRouterResult.swift */,
-				3D5DBF4F26D4DC49009607EA /* URLServiceRouter.swift */,
 				3D5DBF5026D4DC49009607EA /* Extensions.swift */,
+				3D5DBF5426D4DC49009607EA /* URLServiceError.swift */,
 				3D5DBF5126D4DC49009607EA /* URLServiceNodel.swift */,
 				3D5DBF5226D4DC49009607EA /* URLServiceNodeParser.swift */,
 				3D5DBF5326D4DC49009607EA /* URLServiceNodeParserDecision.swift */,
-				3D5DBF5426D4DC49009607EA /* URLServiceError.swift */,
+				3D5DBF4D26D4DC49009607EA /* URLServiceRequest.swift */,
 				3D5DBF5526D4DC49009607EA /* URLServiceRequestResponse.swift */,
+				3D5DBF4F26D4DC49009607EA /* URLServiceRouter.swift */,
+				3D5DBF4E26D4DC49009607EA /* URLServiceRouteResult.swift */,
 			);
 			name = URLServiceRouter;
 			path = ../../Sources/URLServiceRouter/URLServiceRouter;
@@ -140,7 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D5DBFDC26D4E1E8009607EA /* URLServiceRequest.swift in Headers */,
-				3D5DBFDD26D4E1E8009607EA /* URLServiceRouterResult.swift in Headers */,
+				3D5DBFDD26D4E1E8009607EA /* URLServiceRouteResult.swift in Headers */,
 				3D5DBFDE26D4E1E8009607EA /* URLServiceRouter.swift in Headers */,
 				3D5DBFDF26D4E1E8009607EA /* Extensions.swift in Headers */,
 				3D5DBFE326D4E1E8009607EA /* URLServiceError.swift in Headers */,
@@ -251,7 +251,7 @@
 				3D5DBF5726D4DC49009607EA /* URLServiceRequest.swift in Sources */,
 				3D5DBF5926D4DC49009607EA /* URLServiceRouter.swift in Sources */,
 				3D5DBF5B26D4DC49009607EA /* URLServiceNodel.swift in Sources */,
-				3D5DBF5826D4DC49009607EA /* URLServiceRouterResult.swift in Sources */,
+				3D5DBF5826D4DC49009607EA /* URLServiceRouteResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,7 +326,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -384,7 +384,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -407,7 +407,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = URLServiceRouter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -437,7 +437,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = URLServiceRouter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

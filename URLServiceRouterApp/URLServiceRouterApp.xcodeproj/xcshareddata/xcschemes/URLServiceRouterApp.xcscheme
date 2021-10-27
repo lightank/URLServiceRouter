@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1240"
+   LastUpgradeVersion = "1300"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,24 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3D2FCD7426CDF623008CD97F"
-               BuildableName = "URLServiceRouter.framework"
-               BlueprintName = "URLServiceRouter"
-               ReferencedContainer = "container:URLServiceRouter.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3D2FCD7D26CDF624008CD97F"
-               BuildableName = "URLServiceRouterTests.xctest"
-               BlueprintName = "URLServiceRouterTests"
-               ReferencedContainer = "container:URLServiceRouter.xcodeproj">
+               BlueprintIdentifier = "3D5DBF7526D4DD57009607EA"
+               BuildableName = "URLServiceRouterApp.app"
+               BlueprintName = "URLServiceRouterApp"
+               ReferencedContainer = "container:URLServiceRouterApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -42,16 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3D2FCD7D26CDF624008CD97F"
-               BuildableName = "URLServiceRouterTests.xctest"
-               BlueprintName = "URLServiceRouterTests"
-               ReferencedContainer = "container:URLServiceRouter.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -64,6 +40,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "3D5DBF7526D4DD57009607EA"
+            BuildableName = "URLServiceRouterApp.app"
+            BlueprintName = "URLServiceRouterApp"
+            ReferencedContainer = "container:URLServiceRouterApp.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -71,15 +57,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3D2FCD7426CDF623008CD97F"
-            BuildableName = "URLServiceRouter.framework"
-            BlueprintName = "URLServiceRouter"
-            ReferencedContainer = "container:URLServiceRouter.xcodeproj">
+            BlueprintIdentifier = "3D5DBF7526D4DD57009607EA"
+            BuildableName = "URLServiceRouterApp.app"
+            BlueprintName = "URLServiceRouterApp"
+            ReferencedContainer = "container:URLServiceRouterApp.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
