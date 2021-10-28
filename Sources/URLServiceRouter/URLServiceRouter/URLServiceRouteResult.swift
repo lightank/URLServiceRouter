@@ -1,5 +1,5 @@
 //
-//  URLServiceRouterResult.swift
+//  URLServiceRouteResult.swift
 //  URLServiceRouter
 //
 //  Created by huanyu.li on 2021/8/2.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class URLServiceRouterResult: URLServiceRouterResultProtocol {    
+public class URLServiceRouteResult: URLServiceRouteResultProtocol {    
     public private(set) var endNode: URLServiceNodeProtocol?
     public private(set) var responseNode: URLServiceNodeProtocol?
     public private(set) var responseNodeParser: URLServiceNodeParserProtocol?
@@ -22,9 +22,9 @@ public class URLServiceRouterResult: URLServiceRouterResultProtocol {
         self.responseServiceName = serviceName
         self.completion(self)
     }
-    public var completion: ((URLServiceRouterResultProtocol) -> Void)
+    public var completion: ((URLServiceRouteResultProtocol) -> Void)
     
-    public init(endNode: URLServiceNodeProtocol? = nil, responseNode: URLServiceNodeProtocol? = nil, responseServiceName: String? = nil, completion: @escaping (URLServiceRouterResultProtocol) -> Void) {
+    public init(endNode: URLServiceNodeProtocol? = nil, responseNode: URLServiceNodeProtocol? = nil, responseServiceName: String? = nil, completion: @escaping (URLServiceRouteResultProtocol) -> Void) {
         self.endNode = endNode
         self.responseNode = responseNode
         self.responseServiceName = responseServiceName

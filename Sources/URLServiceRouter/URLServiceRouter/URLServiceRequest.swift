@@ -28,6 +28,7 @@ public class URLServiceRequest: URLServiceRequestProtocol {
     public var failure: URLServiceRequestCompletionBlock?
     public var callback: URLServiceRequestCompletionBlock?
     private var serviceCallback: URLServiceExecutionCallback?
+    private var isCanceled: Bool = false
     
     public init(url: URL, params: [String: Any] = [String: Any](), serviceRouter: URLServiceRouterProtocol = URLServiceRouter.shared) {
         self.url = url
@@ -35,10 +36,10 @@ public class URLServiceRequest: URLServiceRequestProtocol {
         self.nodeNames = url.nodeNames
         self.params = url.nodeQueryItems
         self.params.merge(params) {(_, new) in new}
-        self.params[URLServiceRequestOriginalURLKey] = url.absoluteURL
     }
     
     public func requestParams() -> Any? {
+        params[URLServiceRequestOriginalURLKey] = url.absoluteURL
         return params
     }
     
@@ -54,8 +55,9 @@ public class URLServiceRequest: URLServiceRequestProtocol {
                         newSuccess(self)
                         success = nil
                     }
-                    
-                    serviceRouter.callService(name: serviceName, params: requestParams(), completion: nil, callback: serviceCallback)
+                    if (!isCanceled) {
+                        serviceRouter.callService(name: serviceName, params: requestParams(), completion: nil, callback: serviceCallback)
+                    }
                 } else {
                     if let newFailure = failure {
                         newFailure(self)
@@ -110,7 +112,7 @@ public class URLServiceRequest: URLServiceRequestProtocol {
     
     public func start(success: URLServiceRequestCompletionBlock? = nil, failure: URLServiceRequestCompletionBlock? = nil, callback: URLServiceRequestCompletionBlock? = nil) -> Void {
         self.success = success
-        self.failure = success
+        self.failure = failure
         self.callback = callback
         if callback != nil {
             serviceCallback = {[self] (result: Any?) in
@@ -123,7 +125,7 @@ public class URLServiceRequest: URLServiceRequestProtocol {
                 }
             }
         }
-        serviceRouter.router(request: self)
+        serviceRouter.route(request: self)
     }
     
     public func stop() -> Void {
@@ -131,6 +133,7 @@ public class URLServiceRequest: URLServiceRequestProtocol {
         failure = nil
         callback = nil
         serviceCallback = nil
+        isCanceled = true
     }
     
     public var description: String {

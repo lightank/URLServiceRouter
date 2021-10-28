@@ -28,7 +28,7 @@ public class URServiceNode: URLServiceNodeProtocol {
             components.insert(parent!.name, at: 0)
             parent = parent?.parentNode
         }
-        return components.joined(separator: "/")
+        return components.nodeUrlKey
     }
     
     public func routedNodeNames() -> [String] {
@@ -44,12 +44,11 @@ public class URServiceNode: URLServiceNodeProtocol {
     }
     
     public func registeSubNode(with name: String) -> URLServiceNodeProtocol {
-        let lowercasedName = name.lowercased()
-        if let subNode = subNodes.first(where: {($0.name == lowercasedName)}) {
+        if let subNode = subNodes.first(where: {($0.name == name)}) {
             return subNode;
         }
         
-        let node = URServiceNode(name: lowercasedName, parentNode: self)
+        let node = URServiceNode(name: name, parentNode: self)
         registe(subNode: node)
         return node
     }
@@ -69,7 +68,7 @@ public class URServiceNode: URLServiceNodeProtocol {
         return subNodes.contains { subNode.name == $0.name }
     }
     
-    public func registe(parser: URLServiceNodeParserProtocol) -> Void {
+    public func register(parser: URLServiceNodeParserProtocol) -> Void {
         switch parser.parserType {
         case .pre:
             let index = preParsers.binarySearch(predicate: { $0.priority >= parser.priority })
@@ -80,18 +79,18 @@ public class URServiceNode: URLServiceNodeProtocol {
         }
     }
     
-    public func router(request: URLServiceRequestProtocol, result: URLServiceRouterResultProtocol) {
-        routerPreParser(request: request, result: result)
+    public func route(request: URLServiceRequestProtocol, result: URLServiceRouteResultProtocol) {
+        routePreParser(request: request, result: result)
     }
     
-    public func routerPreParser(request: URLServiceRequestProtocol, result: URLServiceRouterResultProtocol) {
+    public func routePreParser(request: URLServiceRequestProtocol, result: URLServiceRouteResultProtocol) {
         preParser(request: request, parserIndex: 0, decision: URLServiceNodeParserDecision(next: { [self] in
             if let nodeName = request.nodeNames.first, let node = self.subNodes.first(where: {$0.name == nodeName}) {
                 request.reduceOneNodeName(from: node)
-                node.router(request: request, result: result)
+                node.route(request: request, result: result)
             } else {
                 result.recordEndNode(self)
-                routerPostParser(request: request, result: result)
+                routePostParser(request: request, result: result)
             }
         }, complete: { (nodeParser ,service) in
             result.routerCompletion(self, nodeParser, service)
@@ -110,11 +109,11 @@ public class URServiceNode: URLServiceNodeProtocol {
         }
     }
     
-    public func routerPostParser(request: URLServiceRequestProtocol, result: URLServiceRouterResultProtocol) {
+    public func routePostParser(request: URLServiceRequestProtocol, result: URLServiceRouteResultProtocol) {
         postParser(request: request, parserIndex: 0, decision: URLServiceNodeParserDecision(next: { [self] in
             if let parentNode = parentNode {
                 request.restoreOneNodeName(from: self)
-                parentNode.routerPostParser(request: request, result: result)
+                parentNode.routePostParser(request: request, result: result)
             } else {
                 result.routerCompletion(self, nil, nil)
             }

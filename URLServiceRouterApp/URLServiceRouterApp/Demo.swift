@@ -154,11 +154,11 @@ class URLServiceRouterDelegate: URLServiceRouterDelegateProtocol {
         return currentViewController()?.navigationController
     }
     
-    func shouldRouter(request: URLServiceRequestProtocol) -> Bool {
+    func shouldRoute(request: URLServiceRequestProtocol) -> Bool {
         return true
     }
     
-    func dynamicProcessingRouterRequest(_ request: URLServiceRequestProtocol) {
+    func dynamicProcessingServiceRequest(_ request: URLServiceRequestProtocol) {
         
     }
     

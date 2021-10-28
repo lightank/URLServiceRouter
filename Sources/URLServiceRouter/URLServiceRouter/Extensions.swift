@@ -8,12 +8,18 @@
 
 import Foundation
 
-extension RandomAccessCollection {
-    public func binarySearch(predicate: (Iterator.Element) -> Bool) -> Index {
+public extension Array where Element == String {
+    var nodeUrlKey: String {
+        return joined(separator: URLComponentSeparator)
+    }
+}
+
+public extension RandomAccessCollection {
+    func binarySearch(predicate: (Iterator.Element) -> Bool) -> Index {
         var low = startIndex
         var high = endIndex
         while low != high {
-            let mid = index(low, offsetBy: distance(from: low, to: high)/2)
+            let mid = index(low, offsetBy: distance(from: low, to: high) / 2)
             if predicate(self[mid]) {
                 low = index(after: mid)
             } else {
@@ -24,8 +30,10 @@ extension RandomAccessCollection {
     }
 }
 
-extension URL {
-    public var nodeQueryItems: [String: String] {
+public let URLComponentSeparator = "/"
+
+public extension URL {
+    var nodeQueryItems: [String: String] {
         var params = [String: String]()
         return URLComponents(url: self, resolvingAgainstBaseURL: false)?
             .queryItems?
@@ -35,7 +43,7 @@ extension URL {
             }) ?? [:]
     }
     
-    public var nodeNames: [String] {
+    var nodeNames: [String] {
         var nodeNames = [String]()
         
         if let scheme = scheme?.lowercased() {
@@ -46,34 +54,44 @@ extension URL {
         }
         
         var paths = pathComponents
-        if paths.count > 0 && paths.first == "/" {
+        if paths.count > 0 && paths.first == URLComponentSeparator {
             paths.remove(at: 0)
         }
         if !path.isEmpty {
-            nodeNames += paths.map{ $0.lowercased()}
+            nodeNames += paths
         }
         
         return nodeNames;
     }
     
-    public var nodeUrl: URL {
+    var nodeUrl: URL {
         var nodeUrl = ""
         if let scheme = scheme?.lowercased() {
             nodeUrl += "\(scheme)://"
         }
         
         var paths = pathComponents
-        if paths.count > 0 && paths.first == "/" {
+        if paths.count > 0 && paths.first == URLComponentSeparator {
             paths.remove(at: 0)
         }
         if let host = host?.lowercased() {
             paths.insert(host, at: 0)
         }
-        nodeUrl += paths.map{ $0.lowercased()}.joined(separator: "/")
+        nodeUrl += paths.joined(separator: URLComponentSeparator)
         if let url = URL(string: nodeUrl) {
             return url
         } else {
             assert(true, "this url：\(absoluteURL)")
+            return self
+        }
+    }
+}
+
+public extension String {
+    var nodeUrl: String {
+        if let url = URL(string: self) {
+            return url.nodeUrl.absoluteString
+        } else {
             return self
         }
     }
