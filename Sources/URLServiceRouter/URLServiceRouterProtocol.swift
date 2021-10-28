@@ -195,7 +195,7 @@ public protocol URLServiceRequestProtocol {
     ///   - failure: 路由失败回调
     ///   - callback: 服务调用完成回调
     func start(success: URLServiceRequestCompletionBlock?, failure: URLServiceRequestCompletionBlock?, callback: URLServiceRequestCompletionBlock?)
-    /// 停止当前请求
+    /// 停止当前请求，调用后将不会执行命中的服务
     func stop()
 }
 
