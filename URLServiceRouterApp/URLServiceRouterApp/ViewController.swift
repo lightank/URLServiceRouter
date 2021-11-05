@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         tableView.dataSource = self
         return tableView
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "URLServiceRouter"
@@ -44,7 +44,7 @@ class ViewController: UIViewController {
             tableViewCell.accessoryType = .disclosureIndicator
         }, cellSelectedBlock: { (cellItem, tableView, tableViewCell, indexPath) in
             URLServiceRouter.shared.callService(name: "input_page", params: "请在此输入信息，以便回调回去") { (service, error) in
-            } callback: { (result) in
+            } callback: { (result, error) in
                 if result is String? {
                     self.showAlertMessge(title: "页面回传来的数据", message: result as! String?)
                 }
@@ -61,15 +61,9 @@ class ViewController: UIViewController {
         }, cellSelectedBlock: { (cellItem, tableView, tableViewCell, indexPath) in
             if let url = URL(string: "http://china.realword.io/owner/1/info") {
                 URLServiceRequest(url: url).start(callback: { (request) in
-                     if let data = request.response?.data {
+                    if let data = request.response?.data {
+                        // 正确的数据
                         self.showAlertMessge(title: "回调的业务数据", message: String(describing: data) )
-                        if data is URLServiceErrorProtocol {
-                            // 遇到错误了
-
-                        } else {
-                            // 正确的数据
-                            
-                        }
                     }
                     URLServiceRouter.shared.logInfo("\(String(describing: request.response?.data))")
                 })
@@ -83,7 +77,7 @@ class ViewController: UIViewController {
         }, cellSelectedBlock: { (cellItem, tableView, tableViewCell, indexPath) in
             URLServiceRouter.shared.callService(name: "user://info", params: "1") { (service, error) in
                 
-            } callback: { (result) in
+            } callback: { (result, error) in
                 self.showAlertMessge(title: "回调的业务数据", message: String(describing: result) )
                 URLServiceRouter.shared.logInfo("\(String(describing: result))")
             }
@@ -152,7 +146,7 @@ class TableViewCellItem: NSObject {
     let cellSelectedBlock: TableViewCellItemBlock
     
     var cellReuseIdentifier: String {
-         NSStringFromClass(cellClass)
+        NSStringFromClass(cellClass)
     }
     
     init(cellClass: AnyClass, cellHeight: Double = -1, cellSettingBlock: @escaping TableViewCellItemBlock, cellSelectedBlock: @escaping TableViewCellItemBlock) {

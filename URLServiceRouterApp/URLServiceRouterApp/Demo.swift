@@ -33,7 +33,7 @@ class URLOwnerInfoService: URLServiceProtocol {
         let userInfoCallback = {
             if let newId = self.getUserId(from: params) {
                 if let newCallback = callback {
-                    newCallback(self.findUser(with: newId))
+                    newCallback(self.findUser(with: newId), nil)
                 }
             }
         }
@@ -73,7 +73,7 @@ public func screenSize() -> CGSize {
 
 class InputPageService: URLServiceProtocol {
     var name: String = "input_page"
-        
+    
     func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol? {
         return nil
     }
@@ -84,7 +84,7 @@ class InputPageService: URLServiceProtocol {
             inputViewController.placeholder = getPlaceholder(from: params)
             inputViewController.callBack = { (result) in
                 if let newCallback = callback {
-                    newCallback(result)
+                    newCallback(result, nil)
                 }
             }
             currentNavigationController.pushViewController(inputViewController, animated: true)

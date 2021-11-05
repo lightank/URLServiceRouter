@@ -23,12 +23,12 @@ public protocol URLServiceRouterDelegateProtocol {
     
     // MARK: 控制器信息
     
-    #if canImport(UIKit)
+#if canImport(UIKit)
     /// 返回 app 当前的显示的 vc，方便页面级的 URLService 进行跳转
     func currentViewController() -> UIViewController?
     /// 返回 app 当前的显示的 vc 所在的导航控制器，方便页面级的 URLService 进行跳转
     func currentNavigationController() -> UINavigationController?
-    #endif
+#endif
     
     // MARK: 服务请求
     
@@ -75,7 +75,7 @@ public protocol URLServiceRouterProtocol {
     func isRegisteredNode(_ url: String) -> Bool
     /// 返回所有已经注册过的 node URL 数组
     func allRegisteredNodeUrls() -> [String]
-
+    
     // MARK: 服务
     
     /// 注册服务
@@ -110,7 +110,7 @@ public protocol URLServiceRouterProtocol {
     func logInfo(_ message: String)
     
     // MARK: 测试
-
+    
     /// 测试请求解析流程、是否达到服务调用条件，但并不会调用服务。注意：仅在 DEBUG 下执行
     /// - Parameters:
     ///   - url: 请求url
@@ -204,7 +204,7 @@ public protocol URLServiceRequestProtocol {
 public protocol URLServiceRequestResponseProtocol {
     /// 响应的服务名称
     var serviceName: String? { get set }
-    /// 响应的错误信息，比如：不满足执行条件时返回的错误、找不到服务的错误
+    /// 错误信息，比如：不满足执行条件时返回的错误、找不到服务的错误、服务执行的错误等
     var error: URLServiceErrorProtocol? { get set }
     /// 响应的数据
     var data: Any? { get set }
@@ -213,13 +213,11 @@ public protocol URLServiceRequestResponseProtocol {
 // MARK: - URLServiceNode
 
 public protocol URLServiceNodeProtocol {
-    /// 节点名称，可能代表 URL 中的一个 component、字符串数组中的某一个原生、根节点
+    /// 节点名称，可能代表根节点或者 URL 中的一个 components 的某一个元素
     var name: String { get }
     
     /// 父节点，将在路由回溯中用到
     var parentNode: URLServiceNodeProtocol? { get }
-    /// 子节点数组，在路由查找过程中可能会命中其中一个作为下一个节点
-    var subNodes: [URLServiceNodeProtocol] { get }
     /// 注册子节点
     /// - Parameter subNode: 子节点
     func registe(subNode: URLServiceNodeProtocol)
@@ -288,7 +286,7 @@ public protocol URLServiceNodeParserDecisionProtocol {
 
 // MARK: - URLService
 
-public typealias URLServiceExecutionCallback = (Any?) -> Void
+public typealias URLServiceExecutionCallback = (Any?, URLServiceErrorProtocol?) -> Void
 public protocol URLServiceProtocol {
     /// 服务名称
     var name: String { get }

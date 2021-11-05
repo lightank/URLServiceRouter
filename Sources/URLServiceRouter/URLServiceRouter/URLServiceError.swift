@@ -10,6 +10,8 @@ import Foundation
 
 public let URLServiceErrorNotFoundCode = "404"
 public let URLServiceErrorNotFound = URLServiceError(code: URLServiceErrorNotFoundCode, message: "service not found")
+public let URLServiceErrorTimeoutCode = "408"
+public let URLServiceErrorTimeout = URLServiceError(code: URLServiceErrorTimeoutCode, message: "service time out")
 
 public struct URLServiceError: URLServiceErrorProtocol {
     public var code: String

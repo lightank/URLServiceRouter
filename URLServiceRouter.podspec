@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "URLServiceRouter"
-  spec.version      = "0.0.7"
+  spec.version      = "0.0.8"
   spec.summary      = "A Swift URL router implemented by a high-degree-of-freedom nodeTree and RPC."
   spec.swift_versions =  '5.0'
 
@@ -69,7 +69,7 @@ Pod::Spec.new do |spec|
   # spec.platform     = :ios, "0.0"
 
   #  When using multiple platforms
-  spec.ios.deployment_target = "9.0"
+  spec.ios.deployment_target = "10.0"
   spec.osx.deployment_target = "10.15"
   # spec.watchos.deployment_target = "2.0"
   # spec.tvos.deployment_target = "9.0"
