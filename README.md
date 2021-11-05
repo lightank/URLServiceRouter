@@ -93,14 +93,9 @@ do {
 ```swift
 if let url = URL(string: "http://china.realword.io/owner/1/info") {
     URLServiceRequest(url: url).start(callback: { (request) in
-         if let data = request.response?.data {
-            if data is URLServiceErrorProtocol {
-                // 遇到错误了
-
-            } else {
-                // 正确的数据
-                
-            }
+        if let data = request.response?.data {
+            // 正确的数据
+            self.showAlertMessge(title: "回调的业务数据", message: String(describing: data) )
         }
         URLServiceRouter.shared.logInfo("\(String(describing: request.response?.data))")
     })
@@ -112,7 +107,8 @@ if let url = URL(string: "http://china.realword.io/owner/1/info") {
 ```swift
 URLServiceRouter.shared.callService(name: "user://info", params: "1") { (service, error) in
     
-} callback: { (result) in
+} callback: { (result, error) in
+    self.showAlertMessge(title: "回调的业务数据", message: String(describing: result) )
     URLServiceRouter.shared.logInfo("\(String(describing: result))")
 }
 ```
@@ -205,14 +201,9 @@ request service
 ```swift
 if let url = URL(string: "http://china.realword.io/owner/1/info") {
     URLServiceRequest(url: url).start(callback: { (request) in
-         if let data = request.response?.data {
-            if data is URLServiceErrorProtocol {
-                // when error
-
-            } else {
-                // real data
-                
-            }
+        if let data = request.response?.data {
+            // real data
+            
         }
         URLServiceRouter.shared.logInfo("\(String(describing: request.response?.data))")
     })
@@ -224,7 +215,7 @@ call service
 ```swift
 URLServiceRouter.shared.callService(name: "user://info", params: "1") { (service, error) in
     
-} callback: { (result) in
+} callback: { (result, error) in
     URLServiceRouter.shared.logInfo("\(String(describing: result))")
 }
 ```

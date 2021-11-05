@@ -134,7 +134,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
                 request.updateResponse(URLServiceRequestResponse(serviceName: response?.serviceName, error: error))
                 
                 request.routingCompletion()
-                self.logInfo("URLServiceRouter end router \nrequest: \(request.description), \nservice:\(String(describing: responseService?.name)) \nerrorCode:\(String(describing: error?.code)) \nerrorMessage:\(String(describing: error?.message))")
+                logInfo("URLServiceRouter end router \nrequest: \(request.description), \nservice:\(String(describing: responseService?.name)) \nerrorCode:\(String(describing: error?.code)) \nerrorMessage:\(String(describing: error?.message))")
             }))
         }
     }
@@ -142,7 +142,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     // MARK: - 服务请求
     
     public func unitTestRequest(url: String, shouldDelegateProcessingRouterResult: Bool = false, completion: @escaping ((URLServiceRequestProtocol, URLServiceRouteResultProtocol) -> Void)) -> Void {
-        #if DEBUG
+#if DEBUG
         queue.sync { [self] in
             assert(URL(string: url) != nil, "unitTest request url:\(url) is inviald")
             if let newUrl = URL(string: url) {
@@ -159,7 +159,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
                 }))
             }
         }
-        #endif
+#endif
     }
     
     // MARK: - 日志

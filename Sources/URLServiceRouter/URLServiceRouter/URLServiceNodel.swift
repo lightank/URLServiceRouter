@@ -12,9 +12,9 @@ public class URServiceNode: URLServiceNodeProtocol {
     
     public let name: String
     public let parentNode: URLServiceNodeProtocol?
-    public private(set) var subNodes: [URLServiceNodeProtocol] = []
     public private(set) var preParsers: [URLServiceNodeParserProtocol] = []
     public private(set) var postParsers: [URLServiceNodeParserProtocol] = []
+    private var subNodesDict: [String: URLServiceNodeProtocol] = [:]
     
     init(name: String, parentNode: URLServiceNodeProtocol?) {
         self.name = name;
@@ -44,7 +44,7 @@ public class URServiceNode: URLServiceNodeProtocol {
     }
     
     public func registeSubNode(with name: String) -> URLServiceNodeProtocol {
-        if let subNode = subNodes.first(where: {($0.name == name)}) {
+        if let subNode = subNodesDict[name] {
             return subNode;
         }
         
@@ -58,14 +58,13 @@ public class URServiceNode: URLServiceNodeProtocol {
             assert(true, "node: \(name) have register subNode: \(subNode.name)")
         }
         
-        let index = subNodes.binarySearch { (node) -> Bool in
-            node.name.caseInsensitiveCompare(subNode.name).rawValue <= 0
-        }
-        subNodes.insert(subNode, at: index)
+        subNodesDict[subNode.name] = subNode
     }
     
     func exitedSubNode(_ subNode: URLServiceNodeProtocol) -> Bool {
-        return subNodes.contains { subNode.name == $0.name }
+        return subNodesDict.contains { (key: String, value: URLServiceNodeProtocol) in
+            subNode.name == value.name
+        }
     }
     
     public func register(parser: URLServiceNodeParserProtocol) -> Void {
@@ -85,7 +84,7 @@ public class URServiceNode: URLServiceNodeProtocol {
     
     public func routePreParser(request: URLServiceRequestProtocol, result: URLServiceRouteResultProtocol) {
         preParser(request: request, parserIndex: 0, decision: URLServiceNodeParserDecision(next: { [self] in
-            if let nodeName = request.nodeNames.first, let node = self.subNodes.first(where: {$0.name == nodeName}) {
+            if let nodeName = request.nodeNames.first, let node = self.subNodesDict[nodeName] {
                 request.reduceOneNodeName(from: node)
                 node.route(request: request, result: result)
             } else {
