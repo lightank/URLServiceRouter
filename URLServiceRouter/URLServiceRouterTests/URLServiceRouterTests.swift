@@ -33,9 +33,7 @@ class URLServiceRouterTests: XCTestCase {
     func testRouter() throws {
         let service = URLService(name: "helloWorld", executeBlock:  { params, callBack  in
             print("helloWorld 参数：\(String(describing: params))")
-            if let newCallBack = callBack {
-                newCallBack("helloWorld")
-            }
+            callBack?("helloWorld", nil)
         })
         URLServiceRouter.shared.register(service: service)
         XCTAssert(URLServiceRouter.shared.isRegisteredService(service.name), "服务：\(service.name)注册失败")
@@ -96,22 +94,17 @@ class URLService: URLServiceProtocol {
     var executeConditionsBlock: URLServiceExecuteConditionsBlock?
     var executeBlock: URLServiceExecuteBlock?
     
-    public init(name: String, executeConditionsBlock: URLServiceExecuteConditionsBlock? = nil, executeBlock: URLServiceExecuteBlock? = nil){
+    public init(name: String, executeConditionsBlock: URLServiceExecuteConditionsBlock? = nil, executeBlock: URLServiceExecuteBlock? = nil) {
         self.name = name
         self.executeConditionsBlock = executeConditionsBlock
         self.executeBlock = executeBlock
     }
     
     func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol? {
-        if let newExecuteConditionsBlock = executeConditionsBlock {
-            return newExecuteConditionsBlock(params)
-        }
-        return nil
+        return executeConditionsBlock?(params)
     }
     
     func execute(params: Any?, callback: URLServiceExecutionCallback?) {
-        if let newExecuteBlock = executeBlock {
-            newExecuteBlock(params, callback)
-        }
+        executeBlock?(params, callback)
     }
 }

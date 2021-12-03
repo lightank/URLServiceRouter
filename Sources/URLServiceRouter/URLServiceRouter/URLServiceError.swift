@@ -8,10 +8,12 @@
 
 import Foundation
 
+public let URLServiceErrorForbiddenCode = "403"
+public let URLServiceErrorForbidden = URLServiceError(code: URLServiceErrorForbiddenCode, message: "url service router refused this request")
 public let URLServiceErrorNotFoundCode = "404"
 public let URLServiceErrorNotFound = URLServiceError(code: URLServiceErrorNotFoundCode, message: "service not found")
-public let URLServiceErrorTimeoutCode = "408"
-public let URLServiceErrorTimeout = URLServiceError(code: URLServiceErrorTimeoutCode, message: "service time out")
+public let URLServiceErrorRequestTimeoutCode = "408"
+public let URLServiceErrorRequestTimeout = URLServiceError(code: URLServiceErrorRequestTimeoutCode, message: "service request time out")
 
 public struct URLServiceError: URLServiceErrorProtocol {
     public var code: String

@@ -31,6 +31,7 @@ public class URLServiceRequest: URLServiceRequestProtocol {
     private var isCanceled: Bool = false
     private let requestTimeoutInterval: TimeInterval
     private var timer: Timer?
+    public let isOnlyRouting: Bool
     
     /// 初始化方法
     /// - Parameters:
@@ -38,13 +39,15 @@ public class URLServiceRequest: URLServiceRequestProtocol {
     ///   - params: 额外的请求参数
     ///   - requestTimeoutInterval: 请求超时时长，默认值为0，也就是说没有超时时长，时长大于0的时候时长才会生效，到时间就自动请求失败，返回 URLServiceErrorTimeout 错误
     ///   - serviceRouter: 处理请求的服务路由器
-    public init(url: URL, params: [String: Any] = [String: Any](), requestTimeoutInterval: TimeInterval = 0, serviceRouter: URLServiceRouterProtocol = URLServiceRouter.shared) {
+    ///   - isOnlyRouting: 是否仅路由请求但并不执行服务，默认值为 false
+    public init(url: URL, params: [String: Any] = [String: Any](), requestTimeoutInterval: TimeInterval = 0, serviceRouter: URLServiceRouterProtocol = URLServiceRouter.shared, isOnlyRouting: Bool = false) {
         self.url = url
         self.serviceRouter = serviceRouter
         self.nodeNames = url.nodeNames
         self.params = url.nodeQueryItems
         self.params.merge(params) {(_, new) in new}
         self.requestTimeoutInterval = requestTimeoutInterval
+        self.isOnlyRouting = isOnlyRouting
     }
     
     // MARK: - route
@@ -60,14 +63,9 @@ public class URLServiceRequest: URLServiceRequestProtocol {
     
     public func routingCompletion() -> Void {
         MainThreadExecute { [self] in
-            if let respons = self.response {
-                if let serviceName = respons.serviceName {
-                    requestSucceeded(serviceName: serviceName)
-                } else {
-                    requestFailed()
-                }
+            if let serviceName = self.response?.serviceName, serviceRouter.isRegisteredService(serviceName) {
+                requestSucceeded(serviceName: serviceName)
             } else {
-                serviceRouter.logError("request: \(self.description)\n have no respons");
                 requestFailed()
             }
         }
@@ -128,11 +126,9 @@ public class URLServiceRequest: URLServiceRequestProtocol {
             serviceCallback = {[self] (result: Any?, error: URLServiceErrorProtocol?) in
                 response?.data = result
                 response?.error = error
-                if let newCallback = self.callback {
-                    MainThreadExecute {
-                        newCallback(self)
-                        stop()
-                    }
+                MainThreadExecute {
+                    callback?(self)
+                    stop()
                 }
             }
         }
@@ -140,10 +136,12 @@ public class URLServiceRequest: URLServiceRequestProtocol {
     }
     
     private func requestSucceeded(serviceName: String) {
-        if let newSuccess = success {
-            newSuccess(self)
-        }
+        success?(self)
         success = nil
+        
+        if (isOnlyRouting) {
+            stop()
+        }
         
         if (!isCanceled) {
             serviceRouter.callService(name: serviceName, params: requestParams(), completion: nil, callback: serviceCallback)
@@ -151,16 +149,14 @@ public class URLServiceRequest: URLServiceRequestProtocol {
     }
     
     private func requestFailed() {
-        if let newFailure = failure {
-            newFailure(self)
-        }
+        failure?(self)
         failure = nil
         
         stop()
     }
     
     private func requestTimeout() {
-        updateResponse(URLServiceRequestResponse(serviceName: nil, error: URLServiceErrorTimeout))
+        updateResponse(URLServiceRequestResponse(serviceName: nil, error: URLServiceErrorRequestTimeout))
         requestFailed()
     }
     

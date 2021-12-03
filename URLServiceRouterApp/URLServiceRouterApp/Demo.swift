@@ -32,9 +32,7 @@ class URLOwnerInfoService: URLServiceProtocol {
         
         let userInfoCallback = {
             if let newId = self.getUserId(from: params) {
-                if let newCallback = callback {
-                    newCallback(self.findUser(with: newId), nil)
-                }
+                callback?(self.findUser(with: newId), nil)
             }
         }
         
@@ -83,9 +81,7 @@ class InputPageService: URLServiceProtocol {
             let inputViewController = InputViewController()
             inputViewController.placeholder = getPlaceholder(from: params)
             inputViewController.callBack = { (result) in
-                if let newCallback = callback {
-                    newCallback(result, nil)
-                }
+                callback?(result, nil)
             }
             currentNavigationController.pushViewController(inputViewController, animated: true)
         }
@@ -129,9 +125,7 @@ class InputViewController: UIViewController {
     
     @objc func didClickedButton() {
         self.navigationController?.popViewController(animated: true)
-        if let newCallBack = callBack {
-            newCallBack(textField.text)
-        }
+        callBack?(textField.text)
     }
 }
 

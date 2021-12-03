@@ -21,26 +21,16 @@ public class URServiceNode: URLServiceNodeProtocol {
         self.parentNode = parentNode;
     }
     
-    func fullPath() -> String {
-        var components = [name]
-        var parent = parentNode
-        while parent != nil && parent?.parentNode != nil {
-            components.insert(parent!.name, at: 0)
-            parent = parent?.parentNode
-        }
-        return components.nodeUrlKey
-    }
-    
     public func routedNodeNames() -> [String] {
         var routedNodeNames = [String]()
         if parentNode != nil {
             var currentNode:URLServiceNodeProtocol? = self
-            while currentNode != nil && currentNode?.parentNode != nil  {
-                routedNodeNames.insert(currentNode!.name, at: 0)
-                currentNode = currentNode?.parentNode
+            while let current = currentNode, let parent = current.parentNode {
+                routedNodeNames.append(current.name)
+                currentNode = parent
             }
         }
-        return routedNodeNames;
+        return routedNodeNames.reversed();
     }
     
     public func registeSubNode(with name: String) -> URLServiceNodeProtocol {
@@ -79,6 +69,7 @@ public class URServiceNode: URLServiceNodeProtocol {
     }
     
     public func route(request: URLServiceRequestProtocol, result: URLServiceRouteResultProtocol) {
+        // 路由查找
         routePreParser(request: request, result: result)
     }
     
@@ -89,6 +80,7 @@ public class URServiceNode: URLServiceNodeProtocol {
                 node.route(request: request, result: result)
             } else {
                 result.recordEndNode(self)
+                // 路由回溯
                 routePostParser(request: request, result: result)
             }
         }, complete: { (nodeParser ,service) in
