@@ -100,6 +100,10 @@ public protocol URLServiceRouterProtocol {
     /// - Parameter request: 服务请求
     func route(request: URLServiceRequestProtocol)
     
+    /// 能否处理给定 url，即 url 是否有命中的服务
+    /// - Returns: true 代表可处理，false 代表不可处理
+    func canHandleUrl(url: String) -> Bool
+    
     // MARK: 日志
     
     /// 记录错误日志，内部会交给代理处理
@@ -160,6 +164,8 @@ public protocol URLServiceRequestProtocol {
     var callback: URLServiceRequestCompletionBlock? { get }
     /// 当前请求的描述信息
     var description: String { get }
+    /// 是否仅路由请求但并不执行服务，默认值为 false
+    var isOnlyRouting: Bool { get }
     
     func updateResponse(_ response: URLServiceRequestResponseProtocol?)
     /// 在服务路由器完成请求路由时将执行的回调，您应该在调用此方法之前为 响应结果(response) 赋值

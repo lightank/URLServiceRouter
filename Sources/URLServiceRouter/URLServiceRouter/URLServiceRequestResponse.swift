@@ -13,7 +13,7 @@ public struct URLServiceRequestResponse: URLServiceRequestResponseProtocol {
     public var error: URLServiceErrorProtocol?
     public var data: Any?
     
-    init(serviceName: String?, error: URLServiceErrorProtocol? = nil) {
+    init(serviceName: String? = nil, error: URLServiceErrorProtocol? = nil) {
         self.serviceName = serviceName
         self.error = error
     }
