@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "URLServiceRouter"
-  spec.version      = "0.0.8"
+  spec.version      = "0.0.9"
   spec.summary      = "A Swift URL router implemented by a high-degree-of-freedom nodeTree and RPC."
   spec.swift_versions =  '5.0'
 
