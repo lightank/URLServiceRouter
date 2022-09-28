@@ -14,8 +14,9 @@
 		3D5DBF8626D4DD58009607EA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D5DBF8426D4DD58009607EA /* LaunchScreen.storyboard */; };
 		3D5DBF9126D4DD59009607EA /* URLServiceRouterAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF9026D4DD59009607EA /* URLServiceRouterAppTests.swift */; };
 		3D5DBF9C26D4DD59009607EA /* URLServiceRouterAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBF9B26D4DD59009607EA /* URLServiceRouterAppUITests.swift */; };
-		3D5DBFD426D4E1C2009607EA /* URLServiceRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D5DBFD326D4E1C2009607EA /* URLServiceRouter.framework */; };
 		3D5DBFEB26D4E22E009607EA /* Demo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5DBFEA26D4E22E009607EA /* Demo.swift */; };
+		AA4E793E28E4913E002A4742 /* URLServiceRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA4E793D28E4913E002A4742 /* URLServiceRouter.framework */; };
+		AA4E793F28E4913E002A4742 /* URLServiceRouter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA4E793D28E4913E002A4742 /* URLServiceRouter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		AA4E794028E4913E002A4742 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AA4E793F28E4913E002A4742 /* URLServiceRouter.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		3D5DBF7626D4DD57009607EA /* URLServiceRouterApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URLServiceRouterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5DBF7926D4DD57009607EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +67,7 @@
 		3D5DBFCA26D4E045009607EA /* URLServiceRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = URLServiceRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5DBFD326D4E1C2009607EA /* URLServiceRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = URLServiceRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D5DBFEA26D4E22E009607EA /* Demo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demo.swift; sourceTree = "<group>"; };
+		AA4E793D28E4913E002A4742 /* URLServiceRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = URLServiceRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D5DBFD426D4E1C2009607EA /* URLServiceRouter.framework in Frameworks */,
+				AA4E793E28E4913E002A4742 /* URLServiceRouter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +152,7 @@
 		3D5DBFC926D4E045009607EA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA4E793D28E4913E002A4742 /* URLServiceRouter.framework */,
 				3D5DBFD326D4E1C2009607EA /* URLServiceRouter.framework */,
 				3D5DBFCA26D4E045009607EA /* URLServiceRouter.framework */,
 			);
@@ -152,6 +169,7 @@
 				3D5DBF7226D4DD57009607EA /* Sources */,
 				3D5DBF7326D4DD57009607EA /* Frameworks */,
 				3D5DBF7426D4DD57009607EA /* Resources */,
+				AA4E794028E4913E002A4742 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
