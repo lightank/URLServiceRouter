@@ -9,7 +9,9 @@
 import Foundation
 
 public class URLServiceRouter: URLServiceRouterProtocol {
-    public private(set) var delegate: URLServiceRouterDelegateProtocol?
+    public var rootNodeParsersBuilder: URLServiceNodeParsersBuilder?
+    
+    public var delegate: URLServiceRouterDelegateProtocol?
     let rootNode = URServiceNode(name: "root node", parentNode: nil)
     private var serviceBuilderMap = [String: () -> URLServiceProtocol]()
     var nodesMap = [String: URLServiceNodeProtocol]()
@@ -17,20 +19,9 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     
     public static let shared = URLServiceRouter()
     
-    // MARK: - 代理
-    
-    public func config(delegate: URLServiceRouterDelegateProtocol) {
-        queue.sync { [self] in
-            self.delegate = delegate
-            if let parsers = delegate.rootNodeParsers() {
-                parsers.forEach { rootNode.register(parser: $0) }
-            }
-        }
-    }
-    
     // MARK: - node
     
-    public func registerNode(from url: String, parsersBuilder: (() -> [URLServiceNodeParserProtocol])? = nil) {
+    public func registerNode(from url: String, parsersBuilder: URLServiceNodeParsersBuilder? = nil) {
         if let newUrl = URL(string: url)?.nodeUrl {
             let nodeUrlKey = newUrl.nodeUrl.absoluteString
             assert(!isRegisteredNode(key: nodeUrlKey), "url: \(nodeUrlKey) already registered")
@@ -52,7 +43,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
         return nodesMap.keys.sorted { $0 < $1 }
     }
     
-    private func privateRegisterNode(from names: [String], parsersBuilder: (() -> [URLServiceNodeParserProtocol])?) -> URLServiceNodeProtocol {
+    private func privateRegisterNode(from names: [String], parsersBuilder: URLServiceNodeParsersBuilder?) -> URLServiceNodeProtocol {
         queue.sync(flags: .barrier) { [self] in
             var currentNode: URLServiceNodeProtocol = rootNode
             names.forEach { currentNode = currentNode.registeSubNode(with: $0) }
@@ -114,6 +105,10 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     // MARK: 服务请求
     
     public func route(request: URLServiceRequestProtocol) {
+        if let rootNodeParsers = rootNodeParsersBuilder?() {
+            rootNodeParsers.forEach { rootNode.register(parser: $0) }
+            rootNodeParsersBuilder = nil
+        }
         queue.sync { [self] in
             if let newDelegate = delegate, !newDelegate.shouldRoute(request: request) {
                 logInfo("URLServiceRouter request: \(request.description) is refused by \(String(describing: delegate))")

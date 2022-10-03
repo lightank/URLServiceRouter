@@ -42,23 +42,23 @@ public extension URL {
         var params = [String: String]()
         return URLComponents(url: self, resolvingAgainstBaseURL: false)?
             .queryItems?
-            .reduce([:], { (_, item) -> [String: String] in
+            .reduce([:]) { _, item -> [String: String] in
                 params[item.name] = item.value
                 return params
-            }) ?? [:]
+            } ?? [:]
     }
-    
+
     /// 将 URL 的 scheme、host、pathComponents 中的元素按左到右的顺序添加到一个字符串数组中，其中 scheme、host 会统一转为小写
     var nodeNames: [String] {
         var nodeNames = [String]()
-        
+
         if let scheme = scheme?.lowercased() {
             nodeNames.append(scheme)
         }
         if let host = host?.lowercased() {
             nodeNames.append(host)
         }
-        
+
         var paths = pathComponents
         if paths.first == URLComponentSeparator {
             paths.remove(at: 0)
@@ -66,17 +66,17 @@ public extension URL {
         if !path.isEmpty {
             nodeNames += paths
         }
-        
-        return nodeNames;
+
+        return nodeNames
     }
-    
+
     /// 将 URL 的 scheme、host 转为小写
     var nodeUrl: URL {
         var nodeUrl = ""
         if let scheme = scheme?.lowercased() {
             nodeUrl += "\(scheme)://"
         }
-        
+
         var paths = pathComponents
         if paths.first == URLComponentSeparator {
             paths.remove(at: 0)

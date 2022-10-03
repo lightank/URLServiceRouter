@@ -13,7 +13,7 @@ public class URServiceNode: URLServiceNodeProtocol {
     public let parentNode: URLServiceNodeProtocol?
     public private(set) var preParsers: [URLServiceNodeParserProtocol] = []
     public private(set) var postParsers: [URLServiceNodeParserProtocol] = []
-    public var parsersBuilder: (() -> [URLServiceNodeParserProtocol])?
+    public var parsersBuilder: URLServiceNodeParsersBuilder?
     private var subNodesDict: [String: URLServiceNodeProtocol] = [:]
     
     init(name: String, parentNode: URLServiceNodeProtocol?) {
@@ -69,8 +69,8 @@ public class URServiceNode: URLServiceNodeProtocol {
     }
     
     public func route(request: URLServiceRequestProtocol, result: URLServiceRouteResultProtocol) {
-        if parsersBuilder != nil {
-            parsersBuilder!().forEach { register(parser: $0) }
+        if let parsers = parsersBuilder?() {
+            parsers.forEach { register(parser: $0) }
             parsersBuilder = nil
         }
         // 路由查找

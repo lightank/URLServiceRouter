@@ -156,10 +156,6 @@ class URLServiceRouterDelegate: URLServiceRouterDelegateProtocol {
         
     }
     
-    func rootNodeParsers() -> [URLServiceNodeParserProtocol]? {
-        return [URLServiceRedirectHttpParser()]
-    }
-    
     func logError(_ message: String) {
         print("❌URLServiceRouter log error start: \n\(message)\nURLServiceRouter log error end❌")
     }

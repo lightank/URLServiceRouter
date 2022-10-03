@@ -24,7 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func congifURLServiceRouter() {
-        URLServiceRouter.shared.config(delegate: URLServiceRouterDelegate())
+        URLServiceRouter.shared.delegate = URLServiceRouterDelegate()
+        URLServiceRouter.shared.rootNodeParsersBuilder = {[URLServiceRedirectHttpParser()]}
         registerServices()
         registerNodes()
     }
