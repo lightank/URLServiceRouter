@@ -9,33 +9,33 @@
 import Foundation
 
 public class URServiceNode: URLServiceNodeProtocol {
-    
     public let name: String
     public let parentNode: URLServiceNodeProtocol?
     public private(set) var preParsers: [URLServiceNodeParserProtocol] = []
     public private(set) var postParsers: [URLServiceNodeParserProtocol] = []
+    public var parsersBuilder: (() -> [URLServiceNodeParserProtocol])?
     private var subNodesDict: [String: URLServiceNodeProtocol] = [:]
     
     init(name: String, parentNode: URLServiceNodeProtocol?) {
-        self.name = name;
-        self.parentNode = parentNode;
+        self.name = name
+        self.parentNode = parentNode
     }
     
     public func routedNodeNames() -> [String] {
         var routedNodeNames = [String]()
         if parentNode != nil {
-            var currentNode:URLServiceNodeProtocol? = self
+            var currentNode: URLServiceNodeProtocol? = self
             while let current = currentNode, let parent = current.parentNode {
                 routedNodeNames.append(current.name)
                 currentNode = parent
             }
         }
-        return routedNodeNames.reversed();
+        return routedNodeNames.reversed()
     }
     
     public func registeSubNode(with name: String) -> URLServiceNodeProtocol {
         if let subNode = subNodesDict[name] {
-            return subNode;
+            return subNode
         }
         
         let node = URServiceNode(name: name, parentNode: self)
@@ -43,7 +43,7 @@ public class URServiceNode: URLServiceNodeProtocol {
         return node
     }
     
-    public func registe(subNode: URLServiceNodeProtocol) -> Void {
+    public func registe(subNode: URLServiceNodeProtocol) {
         if exitedSubNode(subNode) {
             assert(true, "node: \(name) have register subNode: \(subNode.name)")
         }
@@ -52,12 +52,12 @@ public class URServiceNode: URLServiceNodeProtocol {
     }
     
     func exitedSubNode(_ subNode: URLServiceNodeProtocol) -> Bool {
-        return subNodesDict.contains { (key: String, value: URLServiceNodeProtocol) in
+        return subNodesDict.contains { (_: String, value: URLServiceNodeProtocol) in
             subNode.name == value.name
         }
     }
     
-    public func register(parser: URLServiceNodeParserProtocol) -> Void {
+    public func register(parser: URLServiceNodeParserProtocol) {
         switch parser.parserType {
         case .pre:
             let index = preParsers.binarySearch(predicate: { $0.priority >= parser.priority })
@@ -69,6 +69,10 @@ public class URServiceNode: URLServiceNodeProtocol {
     }
     
     public func route(request: URLServiceRequestProtocol, result: URLServiceRouteResultProtocol) {
+        if parsersBuilder != nil {
+            parsersBuilder!().forEach { register(parser: $0) }
+            parsersBuilder = nil
+        }
         // 路由查找
         routePreParser(request: request, result: result)
     }
@@ -83,17 +87,17 @@ public class URServiceNode: URLServiceNodeProtocol {
                 // 路由回溯
                 routePostParser(request: request, result: result)
             }
-        }, complete: { (nodeParser ,service) in
+        }, complete: { nodeParser, service in
             result.routerCompletion(self, nodeParser, service)
         }))
     }
     
-    func preParser(request:URLServiceRequestProtocol, parserIndex: Int, decision: URLServiceNodeParserDecisionProtocol) {
+    public func preParser(request: URLServiceRequestProtocol, parserIndex: Int, decision: URLServiceNodeParserDecisionProtocol) {
         if preParsers.count > parserIndex {
             preParsers[parserIndex].parse(request: request, decision: URLServiceNodeParserDecision(next: { [self] in
-                preParser(request:request, parserIndex: parserIndex + 1, decision: decision)
-            }, complete: { (nodeParser ,result) in
-                decision.complete(nodeParser, result);
+                preParser(request: request, parserIndex: parserIndex + 1, decision: decision)
+            }, complete: { nodeParser, result in
+                decision.complete(nodeParser, result)
             }))
         } else {
             decision.next()
@@ -108,17 +112,17 @@ public class URServiceNode: URLServiceNodeProtocol {
             } else {
                 result.routerCompletion(self, nil, nil)
             }
-        }, complete: { (nodeParser ,service) in
-            result.routerCompletion(self, nodeParser , service)
+        }, complete: { nodeParser, service in
+            result.routerCompletion(self, nodeParser, service)
         }))
     }
     
-    func postParser(request:URLServiceRequestProtocol, parserIndex: Int, decision: URLServiceNodeParserDecisionProtocol) {
+    func postParser(request: URLServiceRequestProtocol, parserIndex: Int, decision: URLServiceNodeParserDecisionProtocol) {
         if postParsers.count > parserIndex {
             postParsers[parserIndex].parse(request: request, decision: URLServiceNodeParserDecision(next: { [self] in
                 postParser(request: request, parserIndex: parserIndex + 1, decision: decision)
-            }, complete: { (nodeParser ,result) in
-                decision.complete(nodeParser ,result)
+            }, complete: { nodeParser, result in
+                decision.complete(nodeParser, result)
             }))
         } else {
             decision.next()

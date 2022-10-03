@@ -17,7 +17,6 @@ public let URLServiceNodeParserPriorityDefault = 100
 // MARK: - URLServiceRouterDelegate
 
 public protocol URLServiceRouterDelegateProtocol {
-    
     /// 返回将要在根节点中注册的解析器数组
     func rootNodeParsers() -> [URLServiceNodeParserProtocol]?
     
@@ -53,7 +52,6 @@ public protocol URLServiceRouterDelegateProtocol {
 // MARK: - URLServiceRouter
 
 public protocol URLServiceRouterProtocol {
-    
     // MARK: 代理
     
     /// 代理，提供：当前vc信息、拦截请求、动态处理请求结果、记录日志等功能
@@ -62,14 +60,13 @@ public protocol URLServiceRouterProtocol {
     /// - Parameter delegate: 代理
     func config(delegate: URLServiceRouterDelegateProtocol)
     
-    
     // MARK: node
     
     /// 从字符串 url 中注册一个 node chain，并在 endNode 中注册解析器数组。如果除 endNode 外的 node 如果已经存在，将不会重复注册，仅取值
     /// - Parameters:
     ///   - url: 字符串 url
-    ///   - parsers: 将在 endNode 中注册解析器数组
-    func registerNode(from url: String, parsers: [URLServiceNodeParserProtocol]?)
+    ///   - parsersBuilder: 将在 endNode 中注册解析器数组 Builder
+    func registerNode(from url: String, parsersBuilder: (() -> [URLServiceNodeParserProtocol])?)
     /// 检测给的名称的node url字符串是否注册过
     /// - Parameter url: node url字符串
     func isRegisteredNode(_ url: String) -> Bool
@@ -79,8 +76,10 @@ public protocol URLServiceRouterProtocol {
     // MARK: 服务
     
     /// 注册服务
-    /// - Parameter service: 服务
-    func register(service: URLServiceProtocol)
+    /// - Parameter name: 服务名称
+    /// - Parameter builder: 构造器
+    func registerService(name: String, builder: @escaping () -> URLServiceProtocol)
+    
     /// 调用服务
     /// - Parameters:
     ///   - name: 服务名称
@@ -136,11 +135,11 @@ public protocol URLServiceRouteResultProtocol {
     var responseServiceName: String? { get }
     
     /// 记录 end node 的 block
-    var recordEndNode: ((URLServiceNodeProtocol) -> Void) { get }
+    var recordEndNode: (URLServiceNodeProtocol) -> Void { get }
     /// 当请求路由完成的时候，记录最终响应的 node 回调。如果没有 node 响应，那么将记录 root node
-    var routerCompletion: ((URLServiceNodeProtocol, URLServiceNodeParserProtocol?, String?) -> Void) { get }
+    var routerCompletion: (URLServiceNodeProtocol, URLServiceNodeParserProtocol?, String?) -> Void { get }
     /// 请求路由完成回调，我们一般在这里通知请求
-    var completion: ((URLServiceRouteResultProtocol) -> Void) { get }
+    var completion: (URLServiceRouteResultProtocol) -> Void { get }
 }
 
 // MARK: - URLServiceRequest
@@ -177,7 +176,7 @@ public protocol URLServiceRequestProtocol {
     /// - Parameters:
     ///   - nodeNames: 节点解析器提供的节点名称数组
     ///   - nodeParser: 发起该修改的节点解析器
-    func replace(nodeNames: [String], from nodeParser: URLServiceNodeParserProtocol )
+    func replace(nodeNames: [String], from nodeParser: URLServiceNodeParserProtocol)
     /// 路由查找过程中，删除当前请求 nodeNames 的第一个元素
     /// - Parameter node: 路由查找过程中的当前节点
     func reduceOneNodeName(from node: URLServiceNodeProtocol)
@@ -232,10 +231,13 @@ public protocol URLServiceNodeProtocol {
     ///   - name: 子节点名称
     func registeSubNode(with name: String) -> URLServiceNodeProtocol
     
+    /// 解析器数组 builder，在初次解析url时调用去注册解析器。用于懒加载解析器数组
+    var parsersBuilder: (() -> [URLServiceNodeParserProtocol])? { get set }
     /// 前序解析器数组，将在路由查找过程中执行，优先级越高越先被执行
     var preParsers: [URLServiceNodeParserProtocol] { get }
-    /// 前序解析器数组，将在路由回溯过程中执行，优先级越高越先被执行
+    /// 后序解析器数组，将在路由回溯过程中执行，优先级越高越先被执行
     var postParsers: [URLServiceNodeParserProtocol] { get }
+
     /// 注册解析器
     /// - Parameter parser: 解析器
     func register(parser: URLServiceNodeParserProtocol)
@@ -263,8 +265,8 @@ public protocol URLServiceNodeProtocol {
 
 /// 节点解析器类型，pre-type 解析器在路由查找过程中执行，post-type 解析器在路由回溯过程中执行
 public enum URLServiceNodeParserType: String {
-    case pre = "pre"
-    case post = "post"
+    case pre
+    case post
 }
 
 // MARK: - URLServiceNodeParser
@@ -285,17 +287,15 @@ public protocol URLServiceNodeParserProtocol {
 
 public protocol URLServiceNodeParserDecisionProtocol {
     /// 通知解析器执行下一步
-    var next: (() -> Void) { get }
+    var next: () -> Void { get }
     /// 通知节点解析器命中的服务名称回调
-    var complete: ((URLServiceNodeParserProtocol, String)  -> Void) { get }
+    var complete: (URLServiceNodeParserProtocol, String) -> Void { get }
 }
 
 // MARK: - URLService
 
 public typealias URLServiceExecutionCallback = (Any?, URLServiceErrorProtocol?) -> Void
 public protocol URLServiceProtocol {
-    /// 服务名称
-    var name: String { get }
     /// 是否满足服务执行条件
     func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol?
     /// 执行当前服务，你可能需要自行决定在不满足执行条件时是否执行服务
