@@ -33,17 +33,17 @@ public class URServiceNode: URLServiceNodeProtocol {
         return routedNodeNames.reversed()
     }
     
-    public func registeSubNode(with name: String) -> URLServiceNodeProtocol {
+    public func registerSubNode(with name: String) -> URLServiceNodeProtocol {
         if let subNode = subNodesDict[name] {
             return subNode
         }
         
         let node = URServiceNode(name: name, parentNode: self)
-        registe(subNode: node)
+        register(subNode: node)
         return node
     }
     
-    public func registe(subNode: URLServiceNodeProtocol) {
+    public func register(subNode: URLServiceNodeProtocol) {
         if exitedSubNode(subNode) {
             assert(true, "node: \(name) have register subNode: \(subNode.name)")
         }

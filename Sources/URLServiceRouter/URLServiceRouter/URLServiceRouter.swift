@@ -46,7 +46,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     private func privateRegisterNode(from names: [String], parsersBuilder: URLServiceNodeParsersBuilder?) -> URLServiceNodeProtocol {
         queue.sync(flags: .barrier) { [self] in
             var currentNode: URLServiceNodeProtocol = rootNode
-            names.forEach { currentNode = currentNode.registeSubNode(with: $0) }
+            names.forEach { currentNode = currentNode.registerSubNode(with: $0) }
             currentNode.parsersBuilder = parsersBuilder
             return currentNode
         }

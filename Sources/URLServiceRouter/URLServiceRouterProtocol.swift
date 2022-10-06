@@ -224,11 +224,11 @@ public protocol URLServiceNodeProtocol {
     var parentNode: URLServiceNodeProtocol? { get }
     /// 注册子节点
     /// - Parameter subNode: 子节点
-    func registe(subNode: URLServiceNodeProtocol)
+    func register(subNode: URLServiceNodeProtocol)
     /// 使用名称注册子节点
     /// - Parameters:
     ///   - name: 子节点名称
-    func registeSubNode(with name: String) -> URLServiceNodeProtocol
+    func registerSubNode(with name: String) -> URLServiceNodeProtocol
 
     /// 解析器数组 builder，在初次解析url时调用去注册解析器。用于懒加载解析器数组
     var parsersBuilder: URLServiceNodeParsersBuilder? { get set }
@@ -266,8 +266,6 @@ public enum URLServiceNodeParserType: String {
     case pre
     case post
 }
-
-// MARK: - URLServiceNodeParser
 
 public protocol URLServiceNodeParserProtocol {
     /// 优先级，决定执行顺序，优先级越高越先被执行，默认值是100
