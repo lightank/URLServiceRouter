@@ -4,11 +4,11 @@
 //
 //  Created by huanyu.li on 2021/8/2.
 //  Copyright © 2021 huanyu.li. All rights reserved.https://github.com/lightank/URLServiceRouter
-//  
+//
 
 import Foundation
 
-public func MainThreadExecute(_ block: @escaping () -> Void) -> Void {
+public func MainThreadExecute(_ block: @escaping () -> Void) {
     if Thread.isMainThread {
         block()
     } else {
@@ -45,7 +45,7 @@ public class URLServiceRequest: URLServiceRequestProtocol {
         self.serviceRouter = serviceRouter
         self.nodeNames = url.nodeNames
         self.params = url.nodeQueryItems
-        self.params.merge(params) {(_, new) in new}
+        self.params.merge(params) { _, new in new }
         self.requestTimeoutInterval = requestTimeoutInterval
         self.isOnlyRouting = isOnlyRouting
     }
@@ -57,11 +57,11 @@ public class URLServiceRequest: URLServiceRequestProtocol {
         return params
     }
     
-    public func updateResponse(_ response: URLServiceRequestResponseProtocol?) -> Void {
+    public func updateResponse(_ response: URLServiceRequestResponseProtocol?) {
         self.response = response
     }
     
-    public func routingCompletion() -> Void {
+    public func routingCompletion() {
         MainThreadExecute { [self] in
             if let serviceName = self.response?.serviceName, serviceRouter.isRegisteredService(serviceName) {
                 requestSucceeded(serviceName: serviceName)
@@ -71,33 +71,33 @@ public class URLServiceRequest: URLServiceRequestProtocol {
         }
     }
     
-    public func replace(nodeNames: [String], from nodeParser: URLServiceNodeParserProtocol ) -> Void {
+    public func replace(nodeNames: [String], from nodeParser: URLServiceNodeParserProtocol) {
         if nodeParser.parserType == .pre {
             self.nodeNames = nodeNames
         }
     }
     
-    public func reduceOneNodeName(from node: URLServiceNodeProtocol) -> Void {
+    public func reduceOneNodeName(from node: URLServiceNodeProtocol) {
         if node.parentNode != nil {
             nodeNames.remove(at: 0)
         }
     }
     
-    public func restoreOneNodeName(from node: URLServiceNodeProtocol) -> Void {
-        if (node.routedNodeNames().isEmpty) {
+    public func restoreOneNodeName(from node: URLServiceNodeProtocol) {
+        if node.routedNodeNames().isEmpty {
             return
         }
-        self.nodeNames.insert(node.name, at: 0)
+        nodeNames.insert(node.name, at: 0)
     }
     
-    public func merge(params: Any, from nodeParser: URLServiceNodeParserProtocol) -> Void {
-        if nodeParser.parserType == .pre && params is [String: Any] {
-            self.params.merge(params as! [String : Any]) {(_, new) in new}
+    public func merge(params: Any, from nodeParser: URLServiceNodeParserProtocol) {
+        if nodeParser.parserType == .pre, params is [String: Any] {
+            self.params.merge(params as! [String: Any]) { _, new in new }
         }
     }
     
-    public func replace(params: Any?, from nodeParser: URLServiceNodeParserProtocol) -> Void {
-        if nodeParser.parserType == .pre && (params is [String: Any]?) {
+    public func replace(params: Any?, from nodeParser: URLServiceNodeParserProtocol) {
+        if nodeParser.parserType == .pre, params is [String: Any]? {
             if params != nil {
                 self.params = params as! [String: Any]
             } else {
@@ -108,10 +108,10 @@ public class URLServiceRequest: URLServiceRequestProtocol {
     
     // MARK: - request
     
-    public func start(success: URLServiceRequestCompletionBlock? = nil, failure: URLServiceRequestCompletionBlock? = nil, callback: URLServiceRequestCompletionBlock? = nil) -> Void {
+    public func start(success: URLServiceRequestCompletionBlock? = nil, failure: URLServiceRequestCompletionBlock? = nil, callback: URLServiceRequestCompletionBlock? = nil) {
         let existCallback = !(success == nil && failure == nil && callback == nil)
-        if (requestTimeoutInterval > 0 && existCallback) {
-            let timer = Timer.init(timeInterval: requestTimeoutInterval, repeats:false) {[self] (kTimer) in
+        if requestTimeoutInterval > 0, existCallback {
+            let timer = Timer(timeInterval: requestTimeoutInterval, repeats: false) { [self] _ in
                 requestTimeout()
             }
             RunLoop.current.add(timer, forMode: .default)
@@ -123,10 +123,10 @@ public class URLServiceRequest: URLServiceRequestProtocol {
         self.failure = failure
         self.callback = callback
         if callback != nil {
-            serviceCallback = {[self] (result: Any?, error: URLServiceErrorProtocol?) in
+            serviceCallback = { [self] (result: Any?, error: URLServiceErrorProtocol?) in
                 response?.data = result
                 response?.error = error
-                MainThreadExecute {
+                MainThreadExecute { [self] in
                     callback?(self)
                     stop()
                 }
@@ -139,11 +139,11 @@ public class URLServiceRequest: URLServiceRequestProtocol {
         success?(self)
         success = nil
         
-        if (isOnlyRouting) {
+        if isOnlyRouting {
             stop()
         }
         
-        if (!isCanceled) {
+        if !isCanceled {
             serviceRouter.callService(name: serviceName, params: requestParams(), completion: nil, callback: serviceCallback)
         }
     }
@@ -160,7 +160,7 @@ public class URLServiceRequest: URLServiceRequestProtocol {
         requestFailed()
     }
     
-    public func stop() -> Void {
+    public func stop() {
         isCanceled = true
         timer?.invalidate()
         

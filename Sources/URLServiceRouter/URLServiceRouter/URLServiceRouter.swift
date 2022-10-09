@@ -9,36 +9,27 @@
 import Foundation
 
 public class URLServiceRouter: URLServiceRouterProtocol {
-    public private(set) var delegate: URLServiceRouterDelegateProtocol?
+    public var rootNodeParsersBuilder: URLServiceNodeParsersBuilder?
+    
+    public var delegate: URLServiceRouterDelegateProtocol?
     let rootNode = URServiceNode(name: "root node", parentNode: nil)
-    var servicesMap = [String: URLServiceProtocol]()
+    private var serviceBuilderMap = [String: () -> URLServiceProtocol]()
     var nodesMap = [String: URLServiceNodeProtocol]()
     let queue = DispatchQueue(label: "com.URLServiceRouter.queue", attributes: .concurrent)
     
     public static let shared = URLServiceRouter()
     
-    // MARK: - 代理
-    
-    public func config(delegate: URLServiceRouterDelegateProtocol) -> Void {
-        queue.sync { [self] in
-            self.delegate = delegate
-            if let parsers = delegate.rootNodeParsers() {
-                parsers.forEach { rootNode.register(parser: $0) }
-            }
-        }
-    }
-    
     // MARK: - node
     
-    public func registerNode(from url: String, parsers: [URLServiceNodeParserProtocol]? = nil) {
+    public func registerNode(from url: String, parsersBuilder: URLServiceNodeParsersBuilder? = nil) {
         if let newUrl = URL(string: url)?.nodeUrl {
             let nodeUrlKey = newUrl.nodeUrl.absoluteString
             assert(!isRegisteredNode(key: nodeUrlKey), "url: \(nodeUrlKey) already registered")
-            let names = newUrl.nodeNames;
+            let names = newUrl.nodeNames
             let nodeNamesKey = names.nodeUrlKey
             assert(!isRegisteredNode(key: nodeNamesKey), "url: \(nodeNamesKey) already registered")
             
-            recordNodeInfo(key: nodeUrlKey, node: privateRegisterNode(from: names, parsers: parsers))
+            recordNodeInfo(key: nodeUrlKey, node: privateRegisterNode(from: names, parsersBuilder: parsersBuilder))
         } else {
             logInfo("register url:\(url) is invalid")
         }
@@ -52,13 +43,11 @@ public class URLServiceRouter: URLServiceRouterProtocol {
         return nodesMap.keys.sorted { $0 < $1 }
     }
     
-    private func privateRegisterNode(from names: [String], parsers: [URLServiceNodeParserProtocol]? = nil) -> URLServiceNodeProtocol {
-        queue.sync(flags:.barrier) { [self] in
-            var currentNode:URLServiceNodeProtocol = rootNode;
-            names.forEach { currentNode = currentNode.registeSubNode(with: $0) }
-            if let newParsers = parsers {
-                newParsers.forEach { currentNode.register(parser: $0) }
-            }
+    private func privateRegisterNode(from names: [String], parsersBuilder: URLServiceNodeParsersBuilder?) -> URLServiceNodeProtocol {
+        queue.sync(flags: .barrier) { [self] in
+            var currentNode: URLServiceNodeProtocol = rootNode
+            names.forEach { currentNode = currentNode.registerSubNode(with: $0) }
+            currentNode.parsersBuilder = parsersBuilder
             return currentNode
         }
     }
@@ -73,11 +62,11 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     }
     
     // MARK: 服务
-    
-    public func register(service: URLServiceProtocol) {
-        queue.sync(flags:.barrier) { [self] in
-            assert(vaildServiceWithName(service.name) == nil, "service: \(service.name) already exist")
-            servicesMap[service.name] = service
+
+    public func registerService(name: String, builder: @escaping () -> URLServiceProtocol) {
+        queue.sync(flags: .barrier) { [self] in
+            assert(vaildServiceWithName(name) == nil, "service: \(name) already exist")
+            serviceBuilderMap[name] = builder
         }
     }
     
@@ -85,7 +74,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
         return vaildServiceWithName(name) != nil
     }
     
-    public func callService(name: String, params: Any? = nil, completion: ((URLServiceProtocol?, URLServiceErrorProtocol?) -> Void)?, callback: URLServiceExecutionCallback?) -> Void {
+    public func callService(name: String, params: Any? = nil, completion: ((URLServiceProtocol?, URLServiceErrorProtocol?) -> Void)?, callback: URLServiceExecutionCallback?) {
         let resultService = vaildServiceWithName(name)
         let error: URLServiceErrorProtocol? = resultService != nil ? resultService?.meetTheExecutionConditions(params: params) : URLServiceErrorNotFound
         completion?(resultService, error)
@@ -96,7 +85,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     }
     
     public func allRegisteredServiceNames() -> [String] {
-        return servicesMap.keys.sorted { $0 < $1 }
+        return serviceBuilderMap.keys.sorted { $0 < $1 }
     }
     
     private func vaildServiceName(name: String?) -> String? {
@@ -108,7 +97,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     
     private func vaildServiceWithName(_ name: String?) -> URLServiceProtocol? {
         if let newName = name {
-            return servicesMap[newName]
+            return serviceBuilderMap[newName]?()
         }
         return nil
     }
@@ -116,6 +105,10 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     // MARK: 服务请求
     
     public func route(request: URLServiceRequestProtocol) {
+        if let rootNodeParsers = rootNodeParsersBuilder?() {
+            rootNodeParsers.forEach { rootNode.register(parser: $0) }
+            rootNodeParsersBuilder = nil
+        }
         queue.sync { [self] in
             if let newDelegate = delegate, !newDelegate.shouldRoute(request: request) {
                 logInfo("URLServiceRouter request: \(request.description) is refused by \(String(describing: delegate))")
@@ -125,7 +118,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
             }
             
             logInfo("URLServiceRouter start router \nrequest: \(request.description)")
-            rootNode.route(request: request, result: URLServiceRouteResult(completion: { (routerResult) in
+            rootNode.route(request: request, result: URLServiceRouteResult(completion: { [self] routerResult in
                 logInfo("URLServiceRouter router completed: \(request.description) is response by \(String(describing: routerResult.responseNode)), the response chain end node is \(String(describing: routerResult.endNode)), the response service name is \(String(describing: routerResult.responseServiceName))")
                 if let serviceName = routerResult.responseServiceName, isRegisteredService(serviceName) {
                     logError("URLServiceRouter router completed: \(request.description) is response by \(String(describing: routerResult.responseNode)) but the given service name: \(serviceName) is invaild")
@@ -136,7 +129,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
                 delegate?.dynamicProcessingServiceRequest(request)
                 
                 // 获取最新的响应对象，注意：这个对象可能被代理处理过
-                let response = request.response;
+                let response = request.response
                 var error: URLServiceErrorProtocol?
                 let responseServiceName = vaildServiceName(name: response?.serviceName)
                 
@@ -169,20 +162,20 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     
     // MARK: - 服务请求
     
-    public func unitTestRequest(url: String, shouldDelegateProcessingRouterResult: Bool = false, completion: @escaping ((URLServiceRequestProtocol, URLServiceRouteResultProtocol) -> Void)) -> Void {
+    public func unitTestRequest(url: String, shouldDelegateProcessingRouterResult: Bool = false, completion: @escaping ((URLServiceRequestProtocol, URLServiceRouteResultProtocol) -> Void)) {
 #if DEBUG
         queue.sync { [self] in
             assert(URL(string: url) != nil, "unitTest request url:\(url) is inviald")
             if let newUrl = URL(string: url) {
                 let request = URLServiceRequest(url: newUrl)
-                logInfo( "URLServiceRouter start unitTest: \nrequest: \(request.description)")
-                rootNode.route(request: request, result: URLServiceRouteResult(completion: {[self] (routerResult) in
+                logInfo("URLServiceRouter start unitTest: \nrequest: \(request.description)")
+                rootNode.route(request: request, result: URLServiceRouteResult(completion: { [self] routerResult in
                     request.updateResponse(URLServiceRequestResponse(serviceName: vaildServiceName(name: routerResult.responseServiceName)))
                     if shouldDelegateProcessingRouterResult {
                         delegate?.dynamicProcessingServiceRequest(request)
                     }
                     
-                    let newRouterResult = URLServiceRouteResult(endNode: routerResult.endNode, responseNode: routerResult.responseNode, responseServiceName: vaildServiceName(name: request.response?.serviceName)) { (result) in}
+                    let newRouterResult = URLServiceRouteResult(endNode: routerResult.endNode, responseNode: routerResult.responseNode, responseServiceName: vaildServiceName(name: request.response?.serviceName)) { _ in }
                     completion(request, newRouterResult)
                 }))
             }

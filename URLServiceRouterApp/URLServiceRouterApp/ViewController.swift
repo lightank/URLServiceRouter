@@ -26,25 +26,25 @@ class ViewController: UIViewController {
         registerCellClass()
         tableView.reloadData()
         
-        URLServiceRouter.shared.unitTestRequest(url: "http://china.realword.io/owner/1/info") { (request, routerResult) in
+        URLServiceRouter.shared.unitTestRequest(url: "http://china.realword.io/owner/1/info") { request, _ in
             URLServiceRouter.shared.logInfo("\(String(describing: request.response?.data))")
         }
     }
     
     func addCellItems() {
-        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { (cellItem, tableView, tableViewCell, indexPath) in
+        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { _, _, tableViewCell, _ in
             tableViewCell.textLabel?.text = "页面跳转"
             tableViewCell.selectionStyle = .none
-        }, cellSelectedBlock: { (cellItem, tableView, tableViewCell, indexPath) in
+        }, cellSelectedBlock: { _, _, _, _ in
             
         }))
         
-        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { (cellItem, tableView, tableViewCell, indexPath) in
+        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { _, _, tableViewCell, _ in
             tableViewCell.textLabel?.text = "push 页面，并接受回传的数据"
             tableViewCell.accessoryType = .disclosureIndicator
-        }, cellSelectedBlock: { (cellItem, tableView, tableViewCell, indexPath) in
-            URLServiceRouter.shared.callService(name: "input_page", params: "请在此输入信息，以便回调回去") { (service, error) in
-            } callback: { (result, error) in
+        }, cellSelectedBlock: { _, _, _, _ in
+            URLServiceRouter.shared.callService(name: "input_page", params: "请在此输入信息，以便回调回去") { _, _ in
+            } callback: { result, _ in
                 if result is String? {
                     self.showAlertMessge(title: "页面回传来的数据", message: result as! String?)
                 }
@@ -54,31 +54,30 @@ class ViewController: UIViewController {
         addTitleCellItem()
         addTitleCellItem("服务调用")
         
-        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { (cellItem, tableView, tableViewCell, indexPath) in
+        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { _, _, tableViewCell, _ in
             tableViewCell.textLabel?.numberOfLines = 0
             tableViewCell.textLabel?.text = "外部请求服务，获取业务数据。\n点击后3秒后将有数据回调"
             tableViewCell.accessoryType = .disclosureIndicator
-        }, cellSelectedBlock: { (cellItem, tableView, tableViewCell, indexPath) in
+        }, cellSelectedBlock: { _, _, _, _ in
             if let url = URL(string: "http://china.realword.io/owner/1/info") {
-                URLServiceRequest(url: url).start(callback: { (request) in
+                URLServiceRequest(url: url).start(callback: { request in
                     if let data = request.response?.data {
                         // 正确的数据
-                        self.showAlertMessge(title: "回调的业务数据", message: String(describing: data) )
+                        self.showAlertMessge(title: "回调的业务数据", message: String(describing: data))
                     }
                     URLServiceRouter.shared.logInfo("\(String(describing: request.response?.data))")
                 })
             }
         }))
         
-        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { (cellItem, tableView, tableViewCell, indexPath) in
+        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { _, _, tableViewCell, _ in
             tableViewCell.textLabel?.numberOfLines = 0
             tableViewCell.textLabel?.text = "内部直接调用服务，获取业务数据。\n点击后3秒后将有数据回调"
             tableViewCell.accessoryType = .disclosureIndicator
-        }, cellSelectedBlock: { (cellItem, tableView, tableViewCell, indexPath) in
-            URLServiceRouter.shared.callService(name: "user://info", params: "1") { (service, error) in
-                
-            } callback: { (result, error) in
-                self.showAlertMessge(title: "回调的业务数据", message: String(describing: result) )
+        }, cellSelectedBlock: { _, _, _, _ in
+            URLServiceRouter.shared.callService(name: "user://info", params: "1") { _, _ in
+            } callback: { result, _ in
+                self.showAlertMessge(title: "回调的业务数据", message: String(describing: result))
                 URLServiceRouter.shared.logInfo("\(String(describing: result))")
             }
         }))
@@ -86,22 +85,25 @@ class ViewController: UIViewController {
         addTitleCellItem()
         addTitleCellItem("业务相关")
         
-        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { (cellItem, tableView, tableViewCell, indexPath) in
+        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { _, _, tableViewCell, _ in
             tableViewCell.textLabel?.numberOfLines = 0
             tableViewCell.textLabel?.text = "将测试环境替换为生产环境。 \n详情请查看这部分代码"
             tableViewCell.selectionStyle = .none
-        }, cellSelectedBlock: { (cellItem, tableView, tableViewCell, indexPath) in
-            URLServiceRouter.shared.registerNode(from: "https", parsers:[URLServiceRedirectTestHostParser()]);
+        }, cellSelectedBlock: { _, _, _, _ in
+            // 由于存在重复注册，这里注释掉重复代码
+            // URLServiceRouter.shared.registerNode(from: "https") {
+            //     [URLServiceRedirectTestHostParser()]
+            // }
         }))
     }
     
     func registerCellClass() {
-        cellItems.forEach { (cellItem) in
-            tableView .register(cellItem.cellClass, forCellReuseIdentifier: cellItem.cellReuseIdentifier)
+        cellItems.forEach { cellItem in
+            tableView.register(cellItem.cellClass, forCellReuseIdentifier: cellItem.cellReuseIdentifier)
         }
     }
     
-    func showAlertMessge(title:String? = nil, message: String?) {
+    func showAlertMessge(title: String? = nil, message: String?) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
@@ -109,16 +111,16 @@ class ViewController: UIViewController {
     }
     
     func addTitleCellItem(_ title: String = "") {
-        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { (cellItem, tableView, tableViewCell, indexPath) in
+        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { _, _, tableViewCell, _ in
             tableViewCell.textLabel?.text = title
             tableViewCell.selectionStyle = .none
-        }, cellSelectedBlock: { (cellItem, tableView, tableViewCell, indexPath) in
+        }, cellSelectedBlock: { _, _, _, _ in
             
         }))
     }
 }
 
-extension ViewController : UITableViewDataSource, UITableViewDelegate{
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cellItems.count
     }
