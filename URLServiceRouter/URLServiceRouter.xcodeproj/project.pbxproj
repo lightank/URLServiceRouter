@@ -29,6 +29,7 @@
 		3D5DBFE326D4E1E8009607EA /* URLServiceError.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D5DBF5426D4DC49009607EA /* URLServiceError.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		3D5DBFE426D4E1E8009607EA /* URLServiceRequestResponse.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D5DBF5526D4DC49009607EA /* URLServiceRequestResponse.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		3D5DBFE526D4E1E8009607EA /* URLServiceRouterProtocol.swift in Headers */ = {isa = PBXBuildFile; fileRef = 3D5DBF4B26D4DC49009607EA /* URLServiceRouterProtocol.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAD0719D2A93BCFC00A6536C /* URLServiceDecision.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD0719C2A93BCFC00A6536C /* URLServiceDecision.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		3D5DBF5326D4DC49009607EA /* URLServiceNodeParserDecision.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceNodeParserDecision.swift; sourceTree = "<group>"; };
 		3D5DBF5426D4DC49009607EA /* URLServiceError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceError.swift; sourceTree = "<group>"; };
 		3D5DBF5526D4DC49009607EA /* URLServiceRequestResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLServiceRequestResponse.swift; sourceTree = "<group>"; };
+		AAD0719C2A93BCFC00A6536C /* URLServiceDecision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLServiceDecision.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				3D5DBF5426D4DC49009607EA /* URLServiceError.swift */,
 				3D5DBF5126D4DC49009607EA /* URLServiceNodel.swift */,
 				3D5DBF5226D4DC49009607EA /* URLServiceNodeParser.swift */,
+				AAD0719C2A93BCFC00A6536C /* URLServiceDecision.swift */,
 				3D5DBF5326D4DC49009607EA /* URLServiceNodeParserDecision.swift */,
 				3D5DBF4D26D4DC49009607EA /* URLServiceRequest.swift */,
 				3D5DBF5526D4DC49009607EA /* URLServiceRequestResponse.swift */,
@@ -245,6 +248,7 @@
 				3D5DBF5A26D4DC49009607EA /* Extensions.swift in Sources */,
 				3D5DBF5E26D4DC49009607EA /* URLServiceError.swift in Sources */,
 				3D5DBF5626D4DC49009607EA /* URLServiceRouterProtocol.swift in Sources */,
+				AAD0719D2A93BCFC00A6536C /* URLServiceDecision.swift in Sources */,
 				3D5DBF5D26D4DC49009607EA /* URLServiceNodeParserDecision.swift in Sources */,
 				3D5DBF5F26D4DC49009607EA /* URLServiceRequestResponse.swift in Sources */,
 				3D5DBF5C26D4DC49009607EA /* URLServiceNodeParser.swift in Sources */,

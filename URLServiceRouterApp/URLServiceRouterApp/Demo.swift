@@ -14,6 +14,22 @@ import UIKit
 import URLServiceRouter
 
 class URLOwnerInfoService: URLServiceProtocol {
+    func preServiceCallBack(name: String, result: Any?, error: URLServiceErrorProtocol?, decision: URLServiceDecisionProtocol) {
+        decision.next()
+    }
+    
+    
+    func preServiceCallBack(name: String, result: Any?, decision: URLServiceDecisionProtocol) {
+        decision.next()
+    }
+    
+    func paramsForPreService(name: String) -> Any? {
+        return nil
+    }
+    
+    var preServiceNames: [String] = []
+
+    
     let name: String = "user://info"
     private var ownders: [User] = [User(name: "神秘客", id: "1"), User(name: "打工人", id: "999")]
 
@@ -70,6 +86,19 @@ public func screenSize() -> CGSize {
 }
 
 class InputPageService: URLServiceProtocol {
+    func preServiceCallBack(name: String, result: Any?, error: URLServiceErrorProtocol?, decision: URLServiceDecisionProtocol) {
+        decision.next()
+    }
+    func paramsForPreService(name: String) -> Any? {
+        return nil
+    }
+    
+    var preServiceNames: [String] = []
+    
+    func preServiceCallBack(name: String, result: Any?, decision: URLServiceDecision) {
+        
+    }
+    
     var name: String = "input_page"
 
     func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol? {

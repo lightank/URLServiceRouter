@@ -62,7 +62,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     }
     
     // MARK: 服务
-
+    
     public func registerService(name: String, builder: @escaping () -> URLServiceProtocol) {
         queue.sync(flags: .barrier) { [self] in
             assert(vaildServiceWithName(name) == nil, "service: \(name) already exist")
@@ -76,11 +76,43 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     
     public func callService(name: String, params: Any? = nil, completion: ((URLServiceProtocol?, URLServiceErrorProtocol?) -> Void)?, callback: URLServiceExecutionCallback?) {
         let resultService = vaildServiceWithName(name)
-        let error: URLServiceErrorProtocol? = resultService != nil ? resultService?.meetTheExecutionConditions(params: params) : URLServiceErrorNotFound
+        assert(resultService != nil, "service:\(name) is not registered")
+        let error: URLServiceErrorProtocol? = resultService != nil ? nil : URLServiceErrorNotFound
         completion?(resultService, error)
-
+        
         if let service = resultService {
-            service.execute(params: params, callback: callback)
+            var preServiceNames = service.preServiceNames
+            preServiceNames.removeAll { preServiceName in
+                let isRegistered = isRegisteredService(name);
+                assert(isRegistered, "service:\(name) 's preServiceName:\(preServiceName) is note registered")
+                return isRegistered
+            }
+            if (preServiceNames.isEmpty) {
+                service.execute(params: params, callback: callback)
+            } else {
+                for (index, preServiceName) in preServiceNames.enumerated() {
+                    excutPreService(currentService: service, preServiceName: preServiceName, preServiceNames: preServiceNames, index: index, decision: URLServiceDecision(next: {
+
+                    }, complete: { (data, error) in
+                    }))
+                }
+            }
+        }
+    }
+    
+    private func excutPreService(currentService:URLServiceProtocol,  preServiceName: String,preServiceNames:[String], index: Int, decision: URLServiceDecisionProtocol) {
+        if preServiceNames.count > index {
+            if let preService = vaildServiceWithName(preServiceName) {
+                preService.execute(params: currentService.paramsForPreService(name: preServiceName)) { result, error in
+                    currentService.preServiceCallBack(name: preServiceName, result: result, error: error, decision: URLServiceDecision(next: {
+                        decision.next()
+                    }, complete: { (data, error) in
+                        decision.complete(data, error)
+                    }))
+                }
+            }
+        } else {
+//            service.execute(params: params, callback: callback)
         }
     }
     
@@ -133,8 +165,8 @@ public class URLServiceRouter: URLServiceRouterProtocol {
                 var error: URLServiceErrorProtocol?
                 let responseServiceName = vaildServiceName(name: response?.serviceName)
                 
-                if let serviceName = responseServiceName, let service = vaildServiceWithName(serviceName) {
-                    error = service.meetTheExecutionConditions(params: request.requestParams())
+                if let serviceName = responseServiceName, let _ = vaildServiceWithName(serviceName) {
+                    error = nil
                 } else {
                     error = URLServiceErrorNotFound
                 }
