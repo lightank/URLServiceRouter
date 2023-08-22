@@ -92,6 +92,10 @@ class URLServiceRouterTests: XCTestCase {
 typealias URLServiceExecuteConditionsBlock = (Any?) -> URLServiceErrorProtocol?
 typealias URLServiceExecuteBlock = (Any?, URLServiceExecutionCallback?) -> Void
 class URLService: URLServiceProtocol {
+    func preServiceCallBack(name: String, result: Any?, error: URLServiceErrorProtocol?, decision: URLServiceDecisionProtocol) {
+        decision.next()
+    }
+    
     var name: String
     var executeConditionsBlock: URLServiceExecuteConditionsBlock?
     var executeBlock: URLServiceExecuteBlock?
@@ -100,10 +104,6 @@ class URLService: URLServiceProtocol {
         self.name = name
         self.executeConditionsBlock = executeConditionsBlock
         self.executeBlock = executeBlock
-    }
-    
-    func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol? {
-        return executeConditionsBlock?(params)
     }
     
     func execute(params: Any?, callback: URLServiceExecutionCallback?) {

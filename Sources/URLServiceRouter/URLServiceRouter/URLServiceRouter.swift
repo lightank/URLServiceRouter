@@ -83,9 +83,9 @@ public class URLServiceRouter: URLServiceRouterProtocol {
         if let service = resultService {
             var preServiceNames = service.preServiceNames
             preServiceNames.removeAll { preServiceName in
-                let isRegistered = isRegisteredService(name)
-                assert(isRegistered, "service:\(name) 's preServiceName:\(preServiceName) is note registered")
-                return isRegistered
+                let isNotRegistered = !isRegisteredService(preServiceName)
+                assert(!isNotRegistered, "service:\(name) 's preServiceName:\(preServiceName) is note registered")
+                return isNotRegistered
             }
             if preServiceNames.isEmpty {
                 service.execute(params: params, callback: callback)
@@ -96,8 +96,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     }
     
     private func excutPreService(currentService: URLServiceProtocol, params: Any?, preServiceNames: [String], callback: URLServiceExecutionCallback?) {
-        var index = 0
-        excutPreService(currentService: currentService, preServiceNames: preServiceNames, index: index, decision: URLServiceDecision(next: {
+        excutPreService(currentService: currentService, preServiceNames: preServiceNames, index: 0, decision: URLServiceDecision(next: {
             currentService.execute(params: params, callback: callback)
         }, complete: { data, error in
             callback?(data, error)

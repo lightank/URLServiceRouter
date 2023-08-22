@@ -17,19 +17,17 @@ class URLOwnerInfoService: URLServiceProtocol {
     func preServiceCallBack(name: String, result: Any?, error: URLServiceErrorProtocol?, decision: URLServiceDecisionProtocol) {
         decision.next()
     }
-    
-    
+
     func preServiceCallBack(name: String, result: Any?, decision: URLServiceDecisionProtocol) {
         decision.next()
     }
-    
+
     func paramsForPreService(name: String) -> Any? {
         return nil
     }
-    
+
     var preServiceNames: [String] = []
 
-    
     let name: String = "user://info"
     private var ownders: [User] = [User(name: "神秘客", id: "1"), User(name: "打工人", id: "999")]
 
@@ -85,20 +83,95 @@ public func screenSize() -> CGSize {
     return UIApplication.shared.keyWindow?.bounds.size ?? CGSize.zero
 }
 
+class UserService: URLServiceProtocol {
+    func preServiceCallBack(name: String, result: Any?, error: URLServiceErrorProtocol?, decision: URLServiceDecisionProtocol) {
+        decision.next()
+    }
+
+    func paramsForPreService(name: String) -> Any? {
+        return nil
+    }
+
+    var preServiceNames: [String] = ["login"]
+
+    func preServiceCallBack(name: String, result: Any?, decision: URLServiceDecision) {}
+
+    func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol? {
+        return nil
+    }
+
+    func execute(params: Any?, callback: URLServiceExecutionCallback?) {
+        if let currentNavigationController = URLServiceRouter.shared.delegate?.currentNavigationController() {
+            let UserCenterViewController = UserCenterViewController()
+            UserCenterViewController.userInfo = getPlaceholder(from: params)
+            UserCenterViewController.callBack = { result in
+                callback?(result, nil)
+            }
+            currentNavigationController.pushViewController(UserCenterViewController, animated: true)
+        }
+    }
+
+    func getPlaceholder(from params: Any?) -> String? {
+        var placeholder: String?
+        if params is String? {
+            placeholder = params as? String
+        }
+        return placeholder
+    }
+}
+
+class LoginPageService: URLServiceProtocol {
+    func preServiceCallBack(name: String, result: Any?, error: URLServiceErrorProtocol?, decision: URLServiceDecisionProtocol) {
+        decision.next()
+    }
+
+    func paramsForPreService(name: String) -> Any? {
+        return nil
+    }
+
+    var preServiceNames: [String] = []
+
+    func preServiceCallBack(name: String, result: Any?, decision: URLServiceDecision) {}
+
+    var name: String = "login"
+
+    func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol? {
+        return nil
+    }
+
+    func execute(params: Any?, callback: URLServiceExecutionCallback?) {
+        if let currentNavigationController = URLServiceRouter.shared.delegate?.currentNavigationController() {
+            let loginViewController = LoginViewController()
+            loginViewController.placeholder = getPlaceholder(from: params)
+            loginViewController.callBack = { result in
+                callback?(result, nil)
+            }
+            currentNavigationController.present(loginViewController, animated: true)
+        }
+    }
+
+    func getPlaceholder(from params: Any?) -> String? {
+        var placeholder: String?
+        if params is String? {
+            placeholder = params as? String
+        }
+        return placeholder
+    }
+}
+
 class InputPageService: URLServiceProtocol {
     func preServiceCallBack(name: String, result: Any?, error: URLServiceErrorProtocol?, decision: URLServiceDecisionProtocol) {
         decision.next()
     }
+
     func paramsForPreService(name: String) -> Any? {
         return nil
     }
-    
+
     var preServiceNames: [String] = []
-    
-    func preServiceCallBack(name: String, result: Any?, decision: URLServiceDecision) {
-        
-    }
-    
+
+    func preServiceCallBack(name: String, result: Any?, decision: URLServiceDecision) {}
+
     var name: String = "input_page"
 
     func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol? {
@@ -122,6 +195,64 @@ class InputPageService: URLServiceProtocol {
             placeholder = params as? String
         }
         return placeholder
+    }
+}
+
+class UserCenterViewController: UIViewController {
+    public var userInfo: String?
+    public var callBack: ((String?) -> Void)?
+    lazy var textField: UITextField = {
+        let textField = UITextField(frame: CGRect(x: 16, y: 100, width: screenSize().width - 2 * 16, height: 44))
+        textField.placeholder = userInfo
+        textField.borderStyle = .roundedRect
+        return textField
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        title = "UserCenterViewController"
+        view.addSubview(textField)
+        textField.becomeFirstResponder()
+    }
+
+    @objc func didClickedButton() {
+        navigationController?.popViewController(animated: true)
+        callBack?(textField.text)
+    }
+}
+
+class LoginViewController: UIViewController {
+    public var placeholder: String?
+    public var callBack: ((String?) -> Void)?
+    lazy var textField: UITextField = {
+        let textField = UITextField(frame: CGRect(x: 16, y: 100, width: screenSize().width - 2 * 16, height: 44))
+        textField.placeholder = placeholder
+        textField.borderStyle = .roundedRect
+        return textField
+    }()
+
+    lazy var button: UIButton = {
+        let button = UIButton(type: .roundedRect)
+        button.frame = CGRect(x: 16, y: 164, width: screenSize().width - 2 * 16, height: 44)
+        button.setTitle("点击关闭页面并回传数据", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(didClickedButton), for: .touchUpInside)
+        return button
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        title = "登录页面"
+        view.addSubview(textField)
+        view.addSubview(button)
+        textField.becomeFirstResponder()
+    }
+
+    @objc func didClickedButton() {
+        navigationController?.popViewController(animated: true)
+        callBack?(textField.text)
     }
 }
 

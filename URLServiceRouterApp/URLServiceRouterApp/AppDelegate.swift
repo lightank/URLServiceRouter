@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func congifURLServiceRouter() {
         URLServiceRouter.shared.delegate = URLServiceRouterDelegate()
-        URLServiceRouter.shared.rootNodeParsersBuilder = {[URLServiceRedirectHttpParser()]}
+        URLServiceRouter.shared.rootNodeParsersBuilder = { [URLServiceRedirectHttpParser()] }
         registerServices()
         registerNodes()
     }
@@ -36,6 +36,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         URLServiceRouter.shared.registerService(name: "input_page") {
             InputPageService()
+        }
+        
+        URLServiceRouter.shared.registerService(name: "login") {
+            LoginPageService()
+        }
+        
+        URLServiceRouter.shared.registerService(name: "user_center") {
+            UserService()
         }
     }
     
