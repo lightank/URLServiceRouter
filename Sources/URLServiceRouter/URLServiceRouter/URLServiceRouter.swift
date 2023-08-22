@@ -83,36 +83,41 @@ public class URLServiceRouter: URLServiceRouterProtocol {
         if let service = resultService {
             var preServiceNames = service.preServiceNames
             preServiceNames.removeAll { preServiceName in
-                let isRegistered = isRegisteredService(name);
+                let isRegistered = isRegisteredService(name)
                 assert(isRegistered, "service:\(name) 's preServiceName:\(preServiceName) is note registered")
                 return isRegistered
             }
-            if (preServiceNames.isEmpty) {
+            if preServiceNames.isEmpty {
                 service.execute(params: params, callback: callback)
             } else {
-                for (index, preServiceName) in preServiceNames.enumerated() {
-                    excutPreService(currentService: service, preServiceName: preServiceName, preServiceNames: preServiceNames, index: index, decision: URLServiceDecision(next: {
-
-                    }, complete: { (data, error) in
-                    }))
-                }
+                excutPreService(currentService: service, params: params, preServiceNames: preServiceNames, callback: callback)
             }
         }
     }
     
-    private func excutPreService(currentService:URLServiceProtocol,  preServiceName: String,preServiceNames:[String], index: Int, decision: URLServiceDecisionProtocol) {
+    private func excutPreService(currentService: URLServiceProtocol, params: Any?, preServiceNames: [String], callback: URLServiceExecutionCallback?) {
+        var index = 0
+        excutPreService(currentService: currentService, preServiceNames: preServiceNames, index: index, decision: URLServiceDecision(next: {
+            currentService.execute(params: params, callback: callback)
+        }, complete: { data, error in
+            callback?(data, error)
+        }))
+    }
+    
+    private func excutPreService(currentService: URLServiceProtocol, preServiceNames: [String], index: Int, decision: URLServiceDecisionProtocol) {
         if preServiceNames.count > index {
+            let preServiceName = preServiceNames[index]
             if let preService = vaildServiceWithName(preServiceName) {
                 preService.execute(params: currentService.paramsForPreService(name: preServiceName)) { result, error in
-                    currentService.preServiceCallBack(name: preServiceName, result: result, error: error, decision: URLServiceDecision(next: {
-                        decision.next()
-                    }, complete: { (data, error) in
+                    currentService.preServiceCallBack(name: preServiceName, result: result, error: error, decision: URLServiceDecision(next: { [self] in
+                        excutPreService(currentService: currentService, preServiceNames: preServiceNames, index: index + 1, decision: decision)
+                    }, complete: { data, error in
                         decision.complete(data, error)
                     }))
                 }
             }
         } else {
-//            service.execute(params: params, callback: callback)
+            decision.next()
         }
     }
     
