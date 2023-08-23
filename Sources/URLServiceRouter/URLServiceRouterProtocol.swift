@@ -324,7 +324,7 @@ public protocol URLServiceDecisionProtocol {
     /// 通知前置解析器执行下一步
     var next: () -> Void { get }
     /// 通知节前置服务完成毁掉
-    var complete: URLServiceExecutionCallback { get }
+    var complete: () -> Void { get }
 }
 
 // MARK: - URLServiceError

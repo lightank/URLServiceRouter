@@ -88,18 +88,25 @@ public class URLServiceRouter: URLServiceRouterProtocol {
                 return isNotRegistered
             }
             if preServiceNames.isEmpty {
+                // 如果没有前置服务，则直接调用服务
                 service.execute(params: params, callback: callback)
             } else {
-                excutPreService(currentService: service, params: params, preServiceNames: preServiceNames, callback: callback)
+                // 有前置服务，则走前置服务调用流程
+                excutPreService(currentService: service, params: params, preServiceNames: preServiceNames, complete: {
+                    // 前置服务调用的终点就是当前服务的调用
+                    service.execute(params: params, callback: callback)
+                })
             }
         }
     }
     
-    private func excutPreService(currentService: URLServiceProtocol, params: Any?, preServiceNames: [String], callback: URLServiceExecutionCallback?) {
+    private func excutPreService(currentService: URLServiceProtocol, params: Any?, preServiceNames: [String], complete: @escaping () -> Void) {
         excutPreService(currentService: currentService, preServiceNames: preServiceNames, index: 0, decision: URLServiceDecision(next: {
-            currentService.execute(params: params, callback: callback)
-        }, complete: { data, error in
-            callback?(data, error)
+            // 执行完最后一个前置服务，就完成前置服务调用
+            complete()
+        }, complete: {
+            // 被前置服务直接终止链路，则直接完成前置服务调用
+            complete()
         }))
     }
     
@@ -110,10 +117,13 @@ public class URLServiceRouter: URLServiceRouterProtocol {
                 preService.execute(params: currentService.paramsForPreService(name: preServiceName)) { result, error in
                     currentService.preServiceCallBack(name: preServiceName, result: result, error: error, decision: URLServiceDecision(next: { [self] in
                         excutPreService(currentService: currentService, preServiceNames: preServiceNames, index: index + 1, decision: decision)
-                    }, complete: { data, error in
-                        decision.complete(data, error)
+                    }, complete: {
+                        decision.complete()
                     }))
                 }
+            } else {
+                /// 如果该前置服务不存在，则执行下一个前置服务
+                decision.next()
             }
         } else {
             decision.next()

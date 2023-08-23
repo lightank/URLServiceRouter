@@ -18,10 +18,6 @@ class URLOwnerInfoService: URLServiceProtocol {
         decision.next()
     }
 
-    func preServiceCallBack(name: String, result: Any?, decision: URLServiceDecisionProtocol) {
-        decision.next()
-    }
-
     func paramsForPreService(name: String) -> Any? {
         return nil
     }
@@ -84,8 +80,15 @@ public func screenSize() -> CGSize {
 }
 
 class UserService: URLServiceProtocol {
+    var userName: String = ""
+
     func preServiceCallBack(name: String, result: Any?, error: URLServiceErrorProtocol?, decision: URLServiceDecisionProtocol) {
-        decision.next()
+        if let userName = result as? String {
+            self.userName = userName
+            decision.complete()
+        } else {
+            decision.next()
+        }
     }
 
     func paramsForPreService(name: String) -> Any? {
@@ -94,16 +97,10 @@ class UserService: URLServiceProtocol {
 
     var preServiceNames: [String] = ["login"]
 
-    func preServiceCallBack(name: String, result: Any?, decision: URLServiceDecision) {}
-
-    func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol? {
-        return nil
-    }
-
     func execute(params: Any?, callback: URLServiceExecutionCallback?) {
         if let currentNavigationController = URLServiceRouter.shared.delegate?.currentNavigationController() {
             let UserCenterViewController = UserCenterViewController()
-            UserCenterViewController.userInfo = getPlaceholder(from: params)
+            UserCenterViewController.userInfo = userName
             UserCenterViewController.callBack = { result in
                 callback?(result, nil)
             }
@@ -131,8 +128,6 @@ class LoginPageService: URLServiceProtocol {
 
     var preServiceNames: [String] = []
 
-    func preServiceCallBack(name: String, result: Any?, decision: URLServiceDecision) {}
-
     var name: String = "login"
 
     func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol? {
@@ -146,7 +141,7 @@ class LoginPageService: URLServiceProtocol {
             loginViewController.callBack = { result in
                 callback?(result, nil)
             }
-            currentNavigationController.present(loginViewController, animated: true)
+            currentNavigationController.pushViewController(loginViewController, animated: true)
         }
     }
 
@@ -170,13 +165,7 @@ class InputPageService: URLServiceProtocol {
 
     var preServiceNames: [String] = []
 
-    func preServiceCallBack(name: String, result: Any?, decision: URLServiceDecision) {}
-
     var name: String = "input_page"
-
-    func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol? {
-        return nil
-    }
 
     func execute(params: Any?, callback: URLServiceExecutionCallback?) {
         if let currentNavigationController = URLServiceRouter.shared.delegate?.currentNavigationController() {
@@ -199,26 +188,19 @@ class InputPageService: URLServiceProtocol {
 }
 
 class UserCenterViewController: UIViewController {
-    public var userInfo: String?
+    public var userInfo: String = ""
     public var callBack: ((String?) -> Void)?
-    lazy var textField: UITextField = {
-        let textField = UITextField(frame: CGRect(x: 16, y: 100, width: screenSize().width - 2 * 16, height: 44))
-        textField.placeholder = userInfo
-        textField.borderStyle = .roundedRect
-        return textField
+    lazy var label: UILabel = {
+        let label = UILabel(frame: CGRect(x: 16, y: 100, width: screenSize().width - 2 * 16, height: 44))
+        label.text = "用户名：\(userInfo)"
+        return label
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         title = "UserCenterViewController"
-        view.addSubview(textField)
-        textField.becomeFirstResponder()
-    }
-
-    @objc func didClickedButton() {
-        navigationController?.popViewController(animated: true)
-        callBack?(textField.text)
+        view.addSubview(label)
     }
 }
 
