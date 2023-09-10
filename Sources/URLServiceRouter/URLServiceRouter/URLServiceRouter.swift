@@ -62,7 +62,7 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     }
     
     // MARK: 服务
-
+    
     public func registerService(name: String, builder: @escaping () -> URLServiceProtocol) {
         queue.sync(flags: .barrier) { [self] in
             assert(vaildServiceWithName(name) == nil, "service: \(name) already exist")
@@ -76,11 +76,57 @@ public class URLServiceRouter: URLServiceRouterProtocol {
     
     public func callService(name: String, params: Any? = nil, completion: ((URLServiceProtocol?, URLServiceErrorProtocol?) -> Void)?, callback: URLServiceExecutionCallback?) {
         let resultService = vaildServiceWithName(name)
-        let error: URLServiceErrorProtocol? = resultService != nil ? resultService?.meetTheExecutionConditions(params: params) : URLServiceErrorNotFound
+        assert(resultService != nil, "service:\(name) is not registered")
+        let error: URLServiceErrorProtocol? = resultService != nil ? nil : URLServiceErrorNotFound
         completion?(resultService, error)
-
+        
         if let service = resultService {
-            service.execute(params: params, callback: callback)
+            var preServiceNames = service.preServiceNames
+            preServiceNames.removeAll { preServiceName in
+                let isNotRegistered = !isRegisteredService(preServiceName)
+                assert(!isNotRegistered, "service:\(name) 's preServiceName:\(preServiceName) is note registered")
+                return isNotRegistered
+            }
+            if preServiceNames.isEmpty {
+                // 如果没有前置服务，则直接调用服务
+                service.execute(params: params, callback: callback)
+            } else {
+                // 有前置服务，则走前置服务调用流程
+                excutPreService(currentService: service, params: params, preServiceNames: preServiceNames, complete: {
+                    // 前置服务调用的终点就是当前服务的调用
+                    service.execute(params: params, callback: callback)
+                })
+            }
+        }
+    }
+    
+    private func excutPreService(currentService: URLServiceProtocol, params: Any?, preServiceNames: [String], complete: @escaping () -> Void) {
+        excutPreService(currentService: currentService, preServiceNames: preServiceNames, index: 0, decision: URLServiceDecision(next: {
+            // 执行完最后一个前置服务，就完成前置服务调用
+            complete()
+        }, complete: {
+            // 被前置服务直接终止链路，则直接完成前置服务调用
+            complete()
+        }))
+    }
+    
+    private func excutPreService(currentService: URLServiceProtocol, preServiceNames: [String], index: Int, decision: URLServiceDecisionProtocol) {
+        if preServiceNames.count > index {
+            let preServiceName = preServiceNames[index]
+            if let preService = vaildServiceWithName(preServiceName) {
+                preService.execute(params: currentService.paramsForPreService(name: preServiceName)) { result, error in
+                    currentService.preServiceCallBack(name: preServiceName, result: result, error: error, decision: URLServiceDecision(next: { [self] in
+                        excutPreService(currentService: currentService, preServiceNames: preServiceNames, index: index + 1, decision: decision)
+                    }, complete: {
+                        decision.complete()
+                    }))
+                }
+            } else {
+                /// 如果该前置服务不存在，则执行下一个前置服务
+                decision.next()
+            }
+        } else {
+            decision.next()
         }
     }
     
@@ -133,8 +179,8 @@ public class URLServiceRouter: URLServiceRouterProtocol {
                 var error: URLServiceErrorProtocol?
                 let responseServiceName = vaildServiceName(name: response?.serviceName)
                 
-                if let serviceName = responseServiceName, let service = vaildServiceWithName(serviceName) {
-                    error = service.meetTheExecutionConditions(params: request.requestParams())
+                if let serviceName = responseServiceName, let _ = vaildServiceWithName(serviceName) {
+                    error = nil
                 } else {
                     error = URLServiceErrorNotFound
                 }

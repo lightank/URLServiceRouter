@@ -8,22 +8,24 @@
 
 import Foundation
 
-public class URLServiceRouteResult: URLServiceRouteResultProtocol {    
+public class URLServiceRouteResult: URLServiceRouteResultProtocol {
     public private(set) var endNode: URLServiceNodeProtocol?
     public private(set) var responseNode: URLServiceNodeProtocol?
     public private(set) var responseNodeParser: URLServiceNodeParserProtocol?
     public private(set) var responseServiceName: String?
-    public private(set) lazy var recordEndNode = {(node: URLServiceNodeProtocol) -> Void in
+    public private(set) lazy var recordEndNode = { (node: URLServiceNodeProtocol) in
         self.endNode = node
     }
-    public private(set) lazy var routerCompletion = {(node: URLServiceNodeProtocol, nodeParser: URLServiceNodeParserProtocol?, serviceName: String?) -> Void in
+
+    public private(set) lazy var routerCompletion = { (node: URLServiceNodeProtocol, nodeParser: URLServiceNodeParserProtocol?, serviceName: String?) in
         self.responseNode = node
         self.responseNodeParser = nodeParser
         self.responseServiceName = serviceName
         self.completion(self)
     }
-    public var completion: ((URLServiceRouteResultProtocol) -> Void)
-    
+
+    public var completion: (URLServiceRouteResultProtocol) -> Void
+
     public init(endNode: URLServiceNodeProtocol? = nil, responseNode: URLServiceNodeProtocol? = nil, responseServiceName: String? = nil, completion: @escaping (URLServiceRouteResultProtocol) -> Void) {
         self.endNode = endNode
         self.responseNode = responseNode

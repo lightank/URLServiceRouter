@@ -279,7 +279,7 @@ public protocol URLServiceNodeParserProtocol {
     func parse(request: URLServiceRequestProtocol, decision: URLServiceNodeParserDecisionProtocol)
 }
 
-// MARK: - URLServiceNodeParserDecision
+// MARK: - URLServiceNodeParserDecisionProtocol
 
 public protocol URLServiceNodeParserDecisionProtocol {
     /// 通知解析器执行下一步
@@ -292,12 +292,39 @@ public protocol URLServiceNodeParserDecisionProtocol {
 
 public typealias URLServiceExecutionCallback = (Any?, URLServiceErrorProtocol?) -> Void
 public protocol URLServiceProtocol {
-    /// 是否满足服务执行条件
-    func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol?
+    /// 前置服务的名称
+    var preServiceNames: [String] { get }
+    func paramsForPreService(name: String) -> Any?
+
+    /// 获取前置服务的接口，并决定是否下一步
+    func preServiceCallBack(name: String, result: Any?, error: URLServiceErrorProtocol?, decision: URLServiceDecisionProtocol)
+
     /// 执行当前服务，你可能需要自行决定在不满足执行条件时是否执行服务
     /// - Parameter params: 执行的参数
     /// - Parameter callback: 完成回调
     func execute(params: Any?, callback: URLServiceExecutionCallback?)
+}
+
+extension URLServiceProtocol {
+    /// 默认没有前置服务
+    var preServiceNames: [String] { [] }
+    /// 默认没有入参
+    func paramsForPreService(name: String) -> Any? {
+        return nil
+    }
+
+    /// 提供默认实现
+    func preServiceCallBack(name: String, result: Any?, error: URLServiceErrorProtocol, decision: URLServiceDecisionProtocol) { decision.next()
+    }
+}
+
+// MARK: - URLServiceDecisionProtocol
+
+public protocol URLServiceDecisionProtocol {
+    /// 通知前置解析器执行下一步
+    var next: () -> Void { get }
+    /// 通知节前置服务完成毁掉
+    var complete: () -> Void { get }
 }
 
 // MARK: - URLServiceError

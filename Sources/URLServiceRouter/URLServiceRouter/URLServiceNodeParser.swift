@@ -8,19 +8,18 @@
 
 import Foundation
 
-public struct URLServiceNoramlParser :URLServiceNodeParserProtocol {
+public struct URLServiceNoramlParser: URLServiceNodeParserProtocol {
     public let priority: Int
     public let parserType: URLServiceNodeParserType
     public let parseBlock: (URLServiceNodeParserProtocol, URLServiceRequestProtocol, URLServiceNodeParserDecisionProtocol) -> Void
-    
-    public func parse(request: URLServiceRequestProtocol, decision: URLServiceNodeParserDecisionProtocol) -> Void {
+
+    public func parse(request: URLServiceRequestProtocol, decision: URLServiceNodeParserDecisionProtocol) {
         parseBlock(self, request, decision)
     }
-    
+
     public init(priority: Int = URLServiceNodeParserPriorityDefault, parserType: URLServiceNodeParserType, parseBlock: @escaping (URLServiceNodeParserProtocol, URLServiceRequestProtocol, URLServiceNodeParserDecisionProtocol) -> Void) {
         self.priority = priority
         self.parserType = parserType
         self.parseBlock = parseBlock
     }
 }
-

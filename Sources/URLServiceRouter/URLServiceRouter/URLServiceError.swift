@@ -18,7 +18,7 @@ public let URLServiceErrorRequestTimeout = URLServiceError(code: URLServiceError
 public struct URLServiceError: URLServiceErrorProtocol {
     public var code: String
     public var message: String
-    
+
     public init(code: String, message: String = "") {
         self.code = code
         self.message = message

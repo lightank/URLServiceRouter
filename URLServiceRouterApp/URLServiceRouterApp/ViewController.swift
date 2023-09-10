@@ -43,7 +43,7 @@ class ViewController: UIViewController {
             tableViewCell.textLabel?.text = "push 页面，并接受回传的数据"
             tableViewCell.accessoryType = .disclosureIndicator
         }, cellSelectedBlock: { _, _, _, _ in
-            URLServiceRouter.shared.callService(name: "input_page", params: "请在此输入信息，以便回调回去") { _, _ in
+            URLServiceRouter.shared.callService(name: "input_page", params: "请在此输入信息，以便回调回去（上个页面传过来的）") { _, _ in
             } callback: { result, _ in
                 if result is String? {
                     self.showAlertMessge(title: "页面回传来的数据", message: result as! String?)
@@ -76,6 +76,18 @@ class ViewController: UIViewController {
             tableViewCell.accessoryType = .disclosureIndicator
         }, cellSelectedBlock: { _, _, _, _ in
             URLServiceRouter.shared.callService(name: "user://info", params: "1") { _, _ in
+            } callback: { result, _ in
+                self.showAlertMessge(title: "回调的业务数据", message: String(describing: result))
+                URLServiceRouter.shared.logInfo("\(String(describing: result))")
+            }
+        }))
+        
+        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { _, _, tableViewCell, _ in
+            tableViewCell.textLabel?.numberOfLines = 0
+            tableViewCell.textLabel?.text = "打开用户中心（会首先打开登录页）"
+            tableViewCell.accessoryType = .disclosureIndicator
+        }, cellSelectedBlock: { _, _, _, _ in
+            URLServiceRouter.shared.callService(name: "user_center", params: "1") { _, _ in
             } callback: { result, _ in
                 self.showAlertMessge(title: "回调的业务数据", message: String(describing: result))
                 URLServiceRouter.shared.logInfo("\(String(describing: result))")
