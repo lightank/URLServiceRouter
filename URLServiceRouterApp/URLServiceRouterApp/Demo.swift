@@ -352,3 +352,105 @@ public struct URLServiceRedirectHttpParser: URLServiceNodeParserProtocol {
         decision.next()
     }
 }
+
+
+class DetailPageService: URLServiceProtocol {
+    func preServiceCallBack(name: String, result: Any?, error: URLServiceErrorProtocol?, decision: URLServiceDecisionProtocol) {
+        
+        decision.next()
+    }
+
+    func paramsForPreService(name: String) -> Any? {
+        return nil
+    }
+
+    var preServiceNames: [String] = ["promotion_page","promotion_page","promotion_page"]
+
+    var name: String = "detail_page"
+
+    func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol? {
+        return nil
+    }
+
+    func execute(params: Any?, callback: URLServiceExecutionCallback?) {
+        if let currentNavigationController = URLServiceRouter.shared.delegate?.currentNavigationController() {
+            let detailController = DetailController()
+            currentNavigationController.pushViewController(detailController, animated: true)
+            callback?(nil,nil)
+        }
+    }
+
+    func getPlaceholder(from params: Any?) -> String? {
+        var placeholder: String?
+        if params is String? {
+            placeholder = params as? String
+        }
+        return placeholder
+    }
+}
+
+class DetailController: UIViewController {
+    lazy var label: UILabel = {
+        let textField = UILabel(frame: CGRect(x: 16, y: 100, width: screenSize().width - 2 * 16, height: 44))
+        textField.text = "我是商品详情页"
+        return textField
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        view.addSubview(label)
+    }
+}
+
+class PromotionPageService: URLServiceProtocol {
+    func preServiceCallBack(name: String, result: Any?, error: URLServiceErrorProtocol?, decision: URLServiceDecisionProtocol) {
+        if let currentNavigationController = URLServiceRouter.shared.delegate?.currentNavigationController() {
+            let promotionPageController = PromotionPageController()
+            currentNavigationController.pushViewController(promotionPageController, animated: false)
+        }
+        decision.next()
+    }
+
+    func paramsForPreService(name: String) -> Any? {
+        return nil
+    }
+
+    var preServiceNames: [String] = []
+
+    var name: String = "promotion_page"
+
+    func meetTheExecutionConditions(params: Any?) -> URLServiceErrorProtocol? {
+        return nil
+    }
+
+    func execute(params: Any?, callback: URLServiceExecutionCallback?) {
+        if let currentNavigationController = URLServiceRouter.shared.delegate?.currentNavigationController() {
+            let promotionPageController = PromotionPageController()
+            currentNavigationController.pushViewController(promotionPageController, animated: false)
+        }
+        callback?(nil,nil)
+    }
+
+    func getPlaceholder(from params: Any?) -> String? {
+        var placeholder: String?
+        if params is String? {
+            placeholder = params as? String
+        }
+        return placeholder
+    }
+}
+
+class PromotionPageController: UIViewController {
+    lazy var label: UILabel = {
+        let textField = UILabel(frame: CGRect(x: 16, y: 100, width: screenSize().width - 2 * 16, height: 44))
+        textField.text = "我是促销页"
+        return textField
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        view.addSubview(label)
+    }
+}

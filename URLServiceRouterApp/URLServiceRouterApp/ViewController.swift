@@ -94,6 +94,18 @@ class ViewController: UIViewController {
             }
         }))
         
+        cellItems.append(TableViewCellItem(cellClass: UITableViewCell.classForCoder(), cellSettingBlock: { _, _, tableViewCell, _ in
+            tableViewCell.textLabel?.numberOfLines = 0
+            tableViewCell.textLabel?.text = "模拟外部打开商品详情页，在前面插入3个营销页"
+            tableViewCell.accessoryType = .disclosureIndicator
+        }, cellSelectedBlock: { _, _, _, _ in
+            URLServiceRouter.shared.callService(name: "detail_page", params: "1") { _, _ in
+            } callback: { result, _ in
+//                self.showAlertMessge(title: "回调的业务数据", message: String(describing: result))
+//                URLServiceRouter.shared.logInfo("\(String(describing: result))")
+            }
+        }))
+        
         addTitleCellItem()
         addTitleCellItem("业务相关")
         

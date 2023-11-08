@@ -45,6 +45,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         URLServiceRouter.shared.registerService(name: "user_center") {
             UserService()
         }
+        
+        URLServiceRouter.shared.registerService(name: "detail_page") {
+            DetailPageService()
+        }
+        
+        URLServiceRouter.shared.registerService(name: "promotion_page") {
+            PromotionPageService()
+        }
     }
     
     func registerNodes() {
